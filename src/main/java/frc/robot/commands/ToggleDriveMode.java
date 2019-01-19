@@ -8,54 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain.DriveModeState;
+import frc.robot.subsystems.DriveTrain;
 
-public class WhatDriveTrain extends Command {
-  public static DriveModeState s;
-
-public WhatDriveTrain(DriveModeState dms) {
+public class ToggleDriveMode extends Command {
+  public ToggleDriveMode() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    state = dms;
-    s = dms;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-  }
-
-  DriveModeState state;
-
-  public void choose() {
-    switch(state){
-      case ARCADE:
-        new ArcadeDrive();
-        break;
-      case TANK:
-        new TankDrive();
-        break;
-      case FEILD_ORIANTED_MECANUM:
-        break;
-      case ROBOT_ORIANTED_MECANUM:
-        break;
-        default:
-         System.out.println("Unexpected drive mode state: " + state);
-         break;
-    }
-  }
-
-  
-
-  public DriveModeState getState(){
-    return s;
+    DriveTrain.setDriveState(DriveTrain.getDriveState().next());
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    choose();
   }
 
   // Make this return true when this Command no longer needs to run execute()

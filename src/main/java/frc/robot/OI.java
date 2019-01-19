@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
 import frc.robot.RobotMap;
-import frc.robot.commands.WhatDriveTrain;
+import frc.robot.commands.*;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveModeState;
 
 
 //this sucks
@@ -23,13 +25,24 @@ import frc.robot.commands.WhatDriveTrain;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	
+
+private Joystick mJoystick;	
 public OI(){
 	
+	
+	Joystick mJoystick = new Joystick(1);
+	
 	int bToggleDriveTrain = 1;
+	int bToggleDriveState = 2;
+
+	
+
+	JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
+	toggleDriveState.whenPressed(new ToggleDriveMode());
+
 
 	JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
-		toggleDriveTrain.whenPressed(new WhatDriveTrain());
+		toggleDriveTrain.whenPressed(new ToggleDriveState());
 }
 
 	 
@@ -68,10 +81,10 @@ public OI(){
 		return button;
 	}
 
-	public Joystick stick = new Joystick(1);
+	
 	
 	public Joystick getJoystick() {
-		return stick;
+		return mJoystick;
 	}
 
 

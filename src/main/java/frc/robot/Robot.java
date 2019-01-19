@@ -52,10 +52,15 @@ public class Robot extends TimedRobot {
 		//m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
+		SmartDashboard.getString("DriveState", "" + DriveTrain.getDriveType());
 		
 		//subsystems
 		driveTrain = new DriveTrain();
+
+		
 	}
+
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.

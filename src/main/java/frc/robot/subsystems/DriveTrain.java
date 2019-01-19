@@ -3,10 +3,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -16,16 +19,76 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.MecanumDriveTrain;
+import frc.robot.commands.WhatDriveTrain;
 
 
 public class DriveTrain extends Subsystem {
+	
+	public enum DriveModeState{
+		ARCADE,
+		TANK,
+		FEILD_ORIANTED_MECANUM,
+		ROBOT_ORIANTED_MECANUM;
+
+		private static DriveModeState[] vals = values();
+		public DriveModeState next() {
+			return vals[(this.ordinal()+1) % vals.length];
+		}
+		/*
+		public DriveModeState last() {
+			return vals[(this.ordinal()-1) % vals.length];
+		}*/
+	}
+
+	public enum DriveState{
+		MECANUM,
+		SKIDSTEER;
+
+		private static DriveState[] vals = values();
+		public DriveState next() {
+			return vals[(this.ordinal()+1) % vals.length];
+		}
+		/*
+		public DriveModeState last() {
+			return vals[(this.ordinal()-1) % vals.length];
+		}*/
+	}
 	
 	//creates motors
 	public final WPI_TalonSRX  motorLeft1;
 	private final WPI_TalonSRX  motorLeft2;
 	private final WPI_TalonSRX motorRight1, motorRight2;
+	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
+	private static DriveModeState mDriveState;
+
+	public static DriveModeState getDriveState() {
+		return mDriveState;
+	}
+
+	public static void setDriveState(DriveModeState dms) {
+		mDriveState = dms;
+	}
+
+
+//mecanum and skid steer
+	private static DriveState mDriveType;
+
+	public static DriveState getDriveType() {
+		return mDriveType;
+	}
+
+
+	
+
+	public static void setDriveType(DriveState ds) {
+		mDriveType = ds;
+	}
+
+
+
+	
 	//initilizes the motors
 	public DriveTrain() {
 
@@ -34,6 +97,9 @@ public class DriveTrain extends Subsystem {
 		motorLeft2 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_LEFT2);
 		motorRight1 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_RIGHT1);
 		motorRight2 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_RIGHT2);
+		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
+		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE2, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
+		
 		//mecanum
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
 		SpeedControllerGroup left2 = new SpeedControllerGroup(motorLeft2);//left back
@@ -44,31 +110,7 @@ public class DriveTrain extends Subsystem {
 		SpeedControllerGroup leftGroup = new SpeedControllerGroup(motorLeft1,motorLeft2);//left front
 		SpeedControllerGroup rightGroup = new SpeedControllerGroup(motorRight1,motorRight2);//left back
 		
-		//mecanum speed command math
-		double rf,rb,lf,lb;
-		double forward = -Robot.oi.getJoystick().getY();
-		double right = Robot.oi.getJoystick().getX();
-		double clockwise = Robot.oi.getJoystick().getZ();
-		double K = .01;//the value that determines sensitivity of turning tweek to edit
-		clockwise = K*clockwise;
-		//inverse kinimatics
-		rf = forward + clockwise + right;
-		lf = forward - clockwise - right;
-		lb = forward + clockwise - right;
-		rb = forward - clockwise + right;
-		/*
-		left1.set(lf);
-		left2.set(lb);
-		right1.set(rf);
-		right2.set(rb);
-		*/
-	
-		
-		//drive = new MecanumDrive(left1,left2,right1,right2);
-
-		//TankDrive
-		//drive = new DifferentialDrive(leftGroup,rightGroup);
-
+		mDriveState = DriveModeState.ROBOT_ORIANTED_MECANUM;
 
 
 	}
@@ -93,10 +135,37 @@ public class DriveTrain extends Subsystem {
 		this.direction = direction * RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
 	}
 	
+	/**
+	 * 
+	 * @param state True = Skid Steer False = Mecanum
+	 */
+	public void switchState(boolean state){
+		solenoid1.set(state);
+		solenoid2.set(state);
+	}
+
+	public Boolean getState(){
+		Boolean s = solenoid1.get();
+		return s;
+	}
+	/*
+	public void toggleDrive(){
+		if(getState()){
+			switchState(false);
+		}
+		else if(getState() == false){
+			switchState(true);
+		}
+	}
 	
+
+*/
+
+	
+
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new MecanumDriveTrain());
+		setDefaultCommand(new WhatDriveTrain(mDriveState));
 		// TODO Auto-generated method stub
 
 	}

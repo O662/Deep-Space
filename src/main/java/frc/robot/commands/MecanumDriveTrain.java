@@ -7,13 +7,23 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+
+//created by alyssa cassity 1/18/2019
 
 public class MecanumDriveTrain extends Command {
 	
+
+	
+	
 	public MecanumDriveTrain() {
 		requires(Robot.driveTrain);
+
+		
+
 	}
 	
 	// Called just before this Command runs the first time
@@ -26,7 +36,21 @@ public class MecanumDriveTrain extends Command {
 		// Called repeatedly when this Command is scheduled to run
 		@Override
 		protected void execute() {
-			Robot.driveTrain.drive(Robot.oi.getJoystick());
+		double rf,rb,lf,lb;
+		double forward = -Robot.oi.getJoystick().getY();
+		double right = Robot.oi.getJoystick().getX();
+		double clockwise = Robot.oi.getJoystick().getZ();
+		double K = .01;//the value that determines sensitivity of turning tweek to edit
+		clockwise = K*clockwise;
+		//inverse kinimatics
+		rf = forward + clockwise + right;
+		lf = forward - clockwise - right;
+		lb = forward + clockwise - right;
+		rb = forward - clockwise + right;
+		boolean skidSteerDrive = false;
+		
+		//the driving force that drives the mecanum drive ...im tired
+		Robot.driveTrain.driveMotors(rf, rb, lf, lb, skidSteerDrive);
 		}
 
 		

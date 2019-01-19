@@ -30,4 +30,10 @@ public class RobotMap {
 	public static final int MOTOR_DRIVE_LEFT2 = 2;
 	public static final int MOTOR_DRIVE_RIGHT1 = 3;
 	public static final int MOTOR_DRIVE_RIGHT2 = 4;
+
+	//PHNEMATICS OR HOWEVER ITS SPELLED
+	public static final int BUTTERFLY_PCM_MODULE = 0;
+	public static final int BUTTERFLY_FORWARD_CHANNEL = 0;
+	public static final int BUTTERFLY_REVERSE_CHANNEL = 1;
+
 }

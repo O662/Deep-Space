@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
@@ -20,21 +21,28 @@ import frc.robot.commands.MecanumDriveTrain;
 public class DriveTrain extends Subsystem {
 	
 	//creates motors
-	private final WPI_TalonSRX /*motorLeft1,*/ motorLeft1, motorLeft2;
-	private final WPI_TalonSRX /*motorRight1,*/ motorRight1, motorRight2;
-	public final MecanumDrive drive;
+	public final WPI_TalonSRX  motorLeft1;
+	private final WPI_TalonSRX  motorLeft2;
+	private final WPI_TalonSRX motorRight1, motorRight2;
+	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
 	//initilizes the motors
 	public DriveTrain() {
+
 		super();
 		motorLeft1 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_LEFT1);
 		motorLeft2 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_LEFT2);
 		motorRight1 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_RIGHT1);
 		motorRight2 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_RIGHT2);
+		//mecanum
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
 		SpeedControllerGroup left2 = new SpeedControllerGroup(motorLeft2);//left back
 		SpeedControllerGroup right1 = new SpeedControllerGroup(motorRight1);//right front
 		SpeedControllerGroup right2 = new SpeedControllerGroup(motorRight2);//right back
+
+		//TankDrive and arcade drive
+		SpeedControllerGroup leftGroup = new SpeedControllerGroup(motorLeft1,motorLeft2);//left front
+		SpeedControllerGroup rightGroup = new SpeedControllerGroup(motorRight1,motorRight2);//left back
 		
 		//mecanum speed command math
 		double rf,rb,lf,lb;
@@ -48,12 +56,20 @@ public class DriveTrain extends Subsystem {
 		lf = forward - clockwise - right;
 		lb = forward + clockwise - right;
 		rb = forward - clockwise + right;
+		/*
 		left1.set(lf);
 		left2.set(lb);
 		right1.set(rf);
 		right2.set(rb);
+		*/
+	
 		
-		drive = new MecanumDrive(left1,left2,right1,right2);
+		//drive = new MecanumDrive(left1,left2,right1,right2);
+
+		//TankDrive
+		//drive = new DifferentialDrive(leftGroup,rightGroup);
+
+
 
 	}
 	
@@ -72,6 +88,7 @@ public class DriveTrain extends Subsystem {
 		motorRight1.setNeutralMode(mode);
 		motorRight2.setNeutralMode(mode);
 	}
+
 	public void setDirection(int direction) {
 		this.direction = direction * RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
 	}
@@ -83,12 +100,33 @@ public class DriveTrain extends Subsystem {
 		// TODO Auto-generated method stub
 
 	}
+	/**
+	 * 
+	 * @param rf    the right front
+	 * @param rb	the right back
+	 * @param lf	the left front
+	 * @param lb	the left back
+	 * @param skidSteerDrive true = in skid steer  false = not in skid steer
+	 */
 	//what is being seen by the mecanumDriveTrain class 
-	public void drive(Joystick joystick) {
-		//driveOrig(joystick);
-		driveMecanum(joystick);
-		
+	public void driveMotors(double rf, double rb, double lf, double lb, boolean skidSteerDrive) {
+		if(skidSteerDrive) {
+			if(!(Math.abs(lf-lb)<=.01)){
+				lb=lf;
+			}
+			if(!(Math.abs(rf-rb)<=.01)){
+				rb=rf;
+			}
+		}
+		motorLeft1.set(lf);
+		motorLeft2.set(lb);
+		motorRight1.set(rf);
+		motorRight2.set(rb);
+
+
 	}
+
+	/*
 	//what is driving the robot
 	public void driveMecanum(Joystick joystick) {
 		
@@ -98,6 +136,6 @@ public class DriveTrain extends Subsystem {
 		
 		
 	}
-	
+	*/
 
 }

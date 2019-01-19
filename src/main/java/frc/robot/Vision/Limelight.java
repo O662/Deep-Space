@@ -8,6 +8,8 @@ import frc.robot.RobotMap;
  * 
  */
 
+ /*
+
 public class Limelight {
 	private NetworkTableInstance table = null;
 	
@@ -67,3 +69,4 @@ public class Limelight {
 		return table.getTable("limelight").getEntry(key);
 	}
 }
+*/

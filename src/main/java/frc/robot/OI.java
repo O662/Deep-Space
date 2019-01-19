@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
 import frc.robot.RobotMap;
+import frc.robot.commands.WhatDriveTrain;
 
 
 //this sucks
@@ -22,6 +23,16 @@ import frc.robot.RobotMap;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	
+public OI(){
+	
+	int bToggleDriveTrain = 1;
+
+	JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
+		toggleDriveTrain.whenPressed(new WhatDriveTrain());
+}
+
+	 
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -49,13 +60,21 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	
+	private JoystickButton addButton(Joystick joystick, int buttonNumber, String key) {
+		JoystickButton button = new JoystickButton(joystick, buttonNumber);
+		//TODO uncomment to see commands on dashboard
+		//SmartDashboard.putData(key, button);
+		return button;
+	}
+
 	public Joystick stick = new Joystick(1);
 	
 	public Joystick getJoystick() {
 		return stick;
 	}
 
-	
+
 
 	
 }

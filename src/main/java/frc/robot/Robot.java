@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 
 
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot {
 
 	
 	public static DriveTrain driveTrain;
+	public static Arm arm;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -57,6 +59,8 @@ public class Robot extends TimedRobot {
 		
 		//subsystems
 		driveTrain = new DriveTrain();
+
+		arm = new Arm();
 
 		
 	}

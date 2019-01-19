@@ -34,6 +34,8 @@ public OI(){
 	
 	int bToggleDriveTrain = 1;
 	int bToggleDriveState = 2;
+	int bMoveArm = 3;
+	double armSpeed = 1;
 
 	
 
@@ -43,6 +45,10 @@ public OI(){
 
 	JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
 		toggleDriveTrain.whenPressed(new ToggleDriveState());
+
+
+JoystickButton moveArm = addButton(getJoystick(), bMoveArm, "Move Arm");
+		moveArm.whenPressed(new MoveArm(armSpeed));
 }
 
 	 

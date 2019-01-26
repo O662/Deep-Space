@@ -57,6 +57,8 @@ public class DriveTrain extends Subsystem {
 		}*/
 	}
 	
+
+	// todo find out about encoders for spark motor contorler
 	//creates motors
 	public final CANSparkMax  motorLeft1;
 	private final CANSparkMax   motorLeft2;
@@ -135,6 +137,34 @@ public class DriveTrain extends Subsystem {
 		//motorRight1.setNeutralMode(mode);
 		motorRight1.setIdleMode(mode);
 		motorRight2.setIdleMode(mode);
+	}
+
+
+	// i know its messy but i didnt want to think of a way to compact it
+	// i will fix it later but im lazy and dont want to right now
+
+	public double getMotorLeft1Temp(){
+		double temp;
+		temp = motorLeft1.getMotorTemperature();
+		return temp;
+	}
+
+	public double getMotorLeft2Temp(){
+		double temp;
+		temp = motorLeft2.getMotorTemperature();
+		return temp;
+	}
+
+	public double getMotorRight1Temp(){
+		double temp;
+		temp = motorRight1.getMotorTemperature();
+		return temp;
+	}
+
+	public double getMotorRight2Temp(){
+		double temp;
+		temp = motorRight2.getMotorTemperature();
+		return temp;
 	}
 
 	public void setDirection(int direction) {

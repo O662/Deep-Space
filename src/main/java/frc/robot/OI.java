@@ -11,8 +11,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
-
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import frc.robot.subsystems.DriveTrain;
@@ -27,6 +26,29 @@ import frc.robot.subsystems.DriveTrain.DriveModeState;
 public class OI {
 
 private Joystick mJoystick;	
+
+private class POVTrigger extends Trigger{
+	/*
+	 * Positions
+	 * 		7	0	1
+	 * 		6	-1	2
+	 * 		5	4	3
+	 * 		
+	 */
+	private int degrees;
+	private Joystick joy;
+	//Make sure to call using -1 through 7, else all dies...
+	public POVTrigger(Joystick joy, int position) {
+		degrees = position*45;
+		this.joy = joy;
+	}
+
+	@Override
+	public boolean get() {
+		// TODO Auto-generated method stub
+		return joy.getPOV(0)==degrees;
+	}
+}
 public OI(){
 	
 	
@@ -34,8 +56,19 @@ public OI(){
 	
 	int bToggleDriveTrain = 1;
 	int bToggleDriveState = 2;
-	int bMoveArm = 3;
+	int bMoveArmUp = 3;
+	int bMoveArmDown = 4;
+	int bRoller = 5;
+
+	//pov controls
+	int dMoveArmUp = 4;
+	int dMoveArmDown = 0;
+
+	//speeds
 	double armSpeed = 1;
+	double rollerSpeed = 1;
+
+
 
 	
 
@@ -46,10 +79,25 @@ public OI(){
 	JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
 		toggleDriveTrain.whenPressed(new ToggleDriveState());
 
+		Trigger moveDArmUp = new POVTrigger(getJoystick(), dMoveArmUp);
+		moveDArmUp.whileActive(new MoveArm(armSpeed));
+		Trigger moveDArmDown = new POVTrigger(getJoystick(), dMoveArmDown);
+		moveDArmDown.whileActive(new MoveArm(-armSpeed));
 
-JoystickButton moveArm = addButton(getJoystick(), bMoveArm, "Move Arm");
-		moveArm.whenPressed(new MoveArm(armSpeed));
+
+JoystickButton moveArmUp = addButton(getJoystick(), bMoveArmUp, "Move Arm Up");
+		moveArmUp.whenPressed(new MoveArm(armSpeed));
+
+
+JoystickButton moveArmDown = addButton(getJoystick(), bMoveArmDown, "Move Arm Down");
+		moveArmDown.whenPressed(new MoveArm(-armSpeed));
+
+
+JoystickButton roller = addButton(getJoystick(), bRoller, "Move Arm Down");
+		roller.whenPressed(new MoveRoller(rollerSpeed));
 }
+
+
 
 	 
 	//// CREATING BUTTONS

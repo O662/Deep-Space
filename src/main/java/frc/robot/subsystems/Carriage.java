@@ -51,6 +51,12 @@ public class Carriage extends Subsystem {
 		rollerMotor.set(0);
 		
   }
+
+  public double getTemp(){
+    double temp;
+    temp = rollerMotor.getMotorTemperature();
+    return temp;
+  }
   
   //SOLINOID PUSHER
 

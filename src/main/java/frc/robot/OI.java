@@ -54,13 +54,15 @@ public OI(){
 	
 	Joystick mJoystick = new Joystick(1);
 	
-	int bToggleDriveTrain = 1;
-	int bToggleDriveState = 2;
+	int bToggleDriveTrain = 5;
+	int bToggleDriveState = 6;
 	int bMoveArmUp = 3;
 	int bMoveArmDown = 4;
-	int bRoller = 5;
-	int bIntakeRollerForward = 6;
+	int bRoller = 11;
+	int bIntakeRollerForward = 10;
 	int bIntakeRollerBackward = 7;
+	int bPushForward = 2;
+	int bPushBack = 1;
 
 	//pov controls
 	int dMoveArmUp = 4;
@@ -104,6 +106,14 @@ JoystickButton intakeRollerForward = addButton(getJoystick(), bIntakeRollerForwa
 
 JoystickButton intakeRollerBackwards = addButton(getJoystick(), bIntakeRollerBackward, "Move Intake Roller Backward");
 		intakeRollerBackwards.whileHeld(new IntakeRoller(-intakeRollerSpeed));
+
+JoystickButton pushForward = addButton(getJoystick(), bPushForward, "Push Forward");
+		pushForward.whenPressed(new Pusher(true));
+
+JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
+		pushBack.whenPressed(new Pusher(false));
+
+
 
 }
 

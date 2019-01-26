@@ -8,9 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class Pusher extends Command {
-  public Pusher() {
+  boolean value;
+  public Pusher(boolean value) {
+    requires(Robot.carriage);
+    this.value = value;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,6 +27,7 @@ public class Pusher extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.carriage.setSolenoidValue(value);
   }
 
   // Make this return true when this Command no longer needs to run execute()

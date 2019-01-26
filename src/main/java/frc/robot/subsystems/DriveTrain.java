@@ -103,7 +103,7 @@ public class DriveTrain extends Subsystem {
 		motorRight1 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT1);
 		motorRight2 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
-		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE2, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
+		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		
 		//mecanum
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front

@@ -26,10 +26,10 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	public static final int DRIVE_TRAIN_FORWARD_DIRECTION = 1;
-	public static final int MOTOR_DRIVE_LEFT1 = 1;
-	public static final int MOTOR_DRIVE_LEFT2 = 2;
-	public static final int MOTOR_DRIVE_RIGHT1 = 3;
-	public static final int MOTOR_DRIVE_RIGHT2 = 4;
+	public static final int MOTOR_DRIVE_LEFT1 = 14;// front left
+	public static final int MOTOR_DRIVE_LEFT2 = 13;//back left
+	public static final int MOTOR_DRIVE_RIGHT1 = 11;//front right
+	public static final int MOTOR_DRIVE_RIGHT2 = 12;//back right
 	public static final int ARM_MOTOR = 5;
 	public static final int ROLLER_MOTOR = 6;
 	public static final int INTAKE_ROLLER_MOTOR = 7;
@@ -47,20 +47,14 @@ public class RobotMap {
 	//public static final int LIMIT_SWITCH
 
 	//PHNEMATICS OR HOWEVER ITS SPELLED
-	public static final int BUTTERFLY_PCM_MODULE1 = 0;
-	public static final int BUTTERFLY_PCM_MODULE2 = 1;
-	public static final int BUTTERFLY_PCM_MODULE3 = 2;
-	public static final int BUTTERFLY_PCM_MODULE4 = 3;
+	public static final int BUTTERFLY_PCM_MODULE1 = 1;
+//	public static final int BUTTERFLY_PCM_MODULE2 = 1;
+//	public static final int BUTTERFLY_PCM_MODULE3 = 2;
+//	public static final int BUTTERFLY_PCM_MODULE4 = 3;
 	public static final int BUTTERFLY_FORWARD_CHANNEL1 = 0;
 	public static final int BUTTERFLY_FORWARD_CHANNEL2 = 1;
-	public static final int BUTTERFLY_FORWARD_CHANNEL3 = 2;
-	public static final int BUTTERFLY_FORWARD_CHANNEL4 = 3;
-	public static final int BUTTERFLY_REVERSE_CHANNEL1 = 4;
-	public static final int BUTTERFLY_REVERSE_CHANNEL2 = 5;
-	public static final int BUTTERFLY_REVERSE_CHANNEL3 = 6;
-	public static final int BUTTERFLY_REVERSE_CHANNEL4 = 7;
-	public static final int PUSHER_CHANNEL = 8;
-	public static final int BATTLE_AXE_CHANNEL = 9;
-	public static final int COOLER = 10;
+	public static final int PUSHER_CHANNEL = 2;
+	public static final int BATTLE_AXE_CHANNEL = 3;
+	public static final int COOLER = 4;
 
 }

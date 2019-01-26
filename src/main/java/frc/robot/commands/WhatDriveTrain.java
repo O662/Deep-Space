@@ -39,6 +39,7 @@ public WhatDriveTrain(DriveModeState dms) {
       case FEILD_ORIANTED_MECANUM:
         break;
       case ROBOT_ORIANTED_MECANUM:
+        new MecanumDriveRobotRelative();
         break;
         default:
          System.out.println("Unexpected drive mode state: " + state);

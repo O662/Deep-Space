@@ -60,9 +60,9 @@ public class DriveTrain extends Subsystem {
 
 	// todo find out about encoders for spark motor contorler
 	//creates motors
-	public final CANSparkMax  motorLeft1;
-	private final CANSparkMax   motorLeft2;
-	private final CANSparkMax  motorRight1, motorRight2;
+	public final WPI_TalonSRX  motorLeft1;
+	private final WPI_TalonSRX  motorLeft2;
+	private final WPI_TalonSRX  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -98,10 +98,10 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 
 		super();
-		motorLeft1 = new CANSparkMax (RobotMap.MOTOR_DRIVE_LEFT1, MotorType.kBrushless);
-		motorLeft2 = new CANSparkMax (RobotMap.MOTOR_DRIVE_LEFT2, MotorType.kBrushless);
-		motorRight1 = new CANSparkMax (RobotMap.MOTOR_DRIVE_RIGHT1, MotorType.kBrushless);
-		motorRight2 = new CANSparkMax (RobotMap.MOTOR_DRIVE_RIGHT2, MotorType.kBrushless);
+		motorLeft1 = new WPI_TalonSRX (RobotMap.MOTOR_DRIVE_LEFT1);
+		motorLeft2 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_LEFT2);
+		motorRight1 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT1);
+		motorRight2 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE2, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		
@@ -129,42 +129,42 @@ public class DriveTrain extends Subsystem {
 	public void setBrake(boolean brake) {
 		// Formerly: frontLeft.enableBrakeMode(brake);
 		// See https://github.com/CrossTheRoadElec/Phoenix-Documentation#installing-phoenix-framework-onto-your-frc-robot
-		IdleMode mode = brake ? IdleMode.kBrake : IdleMode.kCoast;
+		NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
 
 		//motorLeft1.setNeutralMode(mode);
-		motorLeft1.setIdleMode(mode);
-		motorLeft2.setIdleMode(mode);
+		motorLeft1.setNeutralMode(mode);
+		motorLeft2.setNeutralMode(mode);
 		//motorRight1.setNeutralMode(mode);
-		motorRight1.setIdleMode(mode);
-		motorRight2.setIdleMode(mode);
+		motorRight1.setNeutralMode(mode);
+		motorRight2.setNeutralMode(mode);
 	}
 
 
 	// i know its messy but i didnt want to think of a way to compact it
 	// i will fix it later but im lazy and dont want to right now
 
-	public double getMotorLeft1Temp(){
-		double temp;
-		temp = motorLeft1.getMotorTemperature();
-		return temp;
+	public double getMotorLeft1Postition(){
+		double p;
+		p = motorLeft1.getSelectedSensorPosition();
+		return p;
 	}
 
-	public double getMotorLeft2Temp(){
-		double temp;
-		temp = motorLeft2.getMotorTemperature();
-		return temp;
+	public double getMotorLeft2Position(){
+		double p;
+		p = motorLeft2.getSelectedSensorPosition();
+		return p;
 	}
 
-	public double getMotorRight1Temp(){
-		double temp;
-		temp = motorRight1.getMotorTemperature();
-		return temp;
+	public double getMotorRight1Position(){
+		double p;
+		p = motorRight1.getSelectedSensorPosition();
+		return p;
 	}
 
-	public double getMotorRight2Temp(){
-		double temp;
-		temp = motorRight2.getMotorTemperature();
-		return temp;
+	public double getMotorRight2Position(){
+		double p;
+		p = motorRight2.getSelectedSensorPosition();
+		return p;
 	}
 
 	public void setDirection(int direction) {

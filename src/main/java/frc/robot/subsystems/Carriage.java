@@ -24,16 +24,15 @@ import frc.robot.RobotMap;
  */
 public class Carriage extends Subsystem {
  
-  public final CANSparkMax rollerMotor;
-  public final CANEncoder rollEncoder;
+  public final WPI_TalonSRX rollerMotor;
   public final Solenoid pusher;
   public final Solenoid battleAxe;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   public Carriage(){
-    rollerMotor = new CANSparkMax(RobotMap.ROLLER_MOTOR, MotorType.kBrushless);
-    rollEncoder = new CANEncoder(rollerMotor);
+    rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
+    
     pusher = new Solenoid(RobotMap.PUSHER_CHANNEL);
     battleAxe = new Solenoid(RobotMap.BATTLE_AXE_CHANNEL);
   }
@@ -52,10 +51,10 @@ public class Carriage extends Subsystem {
 		
   }
 
-  public double getTemp(){
-    double temp;
-    temp = rollerMotor.getMotorTemperature();
-    return temp;
+  public double getPosition(){
+    double p;
+    p = rollerMotor.getSelectedSensorPosition();
+    return p;
   }
   
   //SOLINOID PUSHER

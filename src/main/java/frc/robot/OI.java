@@ -59,6 +59,8 @@ public OI(){
 	int bMoveArmUp = 3;
 	int bMoveArmDown = 4;
 	int bRoller = 5;
+	int bIntakeRollerForward = 6;
+	int bIntakeRollerBackward = 7;
 
 	//pov controls
 	int dMoveArmUp = 4;
@@ -67,21 +69,22 @@ public OI(){
 	//speeds
 	double armSpeed = 1;
 	double rollerSpeed = 1;
+	double intakeRollerSpeed = 1;
 
 
 
 	
 
-	JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
+JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
 	toggleDriveState.whenPressed(new ToggleDriveMode());
 
 
-	JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
+JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
 		toggleDriveTrain.whenPressed(new ToggleDriveState());
 
-		Trigger moveDArmUp = new POVTrigger(getJoystick(), dMoveArmUp);
+Trigger moveDArmUp = new POVTrigger(getJoystick(), dMoveArmUp);
 		moveDArmUp.whileActive(new MoveArm(armSpeed));
-		Trigger moveDArmDown = new POVTrigger(getJoystick(), dMoveArmDown);
+Trigger moveDArmDown = new POVTrigger(getJoystick(), dMoveArmDown);
 		moveDArmDown.whileActive(new MoveArm(-armSpeed));
 
 
@@ -95,7 +98,16 @@ JoystickButton moveArmDown = addButton(getJoystick(), bMoveArmDown, "Move Arm Do
 
 JoystickButton roller = addButton(getJoystick(), bRoller, "Move Arm Down");
 		roller.whenPressed(new MoveRoller(rollerSpeed));
+
+JoystickButton intakeRollerForward = addButton(getJoystick(), bIntakeRollerForward, "Move Intake Roller Forward");
+		intakeRollerForward.whileHeld(new IntakeRoller(intakeRollerSpeed));
+
+JoystickButton intakeRollerBackwards = addButton(getJoystick(), bIntakeRollerBackward, "Move Intake Roller Backward");
+		intakeRollerBackwards.whileHeld(new IntakeRoller(-intakeRollerSpeed));
+
 }
+
+
 
 
 

@@ -48,6 +48,19 @@ public class RearIntake extends Subsystem {
 		
   }
 
+  public void moveIntakeRoller(Joystick joystick) {
+		moveIntakeRollerSpeed(joystick.getRawAxis(1));
+  }
+
+	public void moveIntakeRollerSpeed(double speed) {
+		intakeRollerMotor.set(speed);
+	}
+
+	public void stopIntake() {
+		intakeRollerMotor.set(0);
+		
+  }
+
   //encoder
   public int getEncoderValue(){
     int position;

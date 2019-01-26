@@ -32,10 +32,19 @@ public class RobotMap {
 	public static final int MOTOR_DRIVE_RIGHT2 = 4;
 	public static final int ARM_MOTOR = 5;
 	public static final int ROLLER_MOTOR = 6;
+	public static final int INTAKE_ROLLER_MOTOR = 7;
 	
+
+	//i cry
+
 	//ENCODER
-	public static final int ARM_ENCODER_A = 0;
-	public static final int ARM_ENCODER_B = 1;
+	//public static final int ARM_ENCODER_A = 0;
+    //public static final int ARM_ENCODER_B = 1;
+	//public static final int HEIGHT_A = 2;
+	//public static final int HEIGHT_B = 3;
+
+	//LIMIT SWITCH
+	//public static final int LIMIT_SWITCH
 
 	//PHNEMATICS OR HOWEVER ITS SPELLED
 	public static final int BUTTERFLY_PCM_MODULE1 = 0;
@@ -50,5 +59,8 @@ public class RobotMap {
 	public static final int BUTTERFLY_REVERSE_CHANNEL2 = 5;
 	public static final int BUTTERFLY_REVERSE_CHANNEL3 = 6;
 	public static final int BUTTERFLY_REVERSE_CHANNEL4 = 7;
+	public static final int PUSHER_CHANNEL = 8;
+	public static final int BATTLE_AXE_CHANNEL = 9;
+	public static final int COOLER = 10;
 
 }

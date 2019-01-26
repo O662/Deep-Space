@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -55,9 +58,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	//creates motors
-	public final WPI_TalonSRX  motorLeft1;
-	private final WPI_TalonSRX  motorLeft2;
-	private final WPI_TalonSRX motorRight1, motorRight2;
+	public final CANSparkMax  motorLeft1;
+	private final CANSparkMax   motorLeft2;
+	private final CANSparkMax  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -93,10 +96,10 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 
 		super();
-		motorLeft1 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_LEFT1);
-		motorLeft2 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_LEFT2);
-		motorRight1 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_RIGHT1);
-		motorRight2 = new WPI_TalonSRX(RobotMap.MOTOR_DRIVE_RIGHT2);
+		motorLeft1 = new CANSparkMax (RobotMap.MOTOR_DRIVE_LEFT1, MotorType.kBrushless);
+		motorLeft2 = new CANSparkMax (RobotMap.MOTOR_DRIVE_LEFT2, MotorType.kBrushless);
+		motorRight1 = new CANSparkMax (RobotMap.MOTOR_DRIVE_RIGHT1, MotorType.kBrushless);
+		motorRight2 = new CANSparkMax (RobotMap.MOTOR_DRIVE_RIGHT2, MotorType.kBrushless);
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE2, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		
@@ -112,6 +115,9 @@ public class DriveTrain extends Subsystem {
 		
 		mDriveState = DriveModeState.ROBOT_ORIANTED_MECANUM;
 
+		//motorLeft1.setSelectedSensorPosition(0, 0, 0);
+
+
 
 	}
 	
@@ -121,14 +127,14 @@ public class DriveTrain extends Subsystem {
 	public void setBrake(boolean brake) {
 		// Formerly: frontLeft.enableBrakeMode(brake);
 		// See https://github.com/CrossTheRoadElec/Phoenix-Documentation#installing-phoenix-framework-onto-your-frc-robot
-		NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
+		IdleMode mode = brake ? IdleMode.kBrake : IdleMode.kCoast;
 
 		//motorLeft1.setNeutralMode(mode);
-		motorLeft1.setNeutralMode(mode);
-		motorLeft2.setNeutralMode(mode);
+		motorLeft1.setIdleMode(mode);
+		motorLeft2.setIdleMode(mode);
 		//motorRight1.setNeutralMode(mode);
-		motorRight1.setNeutralMode(mode);
-		motorRight2.setNeutralMode(mode);
+		motorRight1.setIdleMode(mode);
+		motorRight2.setIdleMode(mode);
 	}
 
 	public void setDirection(int direction) {

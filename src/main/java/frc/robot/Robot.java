@@ -7,8 +7,9 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Carriage;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.RearIntake;
 
 
 import java.util.ArrayList;
@@ -41,7 +42,10 @@ public class Robot extends TimedRobot {
 
 	
 	public static DriveTrain driveTrain;
-	public static Arm arm;
+	public static Carriage carriage;
+	public static RearIntake rearIntake;
+
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -59,8 +63,8 @@ public class Robot extends TimedRobot {
 		
 		//subsystems
 		driveTrain = new DriveTrain();
-
-		arm = new Arm();
+		carriage = new Carriage();
+		rearIntake = new RearIntake();
 
 		
 	}

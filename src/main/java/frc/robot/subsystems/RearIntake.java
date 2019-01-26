@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,20 +18,26 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class Arm extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-private final WPI_TalonSRX armMotor;
-private final Encoder armEncoder;
-  public Arm(){
+public class RearIntake extends Subsystem {
+  //arm
+  private final WPI_TalonSRX armMotor;
+  
+  //roller
+  public final WPI_VictorSPX intakeRollerMotor;
+
+
+  public RearIntake(){
+    //arm
     armMotor = new WPI_TalonSRX(RobotMap.ARM_MOTOR);
-    armEncoder = new Encoder(RobotMap.ARM_ENCODER_A, RobotMap.ARM_ENCODER_B);
+   
+    //roller
+    intakeRollerMotor = new WPI_VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
 
   }
 
   public void moveArm(Joystick joystick) {
 		moveArm(joystick.getRawAxis(1));
-	}
+  }
 
 	public void moveArm(double speed) {
 		armMotor.set(speed);
@@ -39,7 +46,16 @@ private final Encoder armEncoder;
 	public void stop() {
 		armMotor.set(0);
 		
-	}
+  }
+
+  //encoder
+  public int getEncoderValue(){
+    int position;
+    position = armMotor.getSelectedSensorPosition();
+    return position;
+  }
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
 
   @Override
   public void initDefaultCommand() {

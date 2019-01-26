@@ -7,29 +7,39 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.CAN;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class Roller extends Subsystem {
-  public final CANSparkMax rollerMotor;
-  public final CANEncoder rollEncoder;
-
+public class Cooling extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public Roller(){
-    rollerMotor = new CANSparkMax(RobotMap.ROLLER_MOTOR, MotorType.kBrushless);
-    rollEncoder = new CANEncoder(rollerMotor);
-
+  public final Solenoid cooler;
+  public Cooling(){
+  cooler = new Solenoid(RobotMap.COOLER);
   }
+
+  
+  public void setSolenoidValue(Boolean value) {
+		cooler.set(value);
+	}
+
+	public boolean getSolenoidValue() {
+		return cooler.get();
+	}
+
+	public void forward() {
+		setSolenoidValue(true);
+	}
+
+	public void reverse() {
+		setSolenoidValue(false);
+  }
+
+
 
   @Override
   public void initDefaultCommand() {

@@ -8,12 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain.DriveState;
 
 public class WhatDriveState extends Command {
   public WhatDriveState(DriveState ds) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.driveTrain);
     state = ds;
 
   }

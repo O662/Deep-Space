@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.subsystems.Carriage;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LoggableSubsystem;
 import frc.robot.subsystems.RearIntake;
 
 
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	private ArrayList<LoggableSubsystem> subsystemsList = new ArrayList<LoggableSubsystem>();
 
 	
 	public static DriveTrain driveTrain;
@@ -54,18 +56,21 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotInit() {
-		oi = new OI();
 		//m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		//SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
-		SmartDashboard.getString("DriveState", "" + DriveTrain.getDriveType());
+		SmartDashboard.putString("DriveState", "" + DriveTrain.getDriveType());
+		SmartDashboard.putString("i am here", "here");
 		
 		//subsystems
 		driveTrain = new DriveTrain();
+		subsystemsList.add(driveTrain);
 		carriage = new Carriage();
 		rearIntake = new RearIntake();
 
+		
+		oi = new OI();
 		
 	}
 
@@ -145,5 +150,29 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
+		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
+		SmartDashboard.getString("DriveState", "" + DriveTrain.getDriveType());
+	}
+
+	private void log() {
+		for (LoggableSubsystem subsystem : subsystemsList) {
+			if (subsystem != null) {
+				subsystem.log();
+			}
+		}
+	}
+
+	/**
+	 * Log subsystems on the SmartDashboard
+	 * @param subsystems list of subsystems
+	 */
+	private void addSubsystemsToDashboard(ArrayList<LoggableSubsystem> subsystems) {
+		for (LoggableSubsystem subsystem : subsystems) {
+			if (subsystem != null && subsystem instanceof Subsystem) {
+				SmartDashboard.putData((Subsystem) subsystem);
+			}
+		}
 	}
 }

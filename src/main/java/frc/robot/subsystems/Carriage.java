@@ -33,8 +33,8 @@ public class Carriage extends Subsystem {
   public Carriage(){
     rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
     
-    pusher = new Solenoid(RobotMap.PUSHER_CHANNEL);
-    battleAxe = new Solenoid(RobotMap.BATTLE_AXE_CHANNEL);
+    pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);
+    battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.BATTLE_AXE_CHANNEL);
   }
   
   //ROLLER

@@ -15,8 +15,8 @@ public class MoveRoller extends Command {
   public MoveRoller(double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.speed = speed;
     requires(Robot.carriage);
+    this.speed = speed;
   }
 
   // Called just before this Command runs the first time

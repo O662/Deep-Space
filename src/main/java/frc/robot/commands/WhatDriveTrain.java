@@ -8,7 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveModeState;
 
 public class WhatDriveTrain extends Command {
@@ -17,6 +19,8 @@ public class WhatDriveTrain extends Command {
 public WhatDriveTrain(DriveModeState dms) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    
+    requires(Robot.driveTrain);
     state = dms;
     s = dms;
   }
@@ -39,7 +43,7 @@ public WhatDriveTrain(DriveModeState dms) {
       case FEILD_ORIANTED_MECANUM:
         break;
       case ROBOT_ORIANTED_MECANUM:
-        new MecanumDriveRobotRelative();
+        new MecanumDriveTrain();
         break;
         default:
          System.out.println("Unexpected drive mode state: " + state);
@@ -57,6 +61,7 @@ public WhatDriveTrain(DriveModeState dms) {
   @Override
   protected void execute() {
     choose();
+    SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
   }
 
   // Make this return true when this Command no longer needs to run execute()

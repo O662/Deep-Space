@@ -52,13 +52,13 @@ private class POVTrigger extends Trigger{
 public OI(){
 	
 	
-	Joystick mJoystick = new Joystick(1);
+	mJoystick = new Joystick(0);
 	
 	int bToggleDriveTrain = 5;
 	int bToggleDriveState = 6;
 	int bMoveArmUp = 3;
 	int bMoveArmDown = 4;
-	int bRoller = 11;
+	int bRoller = 12;
 	int bIntakeRollerForward = 10;
 	int bIntakeRollerBackward = 7;
 	int bPushForward = 2;
@@ -78,7 +78,8 @@ public OI(){
 	
 
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
-	toggleDriveState.whenPressed(new ToggleDriveMode());
+	toggleDriveState.whenPressed(
+		new ToggleDriveMode());
 
 
 JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
@@ -151,10 +152,10 @@ JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
 	// button.whenReleased(new ExampleCommand());
 	
 	private JoystickButton addButton(Joystick joystick, int buttonNumber, String key) {
-		JoystickButton button = new JoystickButton(joystick, buttonNumber);
+		return new JoystickButton(joystick, buttonNumber);
 		//TODO uncomment to see commands on dashboard
 		//SmartDashboard.putData(key, button);
-		return button;
+		//return button;
 	}
 
 	

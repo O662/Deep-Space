@@ -25,7 +25,7 @@ import frc.robot.commands.MecanumDriveTrain;
 import frc.robot.commands.WhatDriveTrain;
 
 
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	
 	public enum DriveModeState{
 		ARCADE,
@@ -229,6 +229,11 @@ public class DriveTrain extends Subsystem {
 		motorRight2.set(rb);
 
 
+	}
+
+	public void log(){
+		SmartDashboard.putString("DriveMode", "" + getDriveState());
+		SmartDashboard.getString("DriveState", "" + getDriveType());
 	}
 
 	/*

@@ -27,6 +27,8 @@ public class OI {
 
 private Joystick mJoystick;	
 
+/*
+
 private class POVTrigger extends Trigger{
 	/*
 	 * Positions
@@ -35,6 +37,7 @@ private class POVTrigger extends Trigger{
 	 * 		5	4	3
 	 * 		
 	 */
+	/*
 	private int degrees;
 	private Joystick joy;
 	//Make sure to call using -1 through 7, else all dies...
@@ -49,6 +52,8 @@ private class POVTrigger extends Trigger{
 		return joy.getPOV(0)==degrees;
 	}
 }
+
+*/
 public OI(){
 	
 	
@@ -58,7 +63,7 @@ public OI(){
 	int bToggleDriveState = 6;
 	int bMoveArmUp = 3;
 	int bMoveArmDown = 4;
-	int bRoller = 12;
+	int bRoller = 8;
 	int bIntakeRollerForward = 10;
 	int bIntakeRollerBackward = 7;
 	int bPushForward = 2;
@@ -76,20 +81,18 @@ public OI(){
 
 
 	
-
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
-	toggleDriveState.whenPressed(
-		new ToggleDriveMode());
-
+	toggleDriveState.whenPressed(new ToggleDriveMode());
 
 JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
 		toggleDriveTrain.whenPressed(new ToggleDriveState());
 
+		/*
 Trigger moveDArmUp = new POVTrigger(getJoystick(), dMoveArmUp);
 		moveDArmUp.whileActive(new MoveArm(armSpeed));
 Trigger moveDArmDown = new POVTrigger(getJoystick(), dMoveArmDown);
 		moveDArmDown.whileActive(new MoveArm(-armSpeed));
-
+*/
 
 JoystickButton moveArmUp = addButton(getJoystick(), bMoveArmUp, "Move Arm Up");
 		moveArmUp.whenPressed(new MoveArm(armSpeed));

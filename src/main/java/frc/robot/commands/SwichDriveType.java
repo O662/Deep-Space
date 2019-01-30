@@ -29,9 +29,11 @@ public class SwichDriveType extends Command {
       if(Robot.driveTrain.getDriveState() == DriveModeState.ROBOT_ORIANTED_MECANUM){
         Robot.driveTrain.switchState(false);
       }
+      /*
       else if(Robot.driveTrain.getDriveState() == DriveModeState.FEILD_ORIANTED_MECANUM){
         Robot.driveTrain.switchState(false);
       }
+      */
       else{
          Robot.driveTrain.switchState(true);
       }

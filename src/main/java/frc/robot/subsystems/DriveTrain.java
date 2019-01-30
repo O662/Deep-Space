@@ -2,9 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+//import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMax.IdleMode;
+//import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,7 +30,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public enum DriveModeState{
 		ARCADE,
 		TANK,
-		FEILD_ORIANTED_MECANUM,
+		//FEILD_ORIANTED_MECANUM,
 		ROBOT_ORIANTED_MECANUM;
 
 		private static DriveModeState[] vals = values();
@@ -66,28 +66,28 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
-	private static DriveModeState mDriveState;
+	private DriveModeState mDriveState;
 
-	public static DriveModeState getDriveState() {
+	public DriveModeState getDriveState() {
 		return mDriveState;
 	}
 
-	public static void setDriveState(DriveModeState dms) {
+	public void setDriveState(DriveModeState dms) {
 		mDriveState = dms;
 	}
 
 
 //mecanum and skid steer
-	private static DriveState mDriveType;
+	private DriveState mDriveType;
 
-	public static DriveState getDriveType() {
+	public  DriveState getDriveType() {
 		return mDriveType;
 	}
 
 
 	
 
-	public static void setDriveType(DriveState ds) {
+	public void setDriveType(DriveState ds) {
 		mDriveType = ds;
 	}
 
@@ -106,6 +106,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		
 		//mecanum
+		/*
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
 		SpeedControllerGroup left2 = new SpeedControllerGroup(motorLeft2);//left back
 		SpeedControllerGroup right1 = new SpeedControllerGroup(motorRight1);//right front
@@ -114,7 +115,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		//TankDrive and arcade drive
 		SpeedControllerGroup leftGroup = new SpeedControllerGroup(motorLeft1,motorLeft2);//left front
 		SpeedControllerGroup rightGroup = new SpeedControllerGroup(motorRight1,motorRight2);//left back
-		
+		*/
+
 		mDriveState = DriveModeState.ROBOT_ORIANTED_MECANUM;
 
 		//motorLeft1.setSelectedSensorPosition(0, 0, 0);
@@ -144,27 +146,21 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	// i will fix it later but im lazy and dont want to right now
 
 	public double getMotorLeft1Postition(){
-		double p;
-		p = motorLeft1.getSelectedSensorPosition();
-		return p;
+		return motorLeft1.getSelectedSensorPosition();
 	}
 
 	public double getMotorLeft2Position(){
-		double p;
-		p = motorLeft2.getSelectedSensorPosition();
-		return p;
+		return motorLeft2.getSelectedSensorPosition();
 	}
 
 	public double getMotorRight1Position(){
-		double p;
-		p = motorRight1.getSelectedSensorPosition();
-		return p;
+		 
+		return motorRight1.getSelectedSensorPosition();
 	}
 
 	public double getMotorRight2Position(){
-		double p;
-		p = motorRight2.getSelectedSensorPosition();
-		return p;
+		 
+		return motorRight2.getSelectedSensorPosition();
 	}
 
 	public void setDirection(int direction) {

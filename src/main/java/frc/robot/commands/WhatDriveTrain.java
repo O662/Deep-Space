@@ -14,6 +14,8 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveModeState;
 
 public class WhatDriveTrain extends Command {
+
+  //houston we have a problem
   public static DriveModeState s;
 
 public WhatDriveTrain(DriveModeState dms) {
@@ -22,7 +24,7 @@ public WhatDriveTrain(DriveModeState dms) {
     
     requires(Robot.driveTrain);
     state = dms;
-    s = dms;
+   // s = dms;
   }
 
   // Called just before this Command runs the first time
@@ -40,8 +42,8 @@ public WhatDriveTrain(DriveModeState dms) {
       case TANK:
         new TankDrive();
         break;
-      case FEILD_ORIANTED_MECANUM:
-        break;
+     // case FEILD_ORIANTED_MECANUM:
+      //  break;
       case ROBOT_ORIANTED_MECANUM:
         new MecanumDriveTrain();
         break;
@@ -53,15 +55,12 @@ public WhatDriveTrain(DriveModeState dms) {
 
   
 
-  public DriveModeState getState(){
-    return s;
-  }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     choose();
-    SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
+    SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
   }
 
   // Make this return true when this Command no longer needs to run execute()

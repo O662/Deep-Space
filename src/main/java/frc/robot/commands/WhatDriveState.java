@@ -8,7 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveState;
 
 public class WhatDriveState extends Command {
@@ -42,6 +44,7 @@ public class WhatDriveState extends Command {
   @Override
   protected void execute() {
     choose();
+    SmartDashboard.putString("DriveState", "" + Robot.driveTrain.getDriveType());
   }
 
   // Make this return true when this Command no longer needs to run execute()

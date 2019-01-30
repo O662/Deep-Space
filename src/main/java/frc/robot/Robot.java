@@ -59,8 +59,8 @@ public class Robot extends TimedRobot {
 		//m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
-		SmartDashboard.putString("DriveState", "" + DriveTrain.getDriveType());
+		SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
+		SmartDashboard.putString("DriveState", "" + Robot.driveTrain.getDriveType());
 		SmartDashboard.putString("i am here", "here");
 		
 		//subsystems
@@ -152,8 +152,8 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putString("DriveMode", "" + DriveTrain.getDriveState());
-		SmartDashboard.getString("DriveState", "" + DriveTrain.getDriveType());
+		SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
+		SmartDashboard.getString("DriveState", "" + Robot.driveTrain.getDriveType());
 	}
 
 	private void log() {

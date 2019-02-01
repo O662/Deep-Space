@@ -11,14 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveModeState;
+import frc.robot.subsystems.DriveTrain.DriveTrainMode;
+import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
 public class WhatDriveTrain extends Command {
 
   //houston we have a problem
-  public static DriveModeState s;
+  public static DriveTrainMode s;
 
-public WhatDriveTrain(DriveModeState dms) {
+public WhatDriveTrain(DriveTrainMode dms) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     
@@ -32,7 +33,7 @@ public WhatDriveTrain(DriveModeState dms) {
   protected void initialize() {
   }
 
-  DriveModeState state;
+  DriveTrainMode state;
 
   public void choose() {
     switch(state){

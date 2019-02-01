@@ -14,6 +14,8 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveState;
 
 public class WhatDriveState extends Command {
+
+  //todo rename and organize the drive mode and drive state names
   public WhatDriveState(DriveState ds) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -44,7 +46,7 @@ public class WhatDriveState extends Command {
   @Override
   protected void execute() {
     choose();
-    SmartDashboard.putString("DriveState", "" + Robot.driveTrain.getDriveType());
+    SmartDashboard.putString("DriveState", "" + Robot.driveTrain.getDriveState());
   }
 
   // Make this return true when this Command no longer needs to run execute()

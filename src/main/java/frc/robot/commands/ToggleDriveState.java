@@ -21,7 +21,8 @@ public class ToggleDriveState extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.driveTrain.setDriveType(Robot.driveTrain.getDriveType().next());
+    Robot.
+    driveTrain.setDriveState(Robot.driveTrain.getDriveState().next());
   }
 
 

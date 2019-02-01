@@ -27,14 +27,14 @@ import frc.robot.commands.WhatDriveTrain;
 
 public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	
-	public enum DriveModeState{
+	public enum DriveTrainMode{
 		ARCADE,
 		TANK,
 		//FEILD_ORIANTED_MECANUM,
 		ROBOT_ORIANTED_MECANUM;
 
-		private static DriveModeState[] vals = values();
-		public DriveModeState next() {
+		private static DriveTrainMode[] vals = values();
+		public DriveTrainMode next() {
 			return vals[(this.ordinal()+1) % vals.length];
 		}
 		/*
@@ -66,29 +66,30 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
-	private DriveModeState mDriveState;
+	private DriveTrainMode mDriveTrain;
+	
 
-	public DriveModeState getDriveState() {
-		return mDriveState;
+	public DriveTrainMode getDriveTrain() {
+		return mDriveTrain;
 	}
 
-	public void setDriveState(DriveModeState dms) {
-		mDriveState = dms;
+	public void setDriveTrain(DriveTrainMode dms) {
+		mDriveTrain = dms;
 	}
 
 
 //mecanum and skid steer
-	private DriveState mDriveType;
+	private DriveState mDriveState;
 
-	public  DriveState getDriveType() {
-		return mDriveType;
+	public  DriveState getDriveState() {
+		return mDriveState;
 	}
 
 
 	
 
-	public void setDriveType(DriveState ds) {
-		mDriveType = ds;
+	public void setDriveState(DriveState ds) {
+		mDriveState = ds;
 	}
 
 
@@ -117,7 +118,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		SpeedControllerGroup rightGroup = new SpeedControllerGroup(motorRight1,motorRight2);//left back
 		*/
 
-		mDriveState = DriveModeState.ROBOT_ORIANTED_MECANUM;
+		mDriveTrain = DriveTrainMode.ROBOT_ORIANTED_MECANUM;
 
 		//motorLeft1.setSelectedSensorPosition(0, 0, 0);
 
@@ -197,7 +198,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new WhatDriveTrain(mDriveState));
+		setDefaultCommand(new WhatDriveTrain(mDriveTrain));
 		// TODO Auto-generated method stub
 
 	}
@@ -228,8 +229,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	}
 
 	public void log(){
-		SmartDashboard.putString("DriveMode", "" + getDriveState());
-		SmartDashboard.getString("DriveState", "" + getDriveType());
+		SmartDashboard.putString("DriveMode", "" + getDriveTrain());
+		SmartDashboard.getString("DriveState", "" + getDriveState());
 	}
 
 	/*

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveModeState;
+import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
 
 //this sucks
@@ -80,10 +80,12 @@ public OI(){
 
 
 
-	
+// skid steer and not
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
 	toggleDriveState.whenPressed(new ToggleDriveMode());
 
+
+//mecanum and not 
 JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
 		toggleDriveTrain.whenPressed(new ToggleDriveState());
 

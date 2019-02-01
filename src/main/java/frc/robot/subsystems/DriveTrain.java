@@ -119,6 +119,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		*/
 
 		mDriveTrain = DriveTrainMode.ROBOT_ORIANTED_MECANUM;
+		mDriveState = DriveState.MECANUM;
 
 		//motorLeft1.setSelectedSensorPosition(0, 0, 0);
 
@@ -175,6 +176,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public void switchState(boolean state){
 		solenoid1.set(state);
 		solenoid2.set(state);
+		
 	}
 
 	public Boolean getState(){

@@ -34,10 +34,10 @@ public class WhatDriveState extends Command {
   public void choose() {
     switch(state){
       case SKIDSTEER:
-        new SwichDriveType(true);
+        new SwichDriveState(true);
         break;
       case MECANUM:
-        new SwichDriveType(false);
+        new SwichDriveState(false);
         break;
     }
   }

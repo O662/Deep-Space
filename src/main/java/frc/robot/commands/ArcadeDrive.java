@@ -27,8 +27,8 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double y= Robot.oi.getJoystick().getY();
-    double z= Robot.oi.getJoystick().getZ();
+    double y= Robot.oi.getJoystick().getRawAxis(5);
+    double z= Robot.oi.getJoystick().getRawAxis(0);
     double forward = map(y);
     double turn = map(z);
     double fr = forward + turn;

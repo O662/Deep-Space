@@ -37,9 +37,9 @@ public class MecanumDriveTrain extends Command {
 		@Override
 		protected void execute() {
 		double rf,rb,lf,lb;
-		double forward = -Robot.oi.getJoystick().getY();
-		double right = Robot.oi.getJoystick().getX();
-		double clockwise = Robot.oi.getJoystick().getZ();
+		double forward = -Robot.oi.getJoystick().getRawAxis(5);
+		double right = Robot.oi.getJoystick().getRawAxis(4);
+		double clockwise = Robot.oi.getJoystick().getRawAxis(0);
 		double K = .01;//the value that determines sensitivity of turning tweek to edit
 		clockwise = K*clockwise;
 		//inverse kinimatics

@@ -27,12 +27,12 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   double f= Robot.oi.getJoystick().getY();
-   double x= Robot.oi.getJoystick().getX();
-   double forwardRight = map(f);
-   double forwardLeft = map(x);
+   double fr= Robot.oi.getJoystick().getRawAxis(5);
+   double fl = Robot.oi.getJoystick().getRawAxis(1);
+   double forwardRight = map(fr);
+   double forwardLeft = map(fl);
    Boolean skidSteerDrive = true;
-   Robot.driveTrain.driveMotors(forwardRight, forwardLeft, forwardRight, forwardLeft, skidSteerDrive);
+   Robot.driveTrain.driveMotors(forwardRight, forwardRight, forwardLeft, forwardLeft, skidSteerDrive);
   }
 
   // Make this return true when this Command no longer needs to run execute()

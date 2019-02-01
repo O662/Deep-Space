@@ -61,7 +61,8 @@ public OI(){
 	
 	int bToggleDriveTrain = 5;
 	int bToggleDriveState = 6;
-	int bMoveArmUp = 3;
+	int bToggleDriveTrain2 = 3;
+	int bMoveArmUp = 9;
 	int bMoveArmDown = 4;
 	int bRoller = 8;
 	int bIntakeRollerForward = 10;
@@ -81,14 +82,16 @@ public OI(){
 
 
 // skid steer and not
-JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
-	toggleDriveState.whenPressed(new ToggleDriveMode());
+JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
+	toggleDriveTrain.whenPressed(new ToggleDriveMode());
 
 
 //mecanum and not 
-JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
-		toggleDriveTrain.whenPressed(new ToggleDriveState());
+JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
+		toggleDriveState.whenPressed(new SwichDriveState(true));// (new ToggleDriveState());
 
+JoystickButton toggleDriveState2 = addButton(getJoystick(), bToggleDriveTrain2, "toogle");
+		toggleDriveState2.whenPressed(new SwichDriveState(false));
 		/*
 Trigger moveDArmUp = new POVTrigger(getJoystick(), dMoveArmUp);
 		moveDArmUp.whileActive(new MoveArm(armSpeed));

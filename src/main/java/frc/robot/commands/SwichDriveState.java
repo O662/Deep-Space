@@ -9,13 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain.DriveModeState;
 
-public class SwichDriveType extends Command {
+import frc.robot.subsystems.DriveTrain.DriveState;
+import frc.robot.subsystems.DriveTrain.DriveTrainMode;
+
+public class SwichDriveState extends Command {
 
   private final boolean open;
 
-  public SwichDriveType(boolean open) {
+  public SwichDriveState(boolean open) {
     requires(Robot.driveTrain);
     this.open = open;
     // Use requires() here to declare subsystem dependencies
@@ -23,10 +25,13 @@ public class SwichDriveType extends Command {
   }
 
   // Called just before this Command runs the first time
+  //false = mecanum
+  //true = skidSteer
   @Override
   protected void initialize() {
+  Robot.driveTrain.switchState(open);
     if(open){
-      if(Robot.driveTrain.getDriveState() == DriveModeState.ROBOT_ORIANTED_MECANUM){
+      if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
         Robot.driveTrain.switchState(false);
       }
       /*
@@ -34,13 +39,14 @@ public class SwichDriveType extends Command {
         Robot.driveTrain.switchState(false);
       }
       */
+      
       else{
          Robot.driveTrain.switchState(true);
       }
     }
-    else{
-         Robot.driveTrain.switchState(true);
-      }
+   
+     
+     
      
     }
   

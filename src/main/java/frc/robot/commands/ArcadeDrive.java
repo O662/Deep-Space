@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -40,7 +41,7 @@ public class ArcadeDrive extends Command {
 				fl/=largest;
 			}
     Robot.driveTrain.driveMotors(fr, fl, fr, fl, skidSteerDrive);
-
+    DriverStation.reportWarning("you are in the arcade drive now", true);
 
   }
 

@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -30,6 +31,7 @@ public class MecanumDriveTrain extends Command {
 		@Override
 		protected void initialize() {
 			Robot.driveTrain.setBrake(false);
+			
 			//Robot.driveTrain.setDefaltRampRate();
 		}
 
@@ -51,6 +53,7 @@ public class MecanumDriveTrain extends Command {
 		
 		//the driving force that drives the mecanum drive ...im tired
 		Robot.driveTrain.driveMotors(rf, rb, lf, lb, skidSteerDrive);
+		DriverStation.reportWarning("you are in the Mecanum drive now", true);
 		}
 
 		

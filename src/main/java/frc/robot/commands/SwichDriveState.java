@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 import frc.robot.subsystems.DriveTrain.DriveState;
@@ -33,6 +34,7 @@ public class SwichDriveState extends Command {
     if(open){
       if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
         Robot.driveTrain.switchState(false);
+        SmartDashboard.putBoolean("mecanum", false);
       }
       /*
       else if(Robot.driveTrain.getDriveState() == DriveModeState.FEILD_ORIANTED_MECANUM){
@@ -42,9 +44,14 @@ public class SwichDriveState extends Command {
       
       else{
          Robot.driveTrain.switchState(true);
+         SmartDashboard.putBoolean("skidSteer", true );
       }
+  
     }
-   
+     else{
+      Robot.driveTrain.switchState(false);
+      SmartDashboard.putBoolean("mecanum", false);
+    }
      
      
      

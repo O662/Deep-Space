@@ -7,17 +7,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
-public class WhatDriveTrain extends Command {
+public class WhatDriveTrain extends CommandGroup {
 
   //houston we have a problem
   public static DriveTrainMode s;
+  public String mode;
 
 public WhatDriveTrain(DriveTrainMode dms) {
     // Use requires() here to declare subsystem dependencies
@@ -38,15 +41,21 @@ public WhatDriveTrain(DriveTrainMode dms) {
   public void choose() {
     switch(state){
       case ARCADE:
-        new ArcadeDrive();
+       addSequential(new ArcadeDrive());;
+        DriverStation.reportWarning("arcadedrive", false);
+        mode = "arcade";
         break;
       case TANK:
-        new TankDrive();
+        addSequential(new TankDrive());
+        DriverStation.reportWarning("tankDrive", false);
+        mode = "Tank";
         break;
      // case FEILD_ORIANTED_MECANUM:
       //  break;
       case ROBOT_ORIANTED_MECANUM:
-        new MecanumDriveTrain();
+        addSequential(new MecanumDriveTrain());
+        DriverStation.reportWarning("mecanum", false);
+        mode = "mecanum";
         break;
         default:
          System.out.println("Unexpected drive mode state: " + state);
@@ -54,14 +63,18 @@ public WhatDriveTrain(DriveTrainMode dms) {
     }
   }
 
+
   
 
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    //not the problem
     choose();
-    SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
+   // SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
+    SmartDashboard.putString("DriveMode", "" + mode);
+    DriverStation.reportWarning("we are here man" , true);
   }
 
   // Make this return true when this Command no longer needs to run execute()

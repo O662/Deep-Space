@@ -75,6 +75,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 
 	public void setDriveTrain(DriveTrainMode dms) {
 		mDriveTrain = dms;
+		
 	}
 
 
@@ -231,8 +232,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	}
 
 	public void log(){
-		SmartDashboard.putString("DriveMode", "" + getDriveTrain());
-		SmartDashboard.getString("DriveState", "" + getDriveState());
+		//SmartDashboard.putString("DriveMode", "" + getDriveTrain());
+		//SmartDashboard.getString("DriveState", "" + getDriveState());
 	}
 
 	/*

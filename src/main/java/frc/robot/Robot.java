@@ -137,23 +137,21 @@ public class Robot extends TimedRobot {
 		}
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
+
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
 	}
-
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveTrain());
-		SmartDashboard.getString("DriveState", "" + Robot.driveTrain.getDriveState());
+		//SmartDashboard.putData("Auto mode", m_chooser);
+		//SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveTrain());
+		//SmartDashboard.getString("DriveState", "" + Robot.driveTrain.getDriveState());
 	}
 
 	private void log() {

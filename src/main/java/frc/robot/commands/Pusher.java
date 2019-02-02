@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -17,12 +18,13 @@ public class Pusher extends Command {
     this.value = value;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-  }
+  } 
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     Robot.carriage.setSolenoidValue(value);
+   // DriverStation.reportWarning("this works yippee ky a ", true);
   }
 
   // Called repeatedly when this Command is scheduled to run

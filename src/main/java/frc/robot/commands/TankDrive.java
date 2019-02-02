@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -33,6 +34,7 @@ public class TankDrive extends Command {
    double forwardLeft = map(fl);
    Boolean skidSteerDrive = true;
    Robot.driveTrain.driveMotors(forwardRight, forwardRight, forwardLeft, forwardLeft, skidSteerDrive);
+   DriverStation.reportWarning("you are in the tank drive now", true);
   }
 
   // Make this return true when this Command no longer needs to run execute()

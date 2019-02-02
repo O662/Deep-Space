@@ -8,8 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
 public class ToggleDriveMode extends Command {
   public ToggleDriveMode() {
@@ -21,7 +23,24 @@ public class ToggleDriveMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.driveTrain.setDriveTrain(Robot.driveTrain.getDriveTrain().next());
+  
+    
+   // Robot.driveTrain.setDriveTrain(Robot.driveTrain.getDriveTrain().next());
+
+  
+   // SmartDashboard.putString("DriveTraininToggle2" ,""+ Robot.driveTrain.getDriveTrain());
+
+    if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
+      Robot.driveTrain.setDriveTrain(DriveTrainMode.ARCADE);
+    }
+    else if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ARCADE){
+      Robot.driveTrain.setDriveTrain(DriveTrainMode.TANK);
+    }
+    else if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.TANK){
+      Robot.driveTrain.setDriveTrain(DriveTrainMode.ROBOT_ORIANTED_MECANUM);
+    }
+      SmartDashboard.putString("DriveTraininToggle" ,""+ Robot.driveTrain.getDriveTrain());
+
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -23,7 +23,7 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class Carriage extends Subsystem {
+public class Carriage extends Subsystem implements LoggableSubsystem {
  
   public final WPI_TalonSRX rollerMotor;
   public final Solenoid pusher;
@@ -107,5 +107,10 @@ public class Carriage extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  @Override
+  public void log() {
+
   }
 }

@@ -8,10 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveState;
 
 public class ToggleDriveState extends Command {
+  public boolean skidSteer = false;
   public ToggleDriveState() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -21,7 +24,21 @@ public class ToggleDriveState extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    /*
     Robot.driveTrain.setDriveState(Robot.driveTrain.getDriveState().next());
+    if(Robot.driveTrain.getDriveState() == DriveState.MECANUM){
+     skidSteer = false;
+    }
+    else{
+      skidSteer = true;
+    }
+    
+    
+    
+     SmartDashboard.putBoolean("is robot in skid Steer", skidSteer);
+     */
+    Robot.driveTrain.ToggleDriveState();
+
   }
 
 
@@ -33,7 +50,7 @@ public class ToggleDriveState extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

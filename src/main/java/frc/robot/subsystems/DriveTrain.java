@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
@@ -67,6 +68,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
 	private DriveTrainMode mDriveTrain;
+	private final double voltageRampRateDefault = 150;
+	boolean skidSteer = false;
 	
 
 	public DriveTrainMode getDriveTrain() {
@@ -86,11 +89,56 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		return mDriveState;
 	}
 
+	public boolean getDriveState2(){
+		return skidSteer;
+	}
+
 
 	
-
+// not toggle
 	public void setDriveState(DriveState ds) {
 		mDriveState = ds;
+		if(mDriveState==DriveState.MECANUM) {
+			//Robot.driveTrain.switchState(false);
+			solenoid1.set(false);
+			solenoid2.set(false);
+		}else {
+			//Robot.driveTrain.switchState(true);
+			if(mDriveTrain == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
+				solenoid1.set(false);
+				solenoid2.set(false);
+			}
+			else{
+				solenoid1.set(true);
+				solenoid2.set(true);
+			}
+			
+		}
+	}
+//toggle
+	public void ToggleDriveState() {
+			if(skidSteer) {
+			//changes to mecanum
+			skidSteer = false;
+			solenoid1.set(false);
+			solenoid2.set(false);
+			//Robot.driveTrain.switchState(false);
+			
+		}
+		else {
+			//Robot.driveTrain.switchState(true);
+			if(mDriveTrain == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
+				solenoid1.set(false);
+				solenoid2.set(false);
+			}
+			else{
+				skidSteer = true;
+				solenoid1.set(true);
+				solenoid2.set(true);
+			}
+			
+		}
+		SmartDashboard.putBoolean("driveState", skidSteer);
 	}
 
 
@@ -106,7 +154,10 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		motorRight2 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
-		
+		double voltageRampRate = voltageRampRateDefault;//20;
+		setRampRate(voltageRampRate);
+		solenoid1.set(false);
+		solenoid2.set(false);
 		//mecanum
 		/*
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
@@ -128,7 +179,36 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 
 	}
 	
-		
+	public void setRampRateTime(double secondsFromNeutralToFull) {
+		// See https://github.com/CrossTheRoadElec/Phoenix-Documentation#installing-phoenix-framework-onto-your-frc-robot
+		// TODO also see section on limiting current rate, both peak and continuous
+		// TODO which will be useful for climbing motors
+		// (2, 0) ramps from neutral to full voltage in 2 sec, with no timeout
+		//motorLeft1.configOpenloopRamp(secondsFromNeutralToFull, 0);
+		motorLeft1.configOpenloopRamp(secondsFromNeutralToFull, 0);
+		motorLeft2.configOpenloopRamp(secondsFromNeutralToFull, 0);
+		//motorRight1.configOpenloopRamp(secondsFromNeutralToFull, 0);
+		motorRight1.configOpenloopRamp(secondsFromNeutralToFull, 0);
+		motorRight2.configOpenloopRamp(secondsFromNeutralToFull, 0);
+	}
+
+	@Deprecated
+	public void setRampRate(double voltageRampRate){
+		// Formerly: frontLeft.setVoltageRampRate(voltageRampRate);
+		//    where voltageRampRate was in volts/sec???
+		//          or was it in percent voltage / sec ???
+		//    used 150 as default, and 5 for slow rate during auto
+		// Assuming volts/sec, then
+		//     150 V/sec is nominal 12V / 150 V/sec = 0.08 sec
+		//     5 V/sec is nominal 12V / 5 V/sec = 2.4 sec
+		setRampRateTime(12.0 / voltageRampRate);
+	}
+
+	public void setDefaltRampRate(){
+		double voltageRampRate = voltageRampRateDefault;
+		setRampRate(voltageRampRate);
+	}
+
 	
 	//sets the break mode for each motor
 	public void setBrake(boolean brake) {
@@ -202,6 +282,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new WhatDriveTrain(mDriveTrain));
+		//testing teperalraly changing default command
+		//setDefaultCommand(new MecanumDriveTrain());
 		// TODO Auto-generated method stub
 
 	}
@@ -214,6 +296,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	 * @param skidSteerDrive true = in skid steer  false = not in skid steer
 	 */
 	//what is being seen by the mecanumDriveTrain class 
+	
 	public void driveMotors(double rf, double rb, double lf, double lb, boolean skidSteerDrive) {
 		if(skidSteerDrive) {
 			if(!(Math.abs(lf-lb)<=.01)){
@@ -225,15 +308,22 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		}
 		motorLeft1.set(lf);
 		motorLeft2.set(lb);
-		motorRight1.set(rf);
-		motorRight2.set(rb);
+		motorRight1.set(-rf);
+		motorRight2.set(-rb);
 
 
 	}
-
+	@Override
 	public void log(){
 		//SmartDashboard.putString("DriveMode", "" + getDriveTrain());
 		//SmartDashboard.getString("DriveState", "" + getDriveState());
+		
+		SmartDashboard.putNumber("front left motor", motorLeft1.get());
+		SmartDashboard.putNumber("back left motor", motorLeft2.get());
+		SmartDashboard.putNumber("Front Right motor", motorRight1.get());
+		SmartDashboard.putNumber("back Right motor", motorRight2.get());
+		SmartDashboard.putNumber("joystick x", Robot.oi.getJoystick().getRawAxis(4));
+		SmartDashboard.putNumber("joystick y", Robot.oi.getJoystick().getRawAxis(5));
 	}
 
 	/*

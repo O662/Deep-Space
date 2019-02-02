@@ -8,12 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveState;
 
-public class WhatDriveState extends Command {
+public class WhatDriveState extends CommandGroup {
 
   //todo rename and organize the drive mode and drive state names
   public WhatDriveState(DriveState ds) {
@@ -34,12 +35,15 @@ public class WhatDriveState extends Command {
   public void choose() {
     switch(state){
       case SKIDSTEER:
-        new SwichDriveState(true);
+        addSeguental(new SwichDriveState(true));
         break;
       case MECANUM:
-        new SwichDriveState(false);
+      addSeguental(new SwichDriveState(false));
         break;
     }
+  }
+
+  private void addSeguental(SwichDriveState swichDriveState) {
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	public static Carriage carriage;
 	public static RearIntake rearIntake;
+	public static PowerDistributionPanel pdp;
 
 	
 	/**
@@ -59,19 +60,34 @@ public class Robot extends TimedRobot {
 		//m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
-		//SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
-		//SmartDashboard.putString("DriveState", "" + Robot.driveTrain.getDriveType());
+		//SmartDashboard.putString("DriveMode rob", "" + Robot.driveTrain.getDriveState());
+		//SmartDashboard.putString("DriveStateRob", "" + Robot.driveTrain.getDriveTrain());
 		//SmartDashboard.putString("i am here", "here");
 		
 		//subsystems
+		pdp = new PowerDistributionPanel();
 		driveTrain = new DriveTrain();
 		subsystemsList.add(driveTrain);
 		carriage = new Carriage();
+		subsystemsList.add(carriage);
 		rearIntake = new RearIntake();
+		subsystemsList.add(rearIntake);
 
 		
 		oi = new OI();
+		//ArrayList<LoggableSubsystem> tempList = new ArrayList<LoggableSubsystem>();
+		//addSubsystemsToDashboard(tempList);
+		ArrayList<LoggableSubsystem> tempList = new ArrayList<LoggableSubsystem>();
+		tempList.add(driveTrain);
+		addSubsystemsToDashboard(tempList);
 		
+	}
+	public void operatorControl(){
+		double counter = 0.0;
+		while(isOperatorControl() && isEnabled()){
+			SmartDashboard.putNumber("counter", counter++);
+		}
+		Timer.delay(.10);
 	}
 
 
@@ -135,12 +151,14 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		SmartDashboard.putData(Scheduler.getInstance());
 	}
 
 
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		log();
 		
 	}
 	/**
@@ -160,6 +178,10 @@ public class Robot extends TimedRobot {
 				subsystem.log();
 			}
 		}
+	//	SmartDashboard.putNumber("front left motor", Robot.driveTrain.motorLeft1.get());
+	//	SmartDashboard.putString("driveState","" + Robot.driveTrain.getDriveState());
+	//	SmartDashboard.putString("driveMode in robot","" + Robot.driveTrain.getDriveTrain());
+
 	}
 
 	/**

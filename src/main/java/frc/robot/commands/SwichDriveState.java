@@ -34,7 +34,7 @@ public class SwichDriveState extends Command {
     if(open){
       if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
         Robot.driveTrain.switchState(false);
-        SmartDashboard.putBoolean("mecanum", false);
+       // SmartDashboard.putBoolean("mecanum", false);
       }
       /*
       else if(Robot.driveTrain.getDriveState() == DriveModeState.FEILD_ORIANTED_MECANUM){
@@ -44,13 +44,13 @@ public class SwichDriveState extends Command {
       
       else{
          Robot.driveTrain.switchState(true);
-         SmartDashboard.putBoolean("skidSteer", true );
+        // SmartDashboard.putBoolean("skidSteer", true );
       }
   
     }
      else{
       Robot.driveTrain.switchState(false);
-      SmartDashboard.putBoolean("mecanum", false);
+      //SmartDashboard.putBoolean("mecanum", false);
     }
      
      

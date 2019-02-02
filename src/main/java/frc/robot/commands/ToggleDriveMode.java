@@ -23,12 +23,21 @@ public class ToggleDriveMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+  DriveTrainMode dtm = Robot.driveTrain.getDriveTrain().next();
+  if(Robot.driveTrain.getDriveState2()){
+      if(dtm == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
+        dtm = dtm.next();
+      }
+  }
   
     
-   // Robot.driveTrain.setDriveTrain(Robot.driveTrain.getDriveTrain().next());
+   Robot.driveTrain.setDriveTrain(dtm);
 
   
-   // SmartDashboard.putString("DriveTraininToggle2" ,""+ Robot.driveTrain.getDriveTrain());
+   SmartDashboard.putString("DriveTraininToggle" ,""+ Robot.driveTrain.getDriveTrain());
+
+   /*
 
     if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
       Robot.driveTrain.setDriveTrain(DriveTrainMode.ARCADE);
@@ -39,7 +48,8 @@ public class ToggleDriveMode extends Command {
     else if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.TANK){
       Robot.driveTrain.setDriveTrain(DriveTrainMode.ROBOT_ORIANTED_MECANUM);
     }
-      SmartDashboard.putString("DriveTraininToggle" ,""+ Robot.driveTrain.getDriveTrain());
+    */
+     // SmartDashboard.putString("DriveTraininToggle" ,""+ Robot.driveTrain.getDriveTrain());
 
   }
 
@@ -51,7 +61,7 @@ public class ToggleDriveMode extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

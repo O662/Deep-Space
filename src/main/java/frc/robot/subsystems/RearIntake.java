@@ -18,7 +18,7 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class RearIntake extends Subsystem {
+public class RearIntake extends Subsystem implements LoggableSubsystem {
   //arm
   private final WPI_TalonSRX armMotor;
   
@@ -74,5 +74,10 @@ public class RearIntake extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  @Override
+  public void log() {
+
   }
 }

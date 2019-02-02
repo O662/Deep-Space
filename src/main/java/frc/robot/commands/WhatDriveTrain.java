@@ -10,8 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.drive.MecanumDrive;
+import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
@@ -21,13 +25,21 @@ public class WhatDriveTrain extends CommandGroup {
   //houston we have a problem
   public static DriveTrainMode s;
   public String mode;
+  private final ArcadeDrive arcade;
+  private final MecanumDrive mecanum;
+  private final TankDrive tank;
 
 public WhatDriveTrain(DriveTrainMode dms) {
+    
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     
     requires(Robot.driveTrain);
     state = dms;
+     arcade = new ArcadeDrive();
+     mecanum = new MecanumDrive();
+     tank = new TankDrive();
+
    // s = dms;
   }
 
@@ -39,21 +51,25 @@ public WhatDriveTrain(DriveTrainMode dms) {
   DriveTrainMode state;
 
   public void choose() {
-    switch(state){
+    switch(Robot.driveTrain.getDriveTrain()){
       case ARCADE:
-       addSequential(new ArcadeDrive());;
+      // addSequential(new ArcadeDrive());;
+        arcade.execute();
         DriverStation.reportWarning("arcadedrive", false);
         mode = "arcade";
         break;
       case TANK:
-        addSequential(new TankDrive());
+        //addSequential(new TankDrive());
+        tank.execute();
         DriverStation.reportWarning("tankDrive", false);
         mode = "Tank";
         break;
      // case FEILD_ORIANTED_MECANUM:
       //  break;
       case ROBOT_ORIANTED_MECANUM:
-        addSequential(new MecanumDriveTrain());
+        //addSequential(new MecanumDriveTrain());
+        
+        mecanum.execute();;
         DriverStation.reportWarning("mecanum", false);
         mode = "mecanum";
         break;
@@ -74,6 +90,8 @@ public WhatDriveTrain(DriveTrainMode dms) {
     choose();
    // SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
     SmartDashboard.putString("DriveMode", "" + mode);
+    SmartDashboard.putNumber("motor", Robot.driveTrain.motorLeft1.get());
+    SmartDashboard.putString("motor",""+ 1.1);
     DriverStation.reportWarning("we are here man" , true);
   }
 

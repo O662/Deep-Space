@@ -26,6 +26,7 @@ import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 public class OI {
 
 private Joystick mJoystick;	
+private Joystick mJoystick2;
 
 /*
 
@@ -58,7 +59,9 @@ public OI(){
 	
 	
 	mJoystick = new Joystick(0);
-	
+	mJoystick2 = new Joystick(1);
+
+	//joystick 1
 	int bToggleDriveTrain = 5;
 	int bToggleDriveState = 6;
 	int bToggleDriveTrain2 = 3;
@@ -69,6 +72,8 @@ public OI(){
 	int bIntakeRollerBackward = 7;
 	int bPushForward = 2;
 	int bPushBack = 1;
+
+	//Joystick 2
 
 
 	//pov controls
@@ -180,7 +185,9 @@ JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
 		return mJoystick;
 	}
 
-
+	public Joystick getJoystick2() {
+		return mJoystick2;
+	}
 
 	
 }

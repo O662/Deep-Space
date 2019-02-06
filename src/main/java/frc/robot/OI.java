@@ -74,6 +74,7 @@ public OI(){
 	int bPushBack = 1;
 
 	//Joystick 2
+	int bBattleAxe = 1;
 
 
 	//pov controls
@@ -132,8 +133,8 @@ JoystickButton pushForward = addButton(getJoystick(), bPushForward, "Push Forwar
 JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
 		pushBack.whenPressed(new Pusher(false));
 
-
-	
+JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
+		battleAxe.whenPressed(new BattleAxe());
 
 
 

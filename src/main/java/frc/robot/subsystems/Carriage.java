@@ -87,13 +87,21 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
 	}
 
 	public void forwardBatteAxe() {
-		setSolenoidValue(true);
+		battleAxe.set(true);
 	}
 
 	public void reverseBattleAxe() {
-		setSolenoidValue(false);
+		battleAxe.set(false);
   }
   
+  public void BattleAxeSwitcher(){
+    if (battleAxe.get() == true){
+      forwardBatteAxe();
+    }
+    else{
+      reverseBattleAxe();
+    }
+  }
   //encoder
 
   /*

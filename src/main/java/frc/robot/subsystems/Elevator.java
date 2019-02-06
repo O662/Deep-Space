@@ -15,7 +15,7 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class Elevator extends Subsystem {
+public class Elevator extends Subsystem implements LoggableSubsystem {
 
 
   //PUT MOTOR HERE!!!!!!!!!
@@ -30,5 +30,10 @@ public class Elevator extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  @Override
+  public void log() {
+
   }
 }

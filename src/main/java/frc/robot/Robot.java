@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.subsystems.Carriage;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LoggableSubsystem;
 import frc.robot.subsystems.RearIntake;
 
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
 	public static Carriage carriage;
 	public static RearIntake rearIntake;
 	public static PowerDistributionPanel pdp;
+	public static Elevator elevator;
 
 	
 	/**
@@ -72,6 +74,8 @@ public class Robot extends TimedRobot {
 		subsystemsList.add(carriage);
 		rearIntake = new RearIntake();
 		subsystemsList.add(rearIntake);
+		elevator = new Elevator();
+		subsystemsList.add(elevator);
 
 		
 		oi = new OI();

@@ -7,36 +7,46 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Pusher extends Command {
-  boolean value;
-  public Pusher(boolean value) {
-    requires(Robot.carriage);
-    this.value = value;
+public class MoveElevator extends Command {
+ 
+  double speed;
+  double height1,height2,height3; // the heights for the elevator to reach
+  
+  public MoveElevator(double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-  } 
+    requires(Robot.elevator);
+    speed = this.speed;
+    height1 = 1;
+    height2 = 2;
+    height3 = 3;
+   
+  }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.carriage.setSolenoidValue(value);
-   // DriverStation.reportWarning("this works yippee ky a ", true);
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
+    double output = Robot.elevator.getEncoder();
+   
+      
+
+    Robot.elevator.moveElevator(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

@@ -1,4 +1,4 @@
-package frc.robot.Vision;
+package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.RobotMap;
@@ -8,26 +8,48 @@ import frc.robot.RobotMap;
  * 
  */
 
- /*
-
-public class Limelight {
+public class Limelight implements IVisionTarget{
 	private NetworkTableInstance table = null;
+	private static Limelight mInstance;
+	private IVisionTarget[] mTargets = new IVisionTarget[10];
+	private int mTargetSelected;
 	
-	public Limelight() {
+	public static Limelight getInstance() {
+		if (mInstance == null) {
+            mInstance = new Limelight();
+        }
+        return mInstance;
+    }
+	
+	private Limelight() {
 		table = NetworkTableInstance.getDefault();
+		mTargets[1] = new HatchTarget();
+		mTargetSelected = 0;
 	}
 
 	public enum LightMode {
-		eOn, eOff, eBlink
+		DEFAULT,
+		ON,
+		BLINK,
+		OFF
 	}
 
 	public enum CameraMode {
-		eVision, eDriver
+		VISION, 
+		DRIVER
 	}
 	
-	public double getTargetDistance() {
-		return (RobotMap.kHatchTargetHeight*RobotMap.kPixelHeight) / (2*(getTa()/.15)*Math.tan(RobotMap.kVerticalFOV));
+	public enum StreamMode {
+		SIDE_BY_SIDE,
+		MAIN,
+		SECONDARY
 	}
+	
+	/*
+	public double getTargetDistance() {
+		return (Constants.kHatchTargetHeight*Constants.kPixelHeight) / (2*(getTa()/.15)*Math.tan(Constants.kVerticalFOV));
+	}
+	*/
 
 	public boolean isTarget() {
 		return getValue("tv").getDouble(0) == 1;
@@ -63,10 +85,39 @@ public class Limelight {
 
 	public void setPipeline(int number) {
 		getValue("pipeline").setNumber(number);
+		mTargetSelected = number;
+	}
+	
+	public void setSteam(StreamMode mode) {
+		getValue("stream").setNumber(mode.ordinal());
 	}
 
 	private NetworkTableEntry getValue(String key) {
 		return table.getTable("limelight").getEntry(key);
 	}
+
+	@Override
+	public IVisionTarget getTargetType() {
+		return mTargets[mTargetSelected];
+	}
+
+	@Override
+	public double getDistance() {
+		return mTargets[mTargetSelected].getDistance();
+	}
+
+	@Override
+	public double getHeightAngle() {
+		return mTargets[mTargetSelected].getHeightAngle();
+	}
+
+	@Override
+	public double getOffsetAngle() {
+		return mTargets[mTargetSelected].getOffsetAngle();
+	}
+
+	@Override
+	public double getSidewaysAngle() {
+		return mTargets[mTargetSelected].getSidewaysAngle();
+	}
 }
-*/

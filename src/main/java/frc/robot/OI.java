@@ -72,10 +72,11 @@ public OI(){
 	int bIntakeRollerBackward = 7;
 	int bPushForward = 2;
 	int bPushBack = 1;
+	
 
 	//Joystick 2
 	int bBattleAxe = 1;
-
+	int bElevator = 2;
 
 	//pov controls
 	int dMoveArmUp = 4;
@@ -135,6 +136,8 @@ JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
 
 JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
 		battleAxe.whenPressed(new BattleAxe());
+
+
 
 
 

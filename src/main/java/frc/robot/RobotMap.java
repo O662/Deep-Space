@@ -33,6 +33,8 @@ public class RobotMap {
 	public static final int ARM_MOTOR = 5;
 	public static final int ROLLER_MOTOR = 6;
 	public static final int INTAKE_ROLLER_MOTOR = 7;
+	public static final int ELEVATOR_MOTOR_1 = 8;
+	public static final int ELEVATOR_MOTOR_2 = 9;
 	
 
 	//i cry

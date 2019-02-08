@@ -86,6 +86,7 @@ public OI(){
 	double armSpeed = 1;
 	double rollerSpeed = 1;
 	double intakeRollerSpeed = 1;
+	double elevatorSpeed = 1;
 
 
 
@@ -137,7 +138,9 @@ JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
 JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
 		battleAxe.whenPressed(new BattleAxe());
 
-
+JoystickButton elevator = addButton(getJoystick2(), bElevator, "Elevator");
+		elevator.whenPressed(new MoveElevator(elevatorSpeed)); 
+ 
 
 
 

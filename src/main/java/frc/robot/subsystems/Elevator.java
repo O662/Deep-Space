@@ -24,9 +24,12 @@ import frc.robot.RobotMap;
  */
 public class Elevator extends Subsystem implements LoggableSubsystem {
 
+  
+
   private static final double kDistancePerRevolution = 1;//in inches
   private static final double kRatioToOutput = 60/18;
   private static final double kChassisHeightOffset = 4.5; //in inches
+  public int height;
 
 
   //this magical subsystems creates the motors that control the elevator 
@@ -49,6 +52,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   public void setElevatorHeight(double height) {
     int targetSensorPosition = (int) Math.round((height - kChassisHeightOffset) / kDistancePerRevolution * 4096 * kRatioToOutput);
     elevatorMotor1.set(ControlMode.Position, targetSensorPosition);
+    this.height = (int) height;
   }
 
   public void zeroEncoder() {
@@ -57,6 +61,22 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   public int getEncoder(){
     return elevatorMotor1.getSelectedSensorPosition();
+  }
+  /**
+   * 
+   * @return true if greater positive false if negative
+   */
+  public boolean getEncoderDirection() {
+    boolean direction = true;
+    if(elevatorMotor1.getSelectedSensorPosition() > 0){
+      direction = true;
+    }
+    if(elevatorMotor1.getSelectedSensorPosition() < 0){
+      direction = false;
+    }
+
+    return direction;
+
   }
   
   public boolean getLaser(){
@@ -100,3 +120,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   }
 }
+
+  
+
+

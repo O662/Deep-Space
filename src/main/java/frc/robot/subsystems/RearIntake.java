@@ -31,7 +31,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   
   //roller
   public final WPI_VictorSPX intakeRollerMotor;
-  public SensorCollection sensors;
+  public SensorCollection sensors;//this is for the lazer limit switch
 
   
 

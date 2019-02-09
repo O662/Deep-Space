@@ -105,8 +105,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorMotor1.set(ControlMode.PercentOutput, 0);
     //elevatorMotor2.set(ControlMode.PercentOutput, 0);
   }
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  
 
   @Override
   public void initDefaultCommand() {

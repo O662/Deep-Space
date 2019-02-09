@@ -21,6 +21,7 @@ public class MoveElevator extends Command {
     // eg. requires(chassis);
     requires(Robot.elevator);
     speed = this.speed;
+    //heights in inches
     height0 = 0;
     height1 = 1;
     height2 = 2;
@@ -35,7 +36,7 @@ public class MoveElevator extends Command {
     if(Robot.elevator.height == height0) {
        Robot.elevator.setElevatorHeight(height1);
     }
-    
+
     if(Robot.elevator.height == height1){
        Robot.elevator.setElevatorHeight(height2);
     }

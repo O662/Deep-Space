@@ -156,6 +156,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		SmartDashboard.putData(Scheduler.getInstance());
+		
 	}
 
 

@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class Pusher extends Command {
-  boolean value;
-  public Pusher(boolean value) {
+  
+  public Pusher() {
     requires(Robot.carriage);
-    this.value = value;
+    
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   } 
@@ -23,7 +23,7 @@ public class Pusher extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.carriage.setSolenoidValue(value);
+    Robot.carriage.toggleSolenoidValue();
    // DriverStation.reportWarning("this works yippee ky a ", true);
   }
 

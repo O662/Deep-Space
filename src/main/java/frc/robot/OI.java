@@ -67,11 +67,12 @@ public OI(){
 	int bToggleDriveTrain2 = 3;
 	int bMoveArmUp = 9;
 	int bMoveArmDown = 4;
-	int bRoller = 8;
+	int bRollerForward = 8;
+	int bRollerBack = 1;
 	int bIntakeRollerForward = 10;
 	int bIntakeRollerBackward = 7;
-	int bPushForward = 2;
-	int bPushBack = 1;
+	int bPush = 2;
+
 	
 
 	//Joystick 2
@@ -120,8 +121,11 @@ JoystickButton moveArmDown = addButton(getJoystick(), bMoveArmDown, "Move Arm Do
 		moveArmDown.whenPressed(new MoveArm(-armSpeed));
 
 
-JoystickButton roller = addButton(getJoystick(), bRoller, "Move Arm Down");
-		roller.whenPressed(new MoveRoller(rollerSpeed));
+JoystickButton rollerForward = addButton(getJoystick(), bRollerForward, "Roller Forward");
+		rollerForward.whileHeld(new MoveRoller(rollerSpeed));
+
+JoystickButton rollerBack = addButton(getJoystick(), bRollerBack, "Roller Back");
+        rollerBack.whileHeld(new MoveRoller(-rollerSpeed));
 
 JoystickButton intakeRollerForward = addButton(getJoystick(), bIntakeRollerForward, "Move Intake Roller Forward");
 		intakeRollerForward.whileHeld(new IntakeRoller(intakeRollerSpeed));
@@ -129,11 +133,8 @@ JoystickButton intakeRollerForward = addButton(getJoystick(), bIntakeRollerForwa
 JoystickButton intakeRollerBackwards = addButton(getJoystick(), bIntakeRollerBackward, "Move Intake Roller Backward");
 		intakeRollerBackwards.whileHeld(new IntakeRoller(-intakeRollerSpeed));
 
-JoystickButton pushForward = addButton(getJoystick(), bPushForward, "Push Forward");
-		pushForward.whenPressed(new Pusher(true));
-
-JoystickButton pushBack = addButton(getJoystick(), bPushBack, "Push Back");
-		pushBack.whenPressed(new Pusher(false));
+JoystickButton push = addButton(getJoystick(), bPush, "Push");
+		push.whenPressed(new Pusher());
 
 JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
 		battleAxe.whenPressed(new BattleAxe());

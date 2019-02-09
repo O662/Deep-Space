@@ -7,7 +7,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -20,15 +21,20 @@ import frc.robot.RobotMap;
  */
 public class RearIntake extends Subsystem implements LoggableSubsystem {
   //arm
-  private final WPI_TalonSRX armMotor;
+  private final TalonSRX armMotor;
   
   //roller
   public final WPI_VictorSPX intakeRollerMotor;
 
 
   public RearIntake(){
+    //laser stopper thing ask kirby for correct api cause im lazy and dont want
+    //to find it on my own
+
+    //update kirby does not know 
+    
     //arm
-    armMotor = new WPI_TalonSRX(RobotMap.ARM_MOTOR);
+    armMotor = new TalonSRX(RobotMap.ARM_MOTOR);
    
     //roller
     intakeRollerMotor = new WPI_VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
@@ -40,11 +46,11 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   }
 
 	public void moveArm(double speed) {
-		armMotor.set(speed);
+		armMotor.set(ControlMode.PercentOutput,speed);
 	}
 
 	public void stop() {
-		armMotor.set(0);
+		armMotor.set(ControlMode.PercentOutput, 0);
 		
   }
 

@@ -7,7 +7,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -25,16 +26,16 @@ import frc.robot.RobotMap;
  */
 public class Carriage extends Subsystem implements LoggableSubsystem {
 
-  
+
  
-  public final WPI_TalonSRX rollerMotor;
+  public final TalonSRX rollerMotor;
   public final Solenoid pusher;
   public final Solenoid battleAxe;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   public Carriage(){
-    rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
+    rollerMotor = new TalonSRX(RobotMap.ROLLER_MOTOR);
     
     pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);
     battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.BATTLE_AXE_CHANNEL);
@@ -46,11 +47,11 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
 	}
 
 	public void moveRollerSpeed(double speed) {
-		rollerMotor.set(speed);
+		rollerMotor.set(ControlMode.PercentOutput,speed);
 	}
 
 	public void stopRoller() {
-		rollerMotor.set(0);
+		rollerMotor.set(ControlMode.PercentOutput,0);
 		
   }
 
@@ -62,21 +63,20 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
   
   //SOLINOID PUSHER
 
-  public void setSolenoidValue(Boolean value) {
-		pusher.set(value);
+  public void toggleSolenoidValue() {
+    if(getSolenoidValue()){
+      pusher.set(false);
+    }
+	  else{
+      pusher.set(true);
+    }
 	}
 
 	public boolean getSolenoidValue() {
 		return pusher.get();
 	}
 
-	public void forward() {
-		setSolenoidValue(true);
-	}
-
-	public void reverse() {
-		setSolenoidValue(false);
-  }
+	
   
   //SOLINOID BATTLE AXE
 

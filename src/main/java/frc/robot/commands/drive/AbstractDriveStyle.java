@@ -46,16 +46,11 @@ public abstract class AbstractDriveStyle {
      * @return output value to provide to drive train subsystem
      */
     public double map(double input) {
-        // return value==0 ? 0 : value*value*(Math.abs(value)/value);
-        if (Math.abs(input) < deadzone) {
+        double absval = Math.abs(input);
+        if (absval <= deadzone) {
             return 0;
-        }
-        if (input > 0) {
-            return (input - deadzone) / (1 - deadzone);
-        } else if (input < 0) {
-            return (input + deadzone) / (1 - deadzone);
         } else {
-            return 0;
+            return (absval / input) * (absval - deadzone) / (1 - deadzone);
         }
     }
 

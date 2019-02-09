@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -19,65 +18,71 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class RearIntake extends Subsystem implements LoggableSubsystem {
-  //arm
-  private final WPI_TalonSRX armMotor;
-  
-  //roller
-  public final WPI_VictorSPX intakeRollerMotor;
+    private static final RearIntake INSTANCE = new RearIntake();
 
+    // arm
+    private final WPI_TalonSRX armMotor;
 
-  public RearIntake(){
-    //arm
-    armMotor = new WPI_TalonSRX(RobotMap.ARM_MOTOR);
-   
-    //roller
-    intakeRollerMotor = new WPI_VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
+    // roller
+    private final WPI_VictorSPX intakeRollerMotor;
 
-  }
+    private RearIntake() {
+        super();
+        // arm
+        armMotor = new WPI_TalonSRX(RobotMap.ARM_MOTOR);
 
-  public void moveArm(Joystick joystick) {
-		moveArm(joystick.getRawAxis(1));
-  }
+        // roller
+        intakeRollerMotor = new WPI_VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
 
-	public void moveArm(double speed) {
-		armMotor.set(speed);
-	}
+    }
 
-	public void stop() {
-		armMotor.set(0);
-		
-  }
+    public static RearIntake getInstance() {
+        return INSTANCE;
+    }
 
-  public void moveIntakeRoller(Joystick joystick) {
-		moveIntakeRollerSpeed(joystick.getRawAxis(1));
-  }
+    public void moveArm(Joystick joystick) {
+        moveArm(joystick.getRawAxis(1));
+    }
 
-	public void moveIntakeRollerSpeed(double speed) {
-		intakeRollerMotor.set(speed);
-	}
+    public void moveArm(double speed) {
+        armMotor.set(speed);
+    }
 
-	public void stopIntake() {
-		intakeRollerMotor.set(0);
-		
-  }
+    public void stop() {
+        armMotor.set(0);
 
-  //encoder
-  public int getEncoderValue(){
-    int position;
-    position = armMotor.getSelectedSensorPosition();
-    return position;
-  }
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+    }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
+    public void moveIntakeRoller(Joystick joystick) {
+        moveIntakeRollerSpeed(joystick.getRawAxis(1));
+    }
 
-  @Override
-  public void log() {
+    public void moveIntakeRollerSpeed(double speed) {
+        intakeRollerMotor.set(speed);
+    }
 
-  }
+    public void stopIntake() {
+        intakeRollerMotor.set(0);
+
+    }
+
+    // encoder
+    public int getEncoderValue() {
+        int position;
+        position = armMotor.getSelectedSensorPosition();
+        return position;
+    }
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
+
+    @Override
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        // setDefaultCommand(new MySpecialCommand());
+    }
+
+    @Override
+    public void log() {
+
+    }
 }

@@ -24,9 +24,9 @@ public class MecanumDrive extends AbstractDriveStyle {
     @Override
     public void execute() {
         double rf, rb, lf, lb;
-        double y = Robot.oi.getJoystick().getRawAxis(5);
-        double x = Robot.oi.getJoystick().getRawAxis(0);
-        double z = Robot.oi.getJoystick().getRawAxis(4);
+        double y = Robot.oi.getDriveOperator().getDriveForward();
+        double x = Robot.oi.getDriveOperator().getDriveRotation();
+        double z = Robot.oi.getDriveOperator().getDriveSideway();
         double forward = map(y);
         double right = map(x);
         double clockwise = map(z);

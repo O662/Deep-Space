@@ -8,109 +8,108 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-
 
 /**
  * Add your docs here.
  */
 public class Carriage extends Subsystem implements LoggableSubsystem {
- 
-  public final WPI_TalonSRX rollerMotor;
-  public final Solenoid pusher;
-  public final Solenoid battleAxe;
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
-  public Carriage(){
-    rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
-    
-    pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);
-    battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.BATTLE_AXE_CHANNEL);
-  }
-  
-  //ROLLER
-  public void moveRoller(Joystick joystick) {
-		moveRollerSpeed(joystick.getRawAxis(1));
-	}
+    private static final Carriage INSTANCE = new Carriage();
 
-	public void moveRollerSpeed(double speed) {
-		rollerMotor.set(speed);
-	}
+    private final WPI_TalonSRX rollerMotor;
+    private final Solenoid pusher;
+    private final Solenoid battleAxe;
 
-	public void stopRoller() {
-		rollerMotor.set(0);
-		
-  }
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
 
-  public double getPosition(){
-    double p;
-    p = rollerMotor.getSelectedSensorPosition();
-    return p;
-  }
-  
-  //SOLINOID PUSHER
+    private Carriage() {
+        super();
+        rollerMotor = new WPI_TalonSRX(RobotMap.ROLLER_MOTOR);
+        pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.PUSHER_CHANNEL);
+        battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BATTLE_AXE_CHANNEL);
+    }
 
-  public void setSolenoidValue(Boolean value) {
-		pusher.set(value);
-	}
+    public static Carriage getInstance() {
+        return INSTANCE;
+    }
 
-	public boolean getSolenoidValue() {
-		return pusher.get();
-	}
+    // ROLLER
+    public void moveRoller(Joystick joystick) {
+        moveRollerSpeed(joystick.getRawAxis(1));
+    }
 
-	public void forward() {
-		setSolenoidValue(true);
-	}
+    public void moveRollerSpeed(double speed) {
+        rollerMotor.set(speed);
+    }
 
-	public void reverse() {
-		setSolenoidValue(false);
-  }
-  
-  //SOLINOID BATTLE AXE
+    public void stopRoller() {
+        rollerMotor.set(0);
 
-  public void setSolenoidValueBattleAxe(Boolean value) {
-		pusher.set(value);
-	}
+    }
 
-	public boolean getSolenoidValueBattleAxe() {
-		return pusher.get();
-	}
+    public double getPosition() {
+        double p;
+        p = rollerMotor.getSelectedSensorPosition();
+        return p;
+    }
 
-	public void forwardBatteAxe() {
-		setSolenoidValue(true);
-	}
+    // SOLINOID PUSHER
 
-	public void reverseBattleAxe() {
-		setSolenoidValue(false);
-  }
-  
-  //encoder
+    public void setSolenoidValue(Boolean value) {
+        pusher.set(value);
+    }
 
-  /*
-  public int getEncoderValue(){
-    int position;
-    position = rollerMotor.get
+    public boolean getSolenoidValue() {
+        return pusher.get();
+    }
 
-  }
-*/
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
+    public void forward() {
+        setSolenoidValue(true);
+    }
 
-  @Override
-  public void log() {
+    public void reverse() {
+        setSolenoidValue(false);
+    }
 
-  }
+    // SOLINOID BATTLE AXE
+
+    public void setSolenoidValueBattleAxe(Boolean value) {
+        pusher.set(value);
+    }
+
+    public boolean getSolenoidValueBattleAxe() {
+        return pusher.get();
+    }
+
+    public void forwardBatteAxe() {
+        setSolenoidValue(true);
+    }
+
+    public void reverseBattleAxe() {
+        setSolenoidValue(false);
+    }
+
+    // encoder
+
+    /*
+     * public int getEncoderValue(){ int position; position = rollerMotor.get
+     * 
+     * }
+     */
+    @Override
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        // setDefaultCommand(new MySpecialCommand());
+    }
+
+    @Override
+    public void log() {
+
+    }
 }

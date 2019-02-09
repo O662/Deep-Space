@@ -23,8 +23,8 @@ public class TankDrive extends AbstractDriveStyle {
 
     @Override
     public void execute() {
-        double fr = Robot.oi.getJoystick().getRawAxis(5);
-        double fl = Robot.oi.getJoystick().getRawAxis(1);
+        double fr = Robot.oi.getDriveOperator().getDriveForward();
+        double fl = Robot.oi.getDriveOperator().getDriveForward2();
         double forwardRight = map(fr);
         double forwardLeft = map(fl);
         Boolean skidSteerDrive = true;

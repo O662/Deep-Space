@@ -7,28 +7,36 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class Elevator extends Subsystem {
+public class Elevator extends Subsystem implements LoggableSubsystem {
 
+    private static final Elevator INSTANCE = new Elevator();
 
-  //PUT MOTOR HERE!!!!!!!!!
+    // PUT MOTOR HERE!!!!!!!!!
 
-  public Elevator(){
-   
-  }
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+    private Elevator() {
+        super();
+    }
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
+    public static Elevator getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        // setDefaultCommand(new MySpecialCommand());
+    }
+
+    @Override
+    public void log() {
+        // TODO Auto-generated method stub
+
+    }
 }

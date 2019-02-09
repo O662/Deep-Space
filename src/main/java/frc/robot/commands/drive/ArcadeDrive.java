@@ -23,8 +23,8 @@ public class ArcadeDrive extends AbstractDriveStyle {
 
     @Override
     public void execute() {
-        double y = Robot.oi.getJoystick().getRawAxis(5);
-        double z = Robot.oi.getJoystick().getRawAxis(4);
+        double y = Robot.oi.getDriveOperator().getDriveForward();
+        double z = Robot.oi.getDriveOperator().getDriveSideway();
         double forward = map(y);
         double turn = map(z);
         double fr = forward + turn;

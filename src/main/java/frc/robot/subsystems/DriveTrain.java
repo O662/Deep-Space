@@ -31,9 +31,9 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public enum DriveTrainMode{
 		ARCADE,
 		TANK,
-		//FEILD_ORIANTED_MECANUM,
-		ROBOT_ORIANTED_MECANUM;
-
+		ROBOT_ORIANTED_MECANUM,
+		FEILD_ORIANTED_MECANUM;
+		
 		private static DriveTrainMode[] vals = values();
 		public DriveTrainMode next() {
 			return vals[(this.ordinal()+1) % vals.length];

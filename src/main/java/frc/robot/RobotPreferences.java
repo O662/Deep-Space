@@ -17,4 +17,14 @@ public class RobotPreferences {
     public static final double kDistancePerRevolution = 1;//in inches
     public static final double kRatioToOutput = 60/18;
     public static final double kChassisHeightOffset = 4.5; //in inches
+
+    //vision
+    public static final double kCameraDistanceFromFront = 6; 
+    public static final double kCameraHeight = 36; //TODO Correct
+    public static final double kCameraAngle = -18; 
+    public static final double kHatchTargetBottomToHatchCenter = 6.5;
+    public static final double kFloorToLowHatchCenter = 19;
+    public static final double kMecanumWheelWidth = 2.25;
+    public static final double kDrivetrainWheelDiameterInches = 4.0;
+
 }

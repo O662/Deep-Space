@@ -77,7 +77,9 @@ public OI(){
 
 	//Joystick 2
 	int bBattleAxe = 1;
-	int bElevator = 2;
+	int bElevatorUp = 2;
+	int bElevatorDown = 4;
+	int bElevatorBottom = 5;
 	int bLock = 3;
 
 	//pov controls
@@ -140,8 +142,15 @@ JoystickButton push = addButton(getJoystick(), bPush, "Push");
 JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
 		battleAxe.whenPressed(new BattleAxe());
 
-JoystickButton elevator = addButton(getJoystick2(), bElevator, "Elevator");
-		elevator.whenPressed(new MoveElevator(elevatorSpeed)); 
+JoystickButton elevatorUp = addButton(getJoystick2(), bElevatorUp, "Elevator up");
+		elevatorUp.whenPressed(new MoveElevatorUp()); 
+
+
+JoystickButton elevatorDown = addButton(getJoystick2(), bElevatorDown, "Elevator Down");
+		elevatorDown.whenPressed(new MoveElevatorDown()); 
+
+JoystickButton elevatorBottom = addButton(getJoystick2(), bElevatorBottom, "Elevator Down");
+		elevatorBottom.whenPressed(new MoveElevatorBottom()); 
 
 JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
 		lock.whenPressed(new Lock()); 

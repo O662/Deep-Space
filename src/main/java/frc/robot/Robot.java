@@ -7,12 +7,14 @@
 
 package frc.robot;
 
+import frc.robot.commands.WhatDriveTrain;
 import frc.robot.subsystems.Carriage;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LoggableSubsystem;
+import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.RearIntake;
-
+import frc.robot.subsystems.vision.Limelight;
 
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -49,6 +51,9 @@ public class Robot extends TimedRobot {
 	public static RearIntake rearIntake;
 	public static PowerDistributionPanel pdp;
 	public static Elevator elevator;
+	public static NavX navX;
+	//vision
+	public static Limelight limelight;
 
 	
 	/**
@@ -76,9 +81,15 @@ public class Robot extends TimedRobot {
 		subsystemsList.add(rearIntake);
 		elevator = new Elevator();
 		subsystemsList.add(elevator);
+		limelight = new Limelight();
+		navX = new NavX();
+
+		//autonomous but not really
+		//m_autonomousCommand = new WhatDriveTrain(driveTrain.getDriveTrain());
 
 		
 		oi = new OI();
+
 		//ArrayList<LoggableSubsystem> tempList = new ArrayList<LoggableSubsystem>();
 		//addSubsystemsToDashboard(tempList);
 		ArrayList<LoggableSubsystem> tempList = new ArrayList<LoggableSubsystem>();
@@ -135,6 +146,7 @@ public class Robot extends TimedRobot {
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
+			
 		}
 	}
 
@@ -155,7 +167,9 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		navX.zeroYaw();
 		SmartDashboard.putData(Scheduler.getInstance());
+
 		
 	}
 
@@ -172,6 +186,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		Scheduler.getInstance().run();
+
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		//SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveTrain());
 		//SmartDashboard.getString("DriveState", "" + Robot.driveTrain.getDriveState());

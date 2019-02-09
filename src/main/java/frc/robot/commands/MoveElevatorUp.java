@@ -7,64 +7,74 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
-public class ToggleDriveMode extends Command {
-  public ToggleDriveMode() {
+public class MoveElevatorUp extends Command {
+ 
+ 
+  double height0,height1,height2,height3,height4,currentHeight; // the heights for the elevator to reach
+  
+  public MoveElevatorUp() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
+    requires(Robot.elevator);
+   
+    //heights in inches
+    height0 = 19;//bottom
+    height1 = 27.5;
+    height2 = 43.5;
+    height3 = 47;
+    height4 = 55.5;
+    currentHeight = Robot.elevator.currentHeight;
+    
+    
+   
+   
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
 
-  DriveTrainMode dtm = Robot.driveTrain.getDriveTrain().next();
-  if(Robot.driveTrain.getDriveState2()){
-      if(dtm == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
-        dtm = dtm.next();
-      }
-      if(dtm == DriveTrainMode.FEILD_ORIANTED_MECANUM){
-        dtm = dtm.next();
-      }
-  }
-  
+
+
+    if(currentHeight == height0) {
+       Robot.elevator.setElevatorHeight(height1);
+    }
+
+    else if(currentHeight == height1){
+       Robot.elevator.setElevatorHeight(height2);
+    }
+   
+    else if(currentHeight == height2){
+      Robot.elevator.setElevatorHeight(height3);
+    }
+
+    else if(currentHeight == height3){
+      Robot.elevator.setElevatorHeight(height4);
+    }
+    else if(currentHeight == height4){
+      System.out.println("you are at the top");
+    }
     
-   Robot.driveTrain.setDriveTrain(dtm);
-
-  
-   SmartDashboard.putString("DriveTraininToggle" ,""+ Robot.driveTrain.getDriveTrain());
-
-   /*
-
-    if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
-      Robot.driveTrain.setDriveTrain(DriveTrainMode.ARCADE);
-    }
-    else if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ARCADE){
-      Robot.driveTrain.setDriveTrain(DriveTrainMode.TANK);
-    }
-    else if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.TANK){
-      Robot.driveTrain.setDriveTrain(DriveTrainMode.ROBOT_ORIANTED_MECANUM);
-    }
-    */
-     // SmartDashboard.putString("DriveTraininToggle" ,""+ Robot.driveTrain.getDriveTrain());
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    
+   
+      
+
+   
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

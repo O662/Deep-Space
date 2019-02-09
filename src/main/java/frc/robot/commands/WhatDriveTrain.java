@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.drive.FeildRelative;
 import frc.robot.commands.drive.MecanumDrive;
 import frc.robot.commands.drive.TankDrive;
 import frc.robot.subsystems.DriveTrain;
@@ -28,6 +29,7 @@ public class WhatDriveTrain extends CommandGroup {
   private final ArcadeDrive arcade;
   private final MecanumDrive mecanum;
   private final TankDrive tank;
+  private final FeildRelative feild;
 
 public WhatDriveTrain(DriveTrainMode dms) {
     
@@ -39,7 +41,7 @@ public WhatDriveTrain(DriveTrainMode dms) {
      arcade = new ArcadeDrive();
      mecanum = new MecanumDrive();
      tank = new TankDrive();
-
+     feild = new FeildRelative();
    // s = dms;
   }
 
@@ -72,6 +74,10 @@ public WhatDriveTrain(DriveTrainMode dms) {
         mecanum.execute();;
         DriverStation.reportWarning("mecanum", false);
         mode = "mecanum";
+        break;
+      case FEILD_ORIANTED_MECANUM:
+        feild.execute();
+        mode = "feild";
         break;
         default:
          System.out.println("Unexpected drive mode state: " + state);

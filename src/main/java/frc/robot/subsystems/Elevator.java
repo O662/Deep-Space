@@ -27,7 +27,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   
 
-  public int height;
+  public double currentHeight;
 
 
   //this magical subsystems creates the motors that control the elevator 
@@ -44,21 +44,29 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
     elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     elevatorMotor2.follow(elevatorMotor1, FollowerType.AuxOutput1);
+    currentHeight = 19;
     //TODO add PID settings into elevatorMotor1
   }
 
   public void setElevatorHeight(double height) {
+    
     int targetSensorPosition = (int) Math.round((height - RobotPreferences.kChassisHeightOffset) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput);
     elevatorMotor1.set(ControlMode.Position, targetSensorPosition);
-    this.height = (int) height;
-    
+    currentHeight = height;
+    isSwitchClosed();
+  }
+
+  public void goUntilSwitched(){
+
   }
 
   public void zeroEncoder() {
+    //this zeros the encoders
     elevatorMotor1.setSelectedSensorPosition(0, 0, 10);
   }
 
   public int getEncoder(){
+    //gets encoder value
     return elevatorMotor1.getSelectedSensorPosition();
   }
   /**
@@ -66,6 +74,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
    * @return true if greater positive false if negative
    */
   public boolean getEncoderDirection() {
+    //gets the direction of the encoders
     boolean direction = true;
     if(elevatorMotor1.getSelectedSensorPosition() > 0){
       direction = true;
@@ -83,11 +92,11 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   }
    
-  public boolean isSwitchClosed(){
+  public void isSwitchClosed(){
     if(getLaser()){
       zeroEncoder();
+      endElevator();
     }
-    return getLaser();
   }
 /**
  * 
@@ -96,9 +105,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   public void moveElevator(double speed){
     elevatorMotor1.set(ControlMode.PercentOutput,speed);
     //elevatorMotor2.set(ControlMode.PercentOutput,speed);
-    if(isSwitchClosed()){
-      zeroEncoder();
-    }
+    isSwitchClosed();
   }
 
   public void endElevator(){

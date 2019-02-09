@@ -5,45 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.vision;
+package frc.robot.subsystems.vision;
+
+import frc.robot.RobotPreferences;
 
 /**
  * Add your docs here.
  */
 public class HatchTarget implements IVisionTarget{
 	
-	protected HatchTarget() {
+	public HatchTarget() {
 		
 	}
 
 	@Override
 	public double getDistance() {
-		// TODO Auto-generated method stub
-		return 0;
+		//return (Constants.kHatchTargetHeight*Constants.kPixelHeight) / (2*(Limelight.getInstance().getTa()/.15)*Math.tan(Constants.kVerticalFOV)); //Old an innaccurate way
+		return RobotPreferences.kCameraDistanceFromFront + //Distance offset to make distance relative to robot front
+			  (RobotPreferences.kCameraHeight -	(RobotPreferences.kHatchTargetBottomToHatchCenter + RobotPreferences.kFloorToLowHatchCenter)) / //Y component of the triangle
+			  (Math.tan((RobotPreferences.kCameraAngle - getHeightAngle()) * Math.PI / 180)); //Angle of the triangle
 	}
 
 	@Override
 	public double getHeightAngle() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Limelight.getInstance().getTy();
 	}
 
 	@Override
 	public double getOffsetAngle() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Limelight.getInstance().getTs();
 	}
 
 	@Override
 	public double getSidewaysAngle() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Limelight.getInstance().getTx();
 	}
 
 	@Override
 	public IVisionTarget getTargetType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
+
 
 }

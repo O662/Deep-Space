@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.RobotPreferences;
 
 /**
  * Add your docs here.
@@ -26,9 +27,6 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   
 
-  private static final double kDistancePerRevolution = 1;//in inches
-  private static final double kRatioToOutput = 60/18;
-  private static final double kChassisHeightOffset = 4.5; //in inches
   public int height;
 
 
@@ -50,9 +48,10 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   }
 
   public void setElevatorHeight(double height) {
-    int targetSensorPosition = (int) Math.round((height - kChassisHeightOffset) / kDistancePerRevolution * 4096 * kRatioToOutput);
+    int targetSensorPosition = (int) Math.round((height - RobotPreferences.kChassisHeightOffset) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput);
     elevatorMotor1.set(ControlMode.Position, targetSensorPosition);
     this.height = (int) height;
+    
   }
 
   public void zeroEncoder() {

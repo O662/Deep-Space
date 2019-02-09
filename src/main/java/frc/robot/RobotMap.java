@@ -57,6 +57,6 @@ public class RobotMap {
 	public static final int BUTTERFLY_FORWARD_CHANNEL2 = 1;
 	public static final int PUSHER_CHANNEL = 5;
 	public static final int BATTLE_AXE_CHANNEL = 2;
-	public static final int COOLER = 4;
+	public static final int LOCK_CHANNEL = 4;
 
 }

@@ -78,6 +78,7 @@ public OI(){
 	//Joystick 2
 	int bBattleAxe = 1;
 	int bElevator = 2;
+	int bLock = 3;
 
 	//pov controls
 	int dMoveArmUp = 4;
@@ -141,6 +142,9 @@ JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
 
 JoystickButton elevator = addButton(getJoystick2(), bElevator, "Elevator");
 		elevator.whenPressed(new MoveElevator(elevatorSpeed)); 
+
+JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
+		lock.whenPressed(new Lock()); 
  
 
 

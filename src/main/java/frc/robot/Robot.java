@@ -14,7 +14,10 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LoggableSubsystem;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.RearIntake;
+import frc.robot.subsystems.vision.HatchTarget;
+import frc.robot.subsystems.vision.IVisionTarget;
 import frc.robot.subsystems.vision.Limelight;
+
 
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -54,6 +57,8 @@ public class Robot extends TimedRobot {
 	public static NavX navX;
 	//vision
 	public static Limelight limelight;
+	public static IVisionTarget iVisionTarget;
+	public static HatchTarget hatchTarget;
 
 	
 	/**
@@ -83,6 +88,8 @@ public class Robot extends TimedRobot {
 		subsystemsList.add(elevator);
 		limelight = new Limelight();
 		navX = new NavX();
+		
+
 
 		//autonomous but not really
 		//m_autonomousCommand = new WhatDriveTrain(driveTrain.getDriveTrain());

@@ -64,7 +64,7 @@ public OI(){
 	//joystick 1
 	int bToggleDriveTrain = 5;
 	int bToggleDriveState = 6;
-	int bToggleDriveTrain2 = 3;
+	//int bToggleDriveTrain2 = 3;
 	int bMoveArmUp = 9;
 	int bMoveArmDown = 4;
 	int bRollerForward = 8;
@@ -72,6 +72,7 @@ public OI(){
 	int bIntakeRollerForward = 10;
 	int bIntakeRollerBackward = 7;
 	int bPush = 2;
+	int bDriveToTarget = 3;
 
 	
 
@@ -154,6 +155,9 @@ JoystickButton elevatorBottom = addButton(getJoystick2(), bElevatorBottom, "Elev
 
 JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
 		lock.whenPressed(new Lock()); 
+
+JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive to target");
+		driveToTarget.whileHeld(new VisionDriveRobot());
  
 
 

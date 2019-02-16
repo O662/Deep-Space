@@ -26,5 +26,9 @@ public class RobotPreferences {
     public static final double kFloorToLowHatchCenter = 19;
     public static final double kMecanumWheelWidth = 2.25;
     public static final double kDrivetrainWheelDiameterInches = 4.0;
+    public static final double kMecanumWheelbaseWidthInches = 21.596300;	//Sidenote: length runs parallel to the Inner and Outer Side Chassis pieces
+	public static final double kMecanumWheelbaseLengthInches = 14.000000;	//Note: All dimension taken from CAD model, when that drivetrain is deployed
 
+    public static final double kMecanumWheelbaseDiameter = Math.sqrt(Math.pow(kMecanumWheelbaseWidthInches, 2) + Math.pow(kMecanumWheelbaseLengthInches, 2));
+    public static final double KMecanumWheelbaseRadius = kMecanumWheelbaseDiameter/2;
 }

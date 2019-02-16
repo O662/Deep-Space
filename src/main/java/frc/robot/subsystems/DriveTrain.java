@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.revrobotics.CANSparkMax;
 //import com.revrobotics.CANSparkMax.IdleMode;
 //import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -22,8 +23,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.RobotPreferences;
 import frc.robot.commands.MecanumDriveTrain;
+import frc.robot.commands.PathIntent;
 import frc.robot.commands.WhatDriveTrain;
+import frc.robot.subsystems.vision.Limelight;
+import frc.robot.subsystems.vision.Limelight.Target;
 
 
 public class DriveTrain extends Subsystem implements LoggableSubsystem {
@@ -61,9 +66,9 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 
 	// todo find out about encoders for spark motor contorler
 	//creates motors
-	public final WPI_TalonSRX  motorLeft1;
-	private final WPI_TalonSRX  motorLeft2;
-	private final WPI_TalonSRX  motorRight1, motorRight2;
+	public final TalonSRX  motorLeft1;
+	private final TalonSRX  motorLeft2;
+	private final TalonSRX  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -71,6 +76,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	private final double voltageRampRateDefault = 150;
 	boolean skidSteer = false;
 	
+	
+	//
 
 	public DriveTrainMode getDriveTrain() {
 		return mDriveTrain;
@@ -148,10 +155,10 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public DriveTrain() {
 
 		super();
-		motorLeft1 = new WPI_TalonSRX (RobotMap.MOTOR_DRIVE_LEFT1);
-		motorLeft2 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_LEFT2);
-		motorRight1 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT1);
-		motorRight2 = new WPI_TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
+		motorLeft1 = new TalonSRX (RobotMap.MOTOR_DRIVE_LEFT1);
+		motorLeft2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_LEFT2);
+		motorRight1 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT1);
+		motorRight2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		double voltageRampRate = voltageRampRateDefault;//20;
@@ -306,22 +313,74 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 				rb=rf;
 			}
 		}
-		motorLeft1.set(lf);
-		motorLeft2.set(lb);
-		motorRight1.set(-rf);
-		motorRight2.set(-rb);
+		motorLeft1.set(ControlMode.PercentOutput, lf);
+		motorLeft2.set(ControlMode.PercentOutput,lb);
+		motorRight1.set(ControlMode.PercentOutput,-rf);
+		motorRight2.set(ControlMode.PercentOutput,-rb);
 
 
 	}
+
+	/**
+	 * 
+	 * @param rf    the right front
+	 * @param rb	the right back
+	 * @param lf	the left front
+	 * @param lb	the left back
+	 * @param skidSteerDrive true = in skid steer  false = not in skid steer
+	 */
+	//what is being seen by the mecanumDriveTrain class 
+	
+	public void driveMotorsVision(double rf, double rb, double lf, double lb, boolean skidSteerDrive) {
+		if(skidSteerDrive) {
+			if(!(Math.abs(lf-lb)<=.01)){
+				lb=lf;
+			}
+			if(!(Math.abs(rf-rb)<=.01)){
+				rb=rf;
+			}
+		}
+		motorLeft1.set(ControlMode.Position,lf);
+		motorLeft2.set(ControlMode.Position,lb);
+		motorRight1.set(ControlMode.Position,-rf);
+		motorRight2.set(ControlMode.Position,-rb);
+
+
+	}
+
+
+	//vision 
+
+	
+
+   
+
+    /*
+    public DriveIntent pureVisionDriveRaw(Target target){
+        if(mLimelight.getTargetSelected()!=target) {
+            mLimelight.setPipeline(target);
+        }/*
+        if(mLimelight.isTarget()){
+            return DriveIntent.MECANUM_BRAKE;
+        }*/
+        /*
+        if(false)return oldWay();
+        else return smartPath();
+    }
+
+  */
+
+   
+   
 	@Override
 	public void log(){
 		//SmartDashboard.putString("DriveMode", "" + getDriveTrain());
 		//SmartDashboard.getString("DriveState", "" + getDriveState());
 		
-		SmartDashboard.putNumber("front left motor", motorLeft1.get());
-		SmartDashboard.putNumber("back left motor", motorLeft2.get());
-		SmartDashboard.putNumber("Front Right motor", motorRight1.get());
-		SmartDashboard.putNumber("back Right motor", motorRight2.get());
+		//SmartDashboard.putNumber("front left motor", motorLeft1.get());
+		//SmartDashboard.putNumber("back left motor", motorLeft2.get());
+		//SmartDashboard.putNumber("Front Right motor", motorRight1.get());
+		//SmartDashboard.putNumber("back Right motor", motorRight2.get());
 		SmartDashboard.putNumber("joystick x", Robot.oi.getJoystick().getRawAxis(4));
 		SmartDashboard.putNumber("joystick y", Robot.oi.getJoystick().getRawAxis(5));
 	}

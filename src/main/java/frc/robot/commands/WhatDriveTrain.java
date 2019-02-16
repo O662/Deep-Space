@@ -96,7 +96,7 @@ public WhatDriveTrain(DriveTrainMode dms) {
     choose();
    // SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveState());
     SmartDashboard.putString("DriveMode", "" + mode);
-    SmartDashboard.putNumber("motor", Robot.driveTrain.motorLeft1.get());
+   // SmartDashboard.putNumber("motor", Robot.driveTrain.motorLeft1.get());
     SmartDashboard.putString("motor",""+ 1.1);
     DriverStation.reportWarning("we are here man" , true);
   }

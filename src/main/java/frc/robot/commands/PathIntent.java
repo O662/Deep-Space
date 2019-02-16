@@ -1,12 +1,15 @@
-package frc.robot.subsystems.vision;
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
-public class PathIntent {
+public class PathIntent extends Command{
 	private double mFrontRightWheel, mFrontLeftWheel, mBackRightWheel, mBackLeftWheel;
 	
 	private boolean mBrakeMode;
 	private DriveTrainMode mDMS;
+	
 	
 	
 	
@@ -17,6 +20,7 @@ public class PathIntent {
 		mBackLeftWheel = backLeftWheel;
 		mDMS = ds;
 		mBrakeMode = brakeMode;
+		requires(Robot.driveTrain);
 	}
 	
 	public void setDriveModeState(DriveTrainMode mode) {
@@ -43,13 +47,22 @@ public class PathIntent {
         return mBrakeMode;
     }
 	
-	public DriveTrainMode getDriveModeState() {
+	public DriveTrainMode getDriveTrainMode() {
 		return mDMS;
+	}
+
+	public void Drivetotarget(){
+		Robot.driveTrain.driveMotors(getFrontLeftRoations(), getBackRightRoations(), getFrontLeftRoations(), getBackLeftRoations(), false);
 	}
 	
 	@Override
     public String toString() {
         return "FR: "+mFrontRightWheel+", FL: "+mFrontLeftWheel+", BR: "+mBackRightWheel+", BL: "+mBackLeftWheel+", Brake Enabled: "+mBrakeMode+", DriveState: "+mDMS;
     }
+
+	@Override
+	protected boolean isFinished() {
+		return false;
+	}
 	
 }

@@ -7,16 +7,23 @@
 
 package frc.robot.subsystems;
 
+import java.nio.ByteBuffer;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANDigitalInput.LimitSwitch;
 
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 
@@ -28,6 +35,10 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   private final TalonSRX armMotor;
   public boolean switcher;
   private final Solenoid lock;
+  private final I2C limit;
+  byte[] lazer = new byte[1];
+  double lazerDistance;
+
   
   //roller
   public final WPI_VictorSPX intakeRollerMotor;
@@ -51,6 +62,8 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
     sensors = armMotor.getSensorCollection();
     armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 
+    limit = new I2C(RobotMap.LAZER_LIMIT, 0x52);
+    //limit = new DigitalInput(RobotMap.LIMIT_SWITCH);
     //lock
     lock = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.LOCK_CHANNEL);
 
@@ -89,7 +102,11 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   
   //roller
   public void moveIntakeRoller(Joystick joystick) {
-		moveIntakeRollerSpeed(joystick.getRawAxis(1));
+    // goes while the limit switch is not activated
+    while(stopRollerLazer() == false){
+      moveIntakeRollerSpeed(joystick.getRawAxis(1));
+      stopRollerLazer();
+    }
   }
 
 	public void moveIntakeRollerSpeed(double speed) {
@@ -148,6 +165,31 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
     }
   }
 
+  //this method reads a byte value from the lazer encoder which holds the distance 
+  public double getLazer(){
+    limit.read(0x52, 1, lazer);
+    ByteBuffer buffer = ByteBuffer.wrap(lazer); //turns the byte value into a double
+    lazerDistance =  buffer.getDouble();
+    SmartDashboard.putNumber("lazer distance", lazerDistance);
+    return lazerDistance;
+  }
+
+/**
+ * 
+ * @return 
+ * This method looks at the distance the lazer is reading and sets it to true or false if the 
+ * ball is in the roller or not
+ *  true = the ball is in the roller
+ *  false = the ball is not in the roller
+ */
+  public boolean stopRollerLazer(){
+    boolean isStopped = false;
+     if(getLazer() <= 5){
+       stopIntake();
+       isStopped = true;
+     }
+     return isStopped;
+  }
  
 
   @Override

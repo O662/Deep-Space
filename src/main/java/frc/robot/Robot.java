@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
 		//m_autonomousCommand = new WhatDriveTrain(driveTrain.getDriveTrain());
 
 		
-		oi = new OI();
+		oi = new OI();//always define at end
 
 		//ArrayList<LoggableSubsystem> tempList = new ArrayList<LoggableSubsystem>();
 		//addSubsystemsToDashboard(tempList);

@@ -17,6 +17,7 @@ public class RobotPreferences {
     public static final double kDistancePerRevolution = 1;//in inches
     public static final double kRatioToOutput = 60/18;
     public static final double kChassisHeightOffset = 4.5; //in inches
+    public static final double kDrivetrainWheelCircumference = 4.0 * Math.PI;
 
     //vision
     public static final double kCameraDistanceFromFront = 6; 

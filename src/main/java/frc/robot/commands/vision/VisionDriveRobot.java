@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -65,7 +65,7 @@ public class VisionDriveRobot extends Command {
   @Override
   protected void execute() {
     Robot.driveTrain.driveMotors(mFR, mBR, mFL, mBL, false);
-    double distanceInches = 1;
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -74,8 +74,10 @@ public class VisionDriveRobot extends Command {
     if(distanceInches < .8 || distanceInches > -.8){
       return true;
     }
-
-    return false;
+    else{
+       return false;
+    }
+   
     
   }
 

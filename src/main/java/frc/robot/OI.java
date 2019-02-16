@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
+import frc.robot.commands.vision.PlaceHatch;
+import frc.robot.commands.vision.VisionDriveRobot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
@@ -69,10 +71,12 @@ public OI(){
 	int bMoveArmDown = 4;
 	int bRollerForward = 8;
 	int bRollerBack = 1;
-	int bIntakeRollerForward = 10;
+	int bIntakeRollerForward = 11;
 	int bIntakeRollerBackward = 7;
 	int bPush = 2;
 	int bDriveToTarget = 3;
+	int bPlaceHatch = 10;
+
 
 	
 
@@ -82,6 +86,7 @@ public OI(){
 	int bElevatorDown = 4;
 	int bElevatorBottom = 5;
 	int bLock = 3;
+	
 
 	//pov controls
 	int dMoveArmUp = 4;
@@ -159,7 +164,8 @@ JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
 JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive to target");
 		driveToTarget.whileHeld(new VisionDriveRobot());
  
-
+JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch");
+		placeHatch.whenPressed(new PlaceHatch());
 
 
 }
@@ -197,6 +203,14 @@ JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive t
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
+
+
+
+
+
+
+
+
 	private JoystickButton addButton(Joystick joystick, int buttonNumber, String key) {
 		return new JoystickButton(joystick, buttonNumber);
 		//TODO uncomment to see commands on dashboard

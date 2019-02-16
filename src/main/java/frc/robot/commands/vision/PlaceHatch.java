@@ -5,10 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
+import frc.robot.commands.DriveForward;
+import frc.robot.commands.Pusher;
 
 public class PlaceHatch extends CommandGroup {
   /**
@@ -16,8 +18,10 @@ public class PlaceHatch extends CommandGroup {
    */
   public PlaceHatch() {
     //have it like line up with the vison target
-    
+    addSequential(new TurnToTarget());
+    addSequential(new VisionDriveRobot());
     addSequential(new Pusher());
+    addSequential(new DriveForward(12));
     addSequential(new Pusher());
     
   }

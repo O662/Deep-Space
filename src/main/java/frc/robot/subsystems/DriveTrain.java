@@ -25,7 +25,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 import frc.robot.commands.MecanumDriveTrain;
-import frc.robot.commands.PathIntent;
+import frc.robot.commands.vision.PathIntent;
 import frc.robot.commands.WhatDriveTrain;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.subsystems.vision.Limelight.Target;

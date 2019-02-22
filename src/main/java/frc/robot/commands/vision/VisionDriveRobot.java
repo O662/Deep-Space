@@ -32,6 +32,12 @@ public class VisionDriveRobot extends Command {
   @Override
   protected void initialize() {
     //Grab values
+
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
     double scew = mLimelight.getSidewaysAngle();
     if(scew!=0&&scew!=-90) {
         lastGoodS = (lastGoodS<-45 ? 90-scew : -scew);
@@ -59,12 +65,10 @@ public class VisionDriveRobot extends Command {
        mFL = (forwardRotations - sideRotations - turningRotations);
        mBR = (forwardRotations - sideRotations + turningRotations);
        mBL = (forwardRotations + sideRotations - turningRotations);
-  }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    Robot.driveTrain.driveMotors(mFR, mBR, mFL, mBL, false);
+    if(Robot.limelight.hasTarget()){
+       Robot.driveTrain.driveMotors(mFR, mBR, mFL, mBL, false);
+    }
     
   }
 

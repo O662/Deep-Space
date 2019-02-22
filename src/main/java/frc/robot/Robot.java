@@ -17,7 +17,7 @@ import frc.robot.subsystems.RearIntake;
 import frc.robot.subsystems.vision.HatchTarget;
 import frc.robot.subsystems.vision.IVisionTarget;
 import frc.robot.subsystems.vision.Limelight;
-
+import frc.robot.subsystems.vision.Limelight.LightMode;
 
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -176,15 +176,17 @@ public class Robot extends TimedRobot {
 		}
 		navX.zeroYaw();
 		SmartDashboard.putData(Scheduler.getInstance());
-
 		
 	}
 
 
 	@Override
 	public void teleopPeriodic() {
+		readInputs();
 		Scheduler.getInstance().run();
+		limelight.setLedMode(LightMode.ON);
 		log();
+		writeOutputs();
 		
 	}
 	/**
@@ -221,5 +223,13 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putData((Subsystem) subsystem);
 			}
 		}
+	}
+
+	public void writeOutputs() {
+		limelight.writePeriodicOutputs();
+	}
+
+	public void readInputs() {
+		limelight.readPeriodicInputs();
 	}
 }

@@ -41,7 +41,7 @@ public class Limelight extends Subsystem implements IVisionTarget{
 
 		//Set default values
 		mTargetSelected = Target.HATCH;
-		mLightMode = LightMode.DEFAULT;
+		mLightMode = LightMode.ON;
 		mCameraMode = CameraMode.VISION;
 		mStreamMode = StreamMode.SECONDARY;
 	}
@@ -55,9 +55,9 @@ public class Limelight extends Subsystem implements IVisionTarget{
 
 	public enum LightMode {
 		DEFAULT,
-		ON,
+		OFF,
 		BLINK,
-		OFF;
+		ON;
 
 		protected static LightMode[] lightModes = LightMode.values();
 	}

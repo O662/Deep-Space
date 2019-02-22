@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotPreferences;
 
 public class MoveElevatorDown extends Command {
 
@@ -19,11 +20,7 @@ public class MoveElevatorDown extends Command {
     requires(Robot.elevator);
     speed = this.speed;
     //heights in inches
-    height0 = 19;//bottom
-    height1 = 27.5;
-    height2 = 43.5;
-    height3 = 47;
-    height4 = 55.5;
+   
     currentHeight = Robot.elevator.currentHeight;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -33,23 +30,23 @@ public class MoveElevatorDown extends Command {
   @Override
   protected void initialize() {
 
-    if(currentHeight == height4) {
-      Robot.elevator.setElevatorHeight(height3);
+    if(currentHeight == RobotPreferences.MiddleCargo) {
+      Robot.elevator.setElevatorHeight(RobotPreferences.MiddleHatch);
    }
 
-   else if(currentHeight == height3){
-      Robot.elevator.setElevatorHeight(height2);
+   else if(currentHeight == RobotPreferences.MiddleHatch){
+      Robot.elevator.setElevatorHeight(RobotPreferences.cargoCargo);
    }
   
-   else if(currentHeight == height2){
-     Robot.elevator.setElevatorHeight(height1);
+   else if(currentHeight == RobotPreferences.cargoCargo){
+     Robot.elevator.setElevatorHeight(RobotPreferences.LowestCargo);
    }
 
-   else if(currentHeight == height1){
-     Robot.elevator.setElevatorHeight(height0);
-     Robot.elevator.isSwitchClosed();
+   else if(currentHeight == RobotPreferences.LowestCargo){
+     Robot.elevator.setElevatorHeight(RobotPreferences.LowestHatch);
+     //Robot.elevator.isSwitchClosed();
    }
-   else if(currentHeight == height4){
+   else if(currentHeight == RobotPreferences.LowestHatch){
      System.out.println("you are at the bottom");
    }
   }

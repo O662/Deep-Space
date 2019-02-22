@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import frc.robot.commands.vision.PlaceHatch;
+import frc.robot.commands.vision.TurnToTarget;
 import frc.robot.commands.vision.VisionDriveRobot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
@@ -70,12 +71,12 @@ public OI(){
 	int bMoveArmUp = 9;
 	int bMoveArmDown = 4;
 	int bRollerForward = 8;
-	int bRollerBack = 1;
+	int bRollerBack = 10;
 	int bIntakeRollerForward = 11;
 	int bIntakeRollerBackward = 7;
 	int bPush = 2;
 	int bDriveToTarget = 3;
-	int bPlaceHatch = 10;
+	int bPlaceHatch = 1;
 
 
 	
@@ -165,7 +166,7 @@ JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive t
 		driveToTarget.whileHeld(new VisionDriveRobot());
  
 JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch");
-		placeHatch.whenPressed(new PlaceHatch());
+		placeHatch.whenPressed(new TurnToTarget());
 
 
 }

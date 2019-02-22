@@ -32,4 +32,10 @@ public class RobotPreferences {
 
     public static final double kMecanumWheelbaseDiameter = Math.sqrt(Math.pow(kMecanumWheelbaseWidthInches, 2) + Math.pow(kMecanumWheelbaseLengthInches, 2));
     public static final double KMecanumWheelbaseRadius = kMecanumWheelbaseDiameter/2;
+
+    public static final double LowestHatch = 19;//bottom
+    public static final double LowestCargo = 27.5;
+    public static final double cargoCargo = 40;
+    public static final double MiddleHatch = 47;
+    public static final double MiddleCargo = 55.5;
 }

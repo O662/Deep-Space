@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotPreferences;
 
 public class MoveElevatorUp extends Command {
  
@@ -22,11 +23,7 @@ public class MoveElevatorUp extends Command {
     requires(Robot.elevator);
    
     //heights in inches
-    height0 = 19;//bottom
-    height1 = 27.5;
-    height2 = 43.5;
-    height3 = 47;
-    height4 = 55.5;
+   
     currentHeight = Robot.elevator.currentHeight;
     
     
@@ -40,22 +37,22 @@ public class MoveElevatorUp extends Command {
 
 
 
-    if(currentHeight == height0) {
-       Robot.elevator.setElevatorHeight(height1);
+    if(currentHeight == RobotPreferences.LowestHatch) {
+       Robot.elevator.setElevatorHeight(RobotPreferences.LowestCargo);
     }
 
-    else if(currentHeight == height1){
-       Robot.elevator.setElevatorHeight(height2);
-    }
    
-    else if(currentHeight == height2){
-      Robot.elevator.setElevatorHeight(height3);
+    else if(currentHeight == RobotPreferences.LowestCargo){
+      Robot.elevator.setElevatorHeight(RobotPreferences.cargoCargo);
     }
 
-    else if(currentHeight == height3){
-      Robot.elevator.setElevatorHeight(height4);
+    else if(currentHeight == RobotPreferences.cargoCargo){
+      Robot.elevator.setElevatorHeight(RobotPreferences.MiddleHatch);
     }
-    else if(currentHeight == height4){
+    else if(currentHeight == RobotPreferences.MiddleHatch){
+      Robot.elevator.setElevatorHeight(RobotPreferences.MiddleCargo);
+    }
+    else if(currentHeight == RobotPreferences.MiddleCargo){
       System.out.println("you are at the top");
     }
     

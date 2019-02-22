@@ -99,6 +99,7 @@ public WhatDriveTrain(DriveTrainMode dms) {
    // SmartDashboard.putNumber("motor", Robot.driveTrain.motorLeft1.get());
     SmartDashboard.putString("motor",""+ 1.1);
     DriverStation.reportWarning("we are here man" , true);
+    Robot.limelight.outputTelemetry();
   }
 
   // Make this return true when this Command no longer needs to run execute()

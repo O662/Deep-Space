@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.vision;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotPreferences;
 
 /**
@@ -20,10 +22,11 @@ public class HatchTarget implements IVisionTarget{
 
 	@Override
 	public double getDistance() {
+		SmartDashboard.putNumber("HatchDistance Lst Call", Timer.getFPGATimestamp());
 		//return (Constants.kHatchTargetHeight*Constants.kPixelHeight) / (2*(Limelight.getInstance().getTa()/.15)*Math.tan(Constants.kVerticalFOV)); //Old an innaccurate way
-		return RobotPreferences.kCameraDistanceFromFront + //Distance offset to make distance relative to robot front
-			  (RobotPreferences.kCameraHeight -	(RobotPreferences.kHatchTargetBottomToHatchCenter + RobotPreferences.kFloorToLowHatchCenter)) / //Y component of the triangle
-			  (Math.tan((RobotPreferences.kCameraAngle - getHeightAngle()) * Math.PI / 180)); //Angle of the triangle
+		return -12 - RobotPreferences.kCameraDistanceFromFront - //Distance offset to make distance relative to robot front
+			  (RobotPreferences.kCameraHeight + 4.5 - (RobotPreferences.kHatchTargetBottomToHatchCenter + RobotPreferences.kFloorToLowHatchCenter)) / //Y component of the triangle
+			  (Math.tan(Math.toRadians(RobotPreferences.kCameraAngle + getHeightAngle()))); //Angle of the triangle
 	}
 
 	@Override

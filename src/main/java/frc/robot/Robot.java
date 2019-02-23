@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 		subsystemsList.add(rearIntake);
 		elevator = new Elevator();
 		subsystemsList.add(elevator);
-		limelight = new Limelight();
+		limelight = Limelight.getInstance();
 		navX = new NavX();
 		
 
@@ -175,6 +175,10 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		navX.zeroYaw();
+		driveTrain.motorLeft1.setSelectedSensorPosition(0);
+		driveTrain.motorLeft2.setSelectedSensorPosition(0);
+		driveTrain.motorRight1.setSelectedSensorPosition(0);
+		driveTrain.motorRight2.setSelectedSensorPosition(0);
 		SmartDashboard.putData(Scheduler.getInstance());
 		
 	}
@@ -187,6 +191,9 @@ public class Robot extends TimedRobot {
 		limelight.setLedMode(LightMode.ON);
 		log();
 		writeOutputs();
+		limelight.writePeriodicOutputs();
+		limelight.readPeriodicInputs();
+		limelight.outputTelemetry();
 		
 	}
 	/**

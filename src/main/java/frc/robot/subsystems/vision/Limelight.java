@@ -34,7 +34,7 @@ public class Limelight extends Subsystem implements IVisionTarget{
         return mInstance;
     }
 	
-	public Limelight() {
+	private Limelight() {
 		//Set up table and game targets
 		table = NetworkTableInstance.getDefault();
 		mTargets[Target.HATCH.ordinal()] = new HatchTarget();
@@ -123,6 +123,9 @@ public class Limelight extends Subsystem implements IVisionTarget{
         SmartDashboard.putNumber("Limelight Y", getTy());
         SmartDashboard.putNumber("Limelight S", getTs());
 		SmartDashboard.putNumber("Limelight Area", getTa());
+		SmartDashboard.putNumber("Limelight offsetAngle", getOffsetAngle());
+		SmartDashboard.putNumber("Limelight sideways", getSidewaysAngle());
+		SmartDashboard.putNumber("LL Dist", getDistance());
 	}
 
 	

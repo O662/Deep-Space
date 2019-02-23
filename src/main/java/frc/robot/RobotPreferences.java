@@ -19,10 +19,19 @@ public class RobotPreferences {
     public static final double kChassisHeightOffset = 4.5; //in inches
     public static final double kDrivetrainWheelCircumference = 4.0 * Math.PI;
 
+    //pid
+    public static final double kP = .3;
+    public static final double kI = .0001;
+    public static final double kD = 20;
+    public static final double kF = 0;
+    public static final double kIzone = 0;
+    public static final double kPeakOutput = 1;
+    public static final double kTimeoutMS = 30;
+
     //vision
-    public static final double kCameraDistanceFromFront = 6; 
-    public static final double kCameraHeight = 36; //TODO Correct
-    public static final double kCameraAngle = -18; 
+    public static final double kCameraDistanceFromFront = 15.625; 
+    public static final double kCameraHeight = 37; //TODO Correct
+    public static final double kCameraAngle = -13; 
     public static final double kHatchTargetBottomToHatchCenter = 6.5;
     public static final double kFloorToLowHatchCenter = 19;
     public static final double kMecanumWheelWidth = 2.25;

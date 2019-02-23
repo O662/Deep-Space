@@ -11,8 +11,11 @@ import java.nio.ByteBuffer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANDigitalInput.LimitSwitch;
 
@@ -33,6 +36,7 @@ import frc.robot.RobotPreferences;
 public class RearIntake extends Subsystem implements LoggableSubsystem {
   //arm
   private final TalonSRX armMotor;
+  private final VictorSPX armMotor2;
   public boolean switcher;
   private final Solenoid lock;
   private final I2C limit;
@@ -56,7 +60,13 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
     //arm
     armMotor = new TalonSRX(RobotMap.ARM_MOTOR);
     armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-   
+    armMotor2 = new VictorSPX(RobotMap.ARM_MOTOR_2);
+
+    armMotor2.follow(armMotor, FollowerType.AuxOutput1);
+    armMotor.setInverted(InvertType.InvertMotorOutput);
+    moveArm(0);
+    
+
     //roller
     intakeRollerMotor = new WPI_VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
     sensors = armMotor.getSensorCollection();
@@ -81,6 +91,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   }
 
 	public void moveArm(double speed) {
+   /*
     //zeros the encoder if it crosses in or out of the limit switch
     if(isLimitSwitchClosed() && switcher == false) {
       zeroEncoder();
@@ -90,7 +101,8 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
       zeroEncoder();
       setSwitcher();
     }
-		armMotor.set(ControlMode.PercentOutput,speed);
+    */
+    armMotor.set(ControlMode.PercentOutput,speed);
   }
 
   //stops arm

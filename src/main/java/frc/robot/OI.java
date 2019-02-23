@@ -9,6 +9,8 @@ package frc.robot;
 
 import java.util.HashMap;
 
+
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -163,10 +165,10 @@ JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
 		lock.whenPressed(new Lock()); 
 
 JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive to target");
-		driveToTarget.whileHeld(new VisionDriveRobot());
+		driveToTarget.whenPressed(new VisionDriveRobot());
  
 JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch");
-		placeHatch.whenPressed(new TurnToTarget());
+		placeHatch.whileHeld(new TurnToTarget());
 
 
 }

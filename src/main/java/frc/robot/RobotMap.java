@@ -31,11 +31,12 @@ public class RobotMap {
 	public static final int MOTOR_DRIVE_LEFT2 = 13;//back left
 	public static final int MOTOR_DRIVE_RIGHT1 = 11;//front right
 	public static final int MOTOR_DRIVE_RIGHT2 = 12;//back right
-	public static final int ARM_MOTOR = 5;
-	public static final int ROLLER_MOTOR = 6;
-	public static final int INTAKE_ROLLER_MOTOR = 7;
-	public static final int ELEVATOR_MOTOR_1 = 8;
-	public static final int ELEVATOR_MOTOR_2 = 9;
+	public static final int ARM_MOTOR = 31;
+	public static final int ARM_MOTOR_2 = 32;
+	public static final int ROLLER_MOTOR = 23;
+	public static final int INTAKE_ROLLER_MOTOR = 33;
+	public static final int ELEVATOR_MOTOR_1 = 21;
+	public static final int ELEVATOR_MOTOR_2 = 22;
 	
 
 	//i cry

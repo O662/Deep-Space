@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.revrobotics.CANSparkMax;
@@ -67,8 +68,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	// todo find out about encoders for spark motor contorler
 	//creates motors
 	public final TalonSRX  motorLeft1;
-	private final TalonSRX  motorLeft2;
-	private final TalonSRX  motorRight1, motorRight2;
+	public final TalonSRX  motorLeft2;
+	public final TalonSRX  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -165,6 +166,39 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		setRampRate(voltageRampRate);
 		solenoid1.set(false);
 		solenoid2.set(false);
+		motorLeft1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		motorLeft2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		motorRight1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		motorRight2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		motorRight1.setInverted(true);
+		motorRight2.setInverted(true);
+
+		//PID
+
+		motorLeft1.config_kD(0, RobotPreferences.kD);
+		motorLeft2.config_kD(0, RobotPreferences.kD);
+		motorRight1.config_kD(0, RobotPreferences.kD);
+		motorRight2.config_kD(0, RobotPreferences.kD);
+		motorLeft1.config_kP(0, RobotPreferences.kP);
+		motorLeft2.config_kP(0, RobotPreferences.kP);
+		motorRight1.config_kP(0, RobotPreferences.kP);
+		motorRight2.config_kP(0, RobotPreferences.kP);
+		motorLeft1.config_kI(0, RobotPreferences.kI);
+		motorLeft2.config_kI(0, RobotPreferences.kI);
+		motorRight1.config_kI(0, RobotPreferences.kI);
+		motorRight2.config_kI(0, RobotPreferences.kI);
+
+		double output = .75;
+
+		motorLeft1.configPeakOutputForward(output); //30 is timeout
+		motorLeft2.configPeakOutputForward(output);
+		motorRight1.configPeakOutputForward(output);
+		motorRight2.configPeakOutputForward(output);
+		motorLeft1.configPeakOutputReverse(-output);
+		motorLeft2.configPeakOutputReverse(-output);
+		motorRight1.configPeakOutputReverse(-output);
+		motorRight2.configPeakOutputReverse(-output);
+
 		//mecanum
 		/*
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
@@ -315,8 +349,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		}
 		motorLeft1.set(ControlMode.PercentOutput, lf);
 		motorLeft2.set(ControlMode.PercentOutput,lb);
-		motorRight1.set(ControlMode.PercentOutput,-rf);
-		motorRight2.set(ControlMode.PercentOutput,-rb);
+		motorRight1.set(ControlMode.PercentOutput,rf);
+		motorRight2.set(ControlMode.PercentOutput,rb);
 
 
 	}
@@ -332,6 +366,11 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	//what is being seen by the mecanumDriveTrain class 
 	
 	public void driveMotorsVision(double rf, double rb, double lf, double lb, boolean skidSteerDrive) {
+		int irf = (int) rf*4096;
+		int irb = (int) rb*4096;
+		int ilf = (int) lf*4096;
+		int ilb = (int) lb*4096;
+		
 		if(skidSteerDrive) {
 			if(!(Math.abs(lf-lb)<=.01)){
 				lb=lf;
@@ -340,10 +379,12 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 				rb=rf;
 			}
 		}
-		motorLeft1.set(ControlMode.Position,lf);
-		motorLeft2.set(ControlMode.Position,lb);
-		motorRight1.set(ControlMode.Position,-rf);
-		motorRight2.set(ControlMode.Position,-rb);
+		
+
+		motorLeft1.set(ControlMode.Position, motorLeft1.getSelectedSensorPosition() + ilf);
+		motorLeft2.set(ControlMode.Position, motorLeft2.getSelectedSensorPosition() + ilb);
+		motorRight1.set(ControlMode.Position, motorRight1.getSelectedSensorPosition() + irf);
+		motorRight2.set(ControlMode.Position, motorRight2.getSelectedSensorPosition() + irb);
 
 
 	}
@@ -383,6 +424,13 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		//SmartDashboard.putNumber("back Right motor", motorRight2.get());
 		SmartDashboard.putNumber("joystick x", Robot.oi.getJoystick().getRawAxis(4));
 		SmartDashboard.putNumber("joystick y", Robot.oi.getJoystick().getRawAxis(5));
+		SmartDashboard.putNumber("encoder FL", getMotorLeft1Postition());
+		SmartDashboard.putNumber("encoder FR", getMotorRight1Position());
+		SmartDashboard.putNumber("encoder BL", getMotorLeft2Position());
+		SmartDashboard.putNumber("encoder BR", getMotorRight2Position());
+
+
+		
 	}
 
 	/*

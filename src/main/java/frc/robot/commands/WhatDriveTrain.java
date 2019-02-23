@@ -57,13 +57,13 @@ public WhatDriveTrain(DriveTrainMode dms) {
       case ARCADE:
       // addSequential(new ArcadeDrive());;
         arcade.execute();
-        DriverStation.reportWarning("arcadedrive", false);
+       // DriverStation.reportWarning("arcadedrive", false);
         mode = "arcade";
         break;
       case TANK:
         //addSequential(new TankDrive());
         tank.execute();
-        DriverStation.reportWarning("tankDrive", false);
+        //DriverStation.reportWarning("tankDrive", false);
         mode = "Tank";
         break;
      // case FEILD_ORIANTED_MECANUM:
@@ -72,7 +72,7 @@ public WhatDriveTrain(DriveTrainMode dms) {
         //addSequential(new MecanumDriveTrain());
         
         mecanum.execute();;
-        DriverStation.reportWarning("mecanum", false);
+       // DriverStation.reportWarning("mecanum", false);
         mode = "mecanum";
         break;
       case FEILD_ORIANTED_MECANUM:
@@ -99,7 +99,7 @@ public WhatDriveTrain(DriveTrainMode dms) {
    // SmartDashboard.putNumber("motor", Robot.driveTrain.motorLeft1.get());
     SmartDashboard.putString("motor",""+ 1.1);
     DriverStation.reportWarning("we are here man" , true);
-    Robot.limelight.outputTelemetry();
+//Robot.limelight.outputTelemetry();
   }
 
   // Make this return true when this Command no longer needs to run execute()

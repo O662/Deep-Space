@@ -9,9 +9,11 @@ package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.vision.Limelight;
+import frc.robot.subsystems.vision.Limelight.Target;
 
 public class VisionDriveRobot extends Command {
 
@@ -38,6 +40,7 @@ public class VisionDriveRobot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    mLimelight.setPipeline(Target.HATCH);
     double scew = mLimelight.getSidewaysAngle();
     if(scew!=0&&scew!=-90) {
         lastGoodS = (lastGoodS<-45 ? 90-scew : -scew);
@@ -54,20 +57,35 @@ public class VisionDriveRobot extends Command {
     double rotationInches = distanceInches*Math.PI*angle/180;
     double sidewaysInches = distanceInches * Math.tan(lastGoodS) * (lastGoodS<-45 ? 1 : -1);
 
+    if(distanceInches>36) {
+      sidewaysInches = 0;
+    }
+
     //rot = angle/360   x   wheelWidth x pi / circumference
     //Calculate wheel rotations
     double turningRotations = (angle * RobotPreferences.kMecanumWheelWidth) / (360 * RobotPreferences.kDrivetrainWheelDiameterInches);
     double sideRotations = sidewaysInches / (RobotPreferences.kDrivetrainWheelDiameterInches * Math.PI);
     double forwardRotations = distanceInches / (RobotPreferences.kDrivetrainWheelDiameterInches * Math.PI);
+    turningRotations*= -5;
+    sideRotations*= 1;
+    forwardRotations*= .5;
 
-    
+      SmartDashboard.putNumber("turningRotations", turningRotations);
+      SmartDashboard.putNumber("Side Rotation", sideRotations );
+      SmartDashboard.putNumber("Forward Rotations", forwardRotations);
        mFR = (forwardRotations + sideRotations + turningRotations);
        mFL = (forwardRotations - sideRotations - turningRotations);
        mBR = (forwardRotations - sideRotations + turningRotations);
        mBL = (forwardRotations + sideRotations - turningRotations);
+       SmartDashboard.putNumber("frontRight", mFR);
+       SmartDashboard.putNumber("frontLeft", mFL);
+       SmartDashboard.putNumber("backLeft", mBL);
+       SmartDashboard.putNumber("backRight", mBR);
+       
+
 
     if(Robot.limelight.hasTarget()){
-       Robot.driveTrain.driveMotors(mFR, mBR, mFL, mBL, false);
+       Robot.driveTrain.driveMotorsVision(-mFR, -mBR, -mFL, -mBL, false);
     }
     
   }
@@ -75,7 +93,7 @@ public class VisionDriveRobot extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(distanceInches < .8 || distanceInches > -.8){
+    if(distanceInches < 3 || !mLimelight.hasTarget()){
       return true;
     }
     else{

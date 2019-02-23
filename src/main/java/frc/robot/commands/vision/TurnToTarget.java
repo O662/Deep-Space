@@ -29,27 +29,43 @@ public class TurnToTarget extends Command {
 // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    turn = RobotPreferences.KMecanumWheelbaseRadius * Robot.limelight.getSidewaysAngle();
+    turn = RobotPreferences.KMecanumWheelbaseRadius * Robot.limelight.getTx();//getSidewaysAngle();
     turn = turn*RobotPreferences.kDistancePerRevolution* 4096* RobotPreferences.kRatioToOutput;
     rf = turn;
     rb = turn;
     lf = -turn;
     lb = -turn;
-    
+    turn = .5;
+    double forwardRotations = 0;
+    double sideRotations = 0;
+    double turningRotations =turn;
+    rf = (forwardRotations + sideRotations + turningRotations);
+    lf = (forwardRotations - sideRotations - turningRotations);
+    rb = (forwardRotations - sideRotations + turningRotations);
+    lb = (forwardRotations + sideRotations - turningRotations);
 
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.driveMotors(rf, rb, lf, lb, false);
+    
+      if(Robot.limelight.getTx() > .05 && Robot.limelight.getTx() < -.05 ){
+           Robot.driveTrain.driveMotors(rf, rb, lf, lb, false);
+      }
+      //else{
+      //  Robot.driveTrain.driveMotors(0, 0, 0, 0, false);
+
+      
+
+    //}
 
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(Robot.limelight.getSidewaysAngle()<3 || Robot.limelight.getSidewaysAngle() > -3){
+    if(Robot.limelight.getTx()<.2 || Robot.limelight.getTx() > -.2){
       return true;
     } 
     return false;

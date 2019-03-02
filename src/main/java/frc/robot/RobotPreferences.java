@@ -23,9 +23,9 @@ public class RobotPreferences {
     public static final double elevatorSpeed = .1;
 
     //pid
-    public static final double kP = .3;
-    public static final double kI = .0001;
-    public static final double kD = 20;
+    public static final double kP = .6;
+    public static final double kI = .00001;
+    public static final double kD = 50;
     public static final double kF = 0;
     public static final double kIzone = 0;
     public static final double kPeakOutput = 1;

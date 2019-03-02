@@ -14,6 +14,7 @@ import java.util.HashMap;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import frc.robot.commands.vision.PlaceHatch;
@@ -90,6 +91,7 @@ public OI(){
 	int bElevatorBottom = 5;
 	int bLock = 3;
 	
+	
 
 	//pov controls
 	int dMoveArmUp = 4;
@@ -100,6 +102,7 @@ public OI(){
 	double rollerSpeed = 1;
 	double intakeRollerSpeed = 1;
 	double elevatorSpeed = 1;
+
 
 
 
@@ -150,13 +153,20 @@ JoystickButton push = addButton(getJoystick(), bPush, "Push");
 
 JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
 		battleAxe.whenPressed(new BattleAxe());
-
+/*
 JoystickButton elevatorUp = addButton(getJoystick2(), bElevatorUp, "Elevator up");
 		elevatorUp.whenPressed(new MoveElevatorUp()); 
 
 
 JoystickButton elevatorDown = addButton(getJoystick2(), bElevatorDown, "Elevator Down");
 		elevatorDown.whenPressed(new MoveElevatorDown()); 
+*/
+JoystickButton elevatorUp = addButton(getJoystick2(), bElevatorUp, "Elevator up");
+		elevatorUp.whenPressed(new MoveElevatorNoPosition(RobotPreferences.elevatorSpeed)); 
+
+
+JoystickButton elevatorDown = addButton(getJoystick2(), bElevatorDown, "Elevator Down");
+		elevatorDown.whenPressed(new MoveElevatorNoPosition(-RobotPreferences.elevatorSpeed));
 
 JoystickButton elevatorBottom = addButton(getJoystick2(), bElevatorBottom, "Elevator Down");
 		elevatorBottom.whenPressed(new MoveElevatorBottom()); 
@@ -171,6 +181,7 @@ JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch")
 		placeHatch.whileHeld(new TurnToTarget());
 
 
+SmartDashboard.putData("ZERO ELEVATOR", new ZeroElevatorEncoders());
 }
 
 

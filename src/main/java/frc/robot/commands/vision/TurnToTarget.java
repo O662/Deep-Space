@@ -29,6 +29,13 @@ public class TurnToTarget extends Command {
 // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+  
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+
     turn = RobotPreferences.KMecanumWheelbaseRadius * Robot.limelight.getTx();//getSidewaysAngle();
     turn = turn*RobotPreferences.kDistancePerRevolution* 4096* RobotPreferences.kRatioToOutput;
     rf = turn;
@@ -44,11 +51,6 @@ public class TurnToTarget extends Command {
     rb = (forwardRotations - sideRotations + turningRotations);
     lb = (forwardRotations + sideRotations - turningRotations);
 
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
     
       if(Robot.limelight.getTx() > .05 && Robot.limelight.getTx() < -.05 ){
            Robot.driveTrain.driveMotors(rf, rb, lf, lb, false);

@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
 
@@ -55,6 +56,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     currentHeight = height;
     isSwitchClosed();
   }
+
+  
 
   public void goUntilSwitched(){
 
@@ -122,6 +125,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void log() {
+    SmartDashboard.putNumber("elevator encoder", getEncoder());
+
 
   }
 }

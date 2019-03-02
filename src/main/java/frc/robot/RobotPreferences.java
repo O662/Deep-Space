@@ -19,6 +19,9 @@ public class RobotPreferences {
     public static final double kChassisHeightOffset = 4.5; //in inches
     public static final double kDrivetrainWheelCircumference = 4.0 * Math.PI;
 
+    //speeds
+    public static final double elevatorSpeed = .1;
+
     //pid
     public static final double kP = .3;
     public static final double kI = .0001;

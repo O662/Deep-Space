@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class IntakeRoller extends Command {
+  //this is for the back roller
 
  double speed;
   
@@ -38,12 +39,19 @@ public class IntakeRoller extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(speed == 0){
+      return true;
+    }
+    //if(Robot.rearIntake.stopRollerLazer()){
+     // return true;
+  //  }
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.rearIntake.stopIntake();
   }
 
   // Called when another command which requires one or more of the same

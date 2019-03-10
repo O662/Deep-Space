@@ -19,7 +19,8 @@ public class VisionDriveRobot extends Command {
 
   private Limelight mLimelight = Limelight.getInstance();
   //private ButterflyDriveHelper mButterflyDriveHelper = new ButterflyDriveHelper();
-
+  double time = 10;
+  Timer count = new Timer();
   private double lastGoodS = 0;
   private double lastGoodSTime = 0;
   double distanceInches;
@@ -34,12 +35,14 @@ public class VisionDriveRobot extends Command {
   @Override
   protected void initialize() {
     //Grab values
-
+    
+    count.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    
     mLimelight.setPipeline(Target.HATCH);
     double scew = mLimelight.getSidewaysAngle();
     if(scew!=0&&scew!=-90) {
@@ -57,10 +60,11 @@ public class VisionDriveRobot extends Command {
     double rotationInches = distanceInches*Math.PI*angle/180;
     double sidewaysInches = distanceInches * Math.tan(lastGoodS) * (lastGoodS<-45 ? 1 : -1);
 
+    /*
     if(distanceInches>36) {
       sidewaysInches = 0;
     }
-
+*/
     //rot = angle/360   x   wheelWidth x pi / circumference
     //Calculate wheel rotations
     double turningRotations = (angle * RobotPreferences.kMecanumWheelWidth) / (360 * RobotPreferences.kDrivetrainWheelDiameterInches);
@@ -81,6 +85,7 @@ public class VisionDriveRobot extends Command {
        SmartDashboard.putNumber("frontLeft", mFL);
        SmartDashboard.putNumber("backLeft", mBL);
        SmartDashboard.putNumber("backRight", mBR);
+       SmartDashboard.putNumber("v timer", count.get());
        
 
 
@@ -93,7 +98,10 @@ public class VisionDriveRobot extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(distanceInches < 3 || !mLimelight.hasTarget()){
+    if(distanceInches < 1 || !mLimelight.hasTarget()){
+      return true;
+    }
+    if(count.get() > time){
       return true;
     }
     else{

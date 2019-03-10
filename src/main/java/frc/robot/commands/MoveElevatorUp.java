@@ -11,11 +11,13 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotPreferences;
+import frc.robot.subsystems.Elevator.ElevatorPosition;
 
 public class MoveElevatorUp extends Command {
  
  
-  double height0,height1,height2,height3,height4,currentHeight; // the heights for the elevator to reach
+  double height0,height1,height2,height3,height4;
+ ElevatorPosition currentHeight; // the heights for the elevator to reach
   
   public MoveElevatorUp() {
     // Use requires() here to declare subsystem dependencies
@@ -24,7 +26,7 @@ public class MoveElevatorUp extends Command {
    
     //heights in inches
    
-    currentHeight = Robot.elevator.currentHeight;
+    currentHeight = Robot.elevator.getElevatorHeight();
     
     
    
@@ -37,22 +39,27 @@ public class MoveElevatorUp extends Command {
 
 
 
-    if(currentHeight == RobotPreferences.LowestHatch) {
+    if(currentHeight == ElevatorPosition.LOWEST_HATCH) {
        Robot.elevator.setElevatorHeight(RobotPreferences.LowestCargo);
+       Robot.elevator.setElevatorPosition(ElevatorPosition.LOWEST_CARGO);
+       
     }
 
    
-    else if(currentHeight == RobotPreferences.LowestCargo){
+    else if(currentHeight == ElevatorPosition.LOWEST_CARGO){
       Robot.elevator.setElevatorHeight(RobotPreferences.cargoCargo);
+      Robot.elevator.setElevatorPosition(ElevatorPosition.CARGO_CARGO);
     }
 
-    else if(currentHeight == RobotPreferences.cargoCargo){
+    else if(currentHeight == ElevatorPosition.CARGO_CARGO){
       Robot.elevator.setElevatorHeight(RobotPreferences.MiddleHatch);
+      Robot.elevator.setElevatorPosition(ElevatorPosition.MEDIUM_HATCH);
     }
-    else if(currentHeight == RobotPreferences.MiddleHatch){
+    else if(currentHeight == ElevatorPosition.MEDIUM_HATCH){
       Robot.elevator.setElevatorHeight(RobotPreferences.MiddleCargo);
+      Robot.elevator.setElevatorPosition(ElevatorPosition.MEDIUM_CARGO);
     }
-    else if(currentHeight == RobotPreferences.MiddleCargo){
+    else if(currentHeight == ElevatorPosition.MEDIUM_CARGO){
       System.out.println("you are at the top");
     }
     
@@ -71,7 +78,7 @@ public class MoveElevatorUp extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

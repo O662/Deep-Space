@@ -49,7 +49,7 @@ public class RobotMap {
 
 	//LIMIT SWITCH
 	public static final Port LAZER_LIMIT = I2C.Port.kOnboard;
-	
+	public static final Port LAZER_LIMIT2 = I2C.Port.kMXP;
 	public static final int LIMIT_SWITCH = 0;
 
 	//PHNEMATICS OR HOWEVER ITS SPELLED
@@ -60,7 +60,7 @@ public class RobotMap {
 	public static final int BUTTERFLY_FORWARD_CHANNEL1 = 0;
 	public static final int BUTTERFLY_FORWARD_CHANNEL2 = 1;
 	public static final int PUSHER_CHANNEL = 2;
-	public static final int BATTLE_AXE_CHANNEL = 5;
+	public static final int BATTLE_AXE_CHANNEL = 3;
 	public static final int LOCK_CHANNEL = 4;
 
 }

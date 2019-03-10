@@ -186,6 +186,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		timedLoop();
 		readInputs();
 		Scheduler.getInstance().run();
 		limelight.setLedMode(LightMode.ON);
@@ -238,5 +239,9 @@ public class Robot extends TimedRobot {
 
 	public void readInputs() {
 		limelight.readPeriodicInputs();
+	}
+
+	public void timedLoop() {
+		elevator.timedLoop();
 	}
 }

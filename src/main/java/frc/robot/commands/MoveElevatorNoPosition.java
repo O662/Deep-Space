@@ -29,17 +29,26 @@ public class MoveElevatorNoPosition extends Command {
   @Override
   protected void execute() {
     Robot.elevator.moveElevator(s);
+    System.out.println("Moving @ "+s);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(s == 0){
+      return true;
+    }
+   // if(Robot.elevator.getLaser()){
+    //  return true;
+    //}
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.elevator.endElevator();
+   // Robot.elevator.zeroEncoder();
   }
 
   // Called when another command which requires one or more of the same

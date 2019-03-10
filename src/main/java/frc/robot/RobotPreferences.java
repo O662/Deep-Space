@@ -14,10 +14,16 @@ public class RobotPreferences {
 
     //where constats for the robot are placed
 
-    public static final double kDistancePerRevolution = 1;//in inches
+    public static final double kDistancePerRevolution = 1.2*Math.PI;//in inches
     public static final double kRatioToOutput = 60/18;
     public static final double kChassisHeightOffset = 4.5; //in inches
     public static final double kDrivetrainWheelCircumference = 4.0 * Math.PI;
+    public static final double kElevatorScalar = 1.1342376464;
+    public static final double kMaxArmAngle = 50;//50 is a filler number to be changed
+    public static final double kSRXEncoderCPR = 4096;
+    public static final double kRearEncoderToOutputRatio = (1.00/7)*(1.99/5);
+    public static final double kRearMaxAngle = 90;
+    public static final double kRearMinAngle = 0;
 
     //speeds
     public static final double elevatorSpeed = .1;
@@ -32,9 +38,9 @@ public class RobotPreferences {
     public static final double kTimeoutMS = 30;
 
     //vision
-    public static final double kCameraDistanceFromFront = 15.625; 
-    public static final double kCameraHeight = 37; //TODO Correct
-    public static final double kCameraAngle = -13; 
+    public static final double kCameraDistanceFromFront = 17.75; 
+    public static final double kCameraHeight = 36+(5d/8); //TODO Correct
+    public static final double kCameraAngle = -15; 
     public static final double kHatchTargetBottomToHatchCenter = 6.5;
     public static final double kFloorToLowHatchCenter = 19;
     public static final double kMecanumWheelWidth = 2.25;

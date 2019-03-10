@@ -68,19 +68,20 @@ public OI(){
 	mJoystick2 = new Joystick(1);
 
 	//joystick 1
-	int bToggleDriveTrain = 5;
-	int bToggleDriveState = 6;
+	int bToggleDriveTrain = 9;//5;
+	int bToggleDriveState = 10;//6;
 	//int bToggleDriveTrain2 = 3;
-	int bMoveArmUp = 9;
-	int bMoveArmDown = 4;
-	int bRollerForward = 8;
-	int bRollerBack = 10;
-	int bIntakeRollerForward = 11;
-	int bIntakeRollerBackward = 7;
+	int bMoveArmUp = 5;
+	int bMoveArmDown = 6;
+	int bRollerForward = 18;
+	int bRollerBack = 14;
+	int bIntakeRollerForward = 8;
+	int bIntakeRollerBackward = 4;
 	int bPush = 2;
-	int bDriveToTarget = 3;
-	int bPlaceHatch = 1;
-
+	int bDriveToTarget = 1;//3;
+	int bPlaceHatch = 12;//1;
+	int bElevatorMoveUp = 3;
+	int bElevatorMoveDown = 7;
 
 	
 
@@ -91,6 +92,8 @@ public OI(){
 	int bElevatorBottom = 5;
 	int bLock = 3;
 	
+
+	
 	
 
 	//pov controls
@@ -98,7 +101,7 @@ public OI(){
 	int dMoveArmDown = 0;
 
 	//speeds
-	double armSpeed = 1;
+	double armSpeed = .5;
 	double rollerSpeed = 1;
 	double intakeRollerSpeed = 1;
 	double elevatorSpeed = 1;
@@ -129,24 +132,29 @@ Trigger moveDArmDown = new POVTrigger(getJoystick(), dMoveArmDown);
 */
 
 JoystickButton moveArmUp = addButton(getJoystick(), bMoveArmUp, "Move Arm Up");
-		moveArmUp.whenPressed(new MoveArm(armSpeed));
+		moveArmUp.whileHeld(new MoveArm(armSpeed));
+		moveArmUp.whenReleased(new MoveArm(0));
 
 
 JoystickButton moveArmDown = addButton(getJoystick(), bMoveArmDown, "Move Arm Down");
-		moveArmDown.whenPressed(new MoveArm(-armSpeed));
-
+		moveArmDown.whileHeld(new MoveArm(-armSpeed));
+		moveArmDown.whenReleased(new MoveArm(0));
 
 JoystickButton rollerForward = addButton(getJoystick(), bRollerForward, "Roller Forward");
-		rollerForward.whileHeld(new MoveRoller(rollerSpeed));
+		rollerForward.whileHeld(new MoveRoller(0, true));
+		//rollerForward.whenPressed(new MoveRoller(0, false));
+
 
 JoystickButton rollerBack = addButton(getJoystick(), bRollerBack, "Roller Back");
-        rollerBack.whileHeld(new MoveRoller(-rollerSpeed));
+        rollerBack.whenPressed(new MoveRoller(0, false));
 
 JoystickButton intakeRollerForward = addButton(getJoystick(), bIntakeRollerForward, "Move Intake Roller Forward");
 		intakeRollerForward.whileHeld(new IntakeRoller(intakeRollerSpeed));
+		intakeRollerForward.whenReleased(new IntakeRoller(0));
 
 JoystickButton intakeRollerBackwards = addButton(getJoystick(), bIntakeRollerBackward, "Move Intake Roller Backward");
 		intakeRollerBackwards.whileHeld(new IntakeRoller(-intakeRollerSpeed));
+		intakeRollerBackwards.whenReleased(new IntakeRoller(0));
 
 JoystickButton push = addButton(getJoystick(), bPush, "Push");
 		push.whenPressed(new Pusher());
@@ -162,14 +170,22 @@ JoystickButton elevatorDown = addButton(getJoystick2(), bElevatorDown, "Elevator
 		elevatorDown.whenPressed(new MoveElevatorDown()); 
 */
 JoystickButton elevatorUp = addButton(getJoystick2(), bElevatorUp, "Elevator up");
-		elevatorUp.whenPressed(new MoveElevatorNoPosition(RobotPreferences.elevatorSpeed)); 
+		elevatorUp.whenPressed(new MoveElevatorUp()); 
 
 
 JoystickButton elevatorDown = addButton(getJoystick2(), bElevatorDown, "Elevator Down");
-		elevatorDown.whenPressed(new MoveElevatorNoPosition(-RobotPreferences.elevatorSpeed));
+		elevatorDown.whenPressed(new MoveElevatorDown());
 
 JoystickButton elevatorBottom = addButton(getJoystick2(), bElevatorBottom, "Elevator Down");
 		elevatorBottom.whenPressed(new MoveElevatorBottom()); 
+
+JoystickButton elevatorMoveUp = addButton(getJoystick(), bElevatorMoveUp, "Elevator Up");
+		elevatorMoveUp.whileHeld(new MoveElevatorNoPosition(.5)); 
+		elevatorMoveUp.whenReleased(new MoveElevatorNoPosition(0));
+
+JoystickButton elevatorMoveDown = addButton(getJoystick(), bElevatorMoveDown, "Elevator Down");
+		elevatorMoveDown.whileHeld(new MoveElevatorNoPosition(-.5)); 
+		elevatorMoveDown.whenReleased(new MoveElevatorNoPosition(0));
 
 JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
 		lock.whenPressed(new Lock()); 

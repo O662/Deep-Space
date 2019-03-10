@@ -10,18 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotPreferences;
+import frc.robot.subsystems.Elevator.ElevatorPosition;
 
 public class MoveElevatorDown extends Command {
 
   double speed;
-  double height0,height1,height2,height3,height4,currentHeight; // the heights for the elevator to reach
+  double height0,height1,height2,height3,height4;
+  ElevatorPosition currentHeight; // the heights for the elevator to reach
 
   public MoveElevatorDown() {
     requires(Robot.elevator);
     speed = this.speed;
     //heights in inches
    
-    currentHeight = Robot.elevator.currentHeight;
+    currentHeight = Robot.elevator.getElevatorHeight();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -30,23 +32,27 @@ public class MoveElevatorDown extends Command {
   @Override
   protected void initialize() {
 
-    if(currentHeight == RobotPreferences.MiddleCargo) {
+    if(currentHeight == ElevatorPosition.MEDIUM_CARGO) {
       Robot.elevator.setElevatorHeight(RobotPreferences.MiddleHatch);
+      Robot.elevator.setElevatorPosition(ElevatorPosition.MEDIUM_HATCH);
    }
 
-   else if(currentHeight == RobotPreferences.MiddleHatch){
+   else if(currentHeight == ElevatorPosition.MEDIUM_HATCH){
       Robot.elevator.setElevatorHeight(RobotPreferences.cargoCargo);
+      Robot.elevator.setElevatorPosition(ElevatorPosition.CARGO_CARGO);
    }
   
-   else if(currentHeight == RobotPreferences.cargoCargo){
+   else if(currentHeight == ElevatorPosition.CARGO_CARGO){
      Robot.elevator.setElevatorHeight(RobotPreferences.LowestCargo);
+     Robot.elevator.setElevatorPosition(ElevatorPosition.LOWEST_CARGO);
    }
 
-   else if(currentHeight == RobotPreferences.LowestCargo){
+   else if(currentHeight == ElevatorPosition.LOWEST_CARGO){
      Robot.elevator.setElevatorHeight(RobotPreferences.LowestHatch);
+     Robot.elevator.setElevatorPosition(ElevatorPosition.LOWEST_HATCH);
      //Robot.elevator.isSwitchClosed();
    }
-   else if(currentHeight == RobotPreferences.LowestHatch){
+   else if(currentHeight == ElevatorPosition.LOWEST_HATCH){
      System.out.println("you are at the bottom");
    }
   }
@@ -59,7 +65,7 @@ public class MoveElevatorDown extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

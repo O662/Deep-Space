@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotPreferences;
 
 public class MoveArm extends Command {
 
@@ -36,6 +37,10 @@ public class MoveArm extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(speed == 0){
+      return true;
+    }
+    
     return false;
   }
 

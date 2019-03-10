@@ -13,6 +13,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -29,6 +32,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
+import frc.robot.commands.IntakeRoller;
 
 /**
  * Add your docs here.
@@ -40,12 +44,12 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   public boolean switcher;
   private final Solenoid lock;
   private final I2C limit;
-  byte[] lazer = new byte[1];
+  byte[] lazer = new byte[8];
   double lazerDistance;
 
   
   //roller
-  public final WPI_VictorSPX intakeRollerMotor;
+  public final VictorSPX intakeRollerMotor;
   public SensorCollection sensors;//this is for the lazer limit switch
 
   
@@ -62,21 +66,34 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
     armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     armMotor2 = new VictorSPX(RobotMap.ARM_MOTOR_2);
 
-    armMotor2.follow(armMotor, FollowerType.AuxOutput1);
+    armMotor2.follow(armMotor);
     armMotor.setInverted(InvertType.InvertMotorOutput);
     moveArm(0);
+    armMotor.setNeutralMode(NeutralMode.Brake);
+    armMotor2.setNeutralMode(NeutralMode.Brake);
     
 
     //roller
-    intakeRollerMotor = new WPI_VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
+    intakeRollerMotor = new VictorSPX(RobotMap.INTAKE_ROLLER_MOTOR);
     sensors = armMotor.getSensorCollection();
-    armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
     limit = new I2C(RobotMap.LAZER_LIMIT, 0x52);
     //limit = new DigitalInput(RobotMap.LIMIT_SWITCH);
     //lock
     lock = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.LOCK_CHANNEL);
-
+    armMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+    armMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+    armMotor.configForwardSoftLimitEnable(false);
+    //armMotor.configForwardSoftLimitThreshold(((int) (RobotPreferences.kSRXEncoderCPR / RobotPreferences.kRearEncoderToOutputRatio * RobotPreferences.kRearMaxAngle / 360)));
+    armMotor.configReverseSoftLimitEnable(false);
+   // intakeRollerMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+    intakeRollerMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+    intakeRollerMotor.configForwardSoftLimitEnable(false);
+    //armMotor.configForwardSoftLimitThreshold(((int) (RobotPreferences.kSRXEncoderCPR / RobotPreferences.kRearEncoderToOutputRatio * RobotPreferences.kRearMaxAngle / 360)));
+    intakeRollerMotor.configReverseSoftLimitEnable(false);
+   // armMotor.configReverseSoftLimitThreshold(((int) (RobotPreferences.kSRXEncoderCPR / RobotPreferences.kRearEncoderToOutputRatio * RobotPreferences.kRearMinAngle / 360)));
+    
   }
 
   public void moveArm(Joystick joystick) {
@@ -122,11 +139,11 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   }
 
 	public void moveIntakeRollerSpeed(double speed) {
-		intakeRollerMotor.set(speed);
+		intakeRollerMotor.set(ControlMode.PercentOutput,speed);
 	}
 
 	public void stopIntake() {
-		intakeRollerMotor.set(0);
+		intakeRollerMotor.set(ControlMode.PercentOutput,0);
 		
   }
 
@@ -181,9 +198,10 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   public double getLazer(){
     limit.read(0x52, 1, lazer);
     ByteBuffer buffer = ByteBuffer.wrap(lazer); //turns the byte value into a double
-    lazerDistance =  buffer.getDouble();
-    SmartDashboard.putNumber("lazer distance", lazerDistance);
-    return lazerDistance;
+   // lazerDistance =  buffer.getDouble();
+   byte b = buffer.get(0);
+    SmartDashboard.putNumber("lazer distance intake back", b);
+    return b;
   }
 
 /**
@@ -212,6 +230,9 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void log() {
+    SmartDashboard.putBoolean("is arm up", isLimitSwitchClosed());
+    SmartDashboard.putNumber("arm Encoder", getEncoderValue());
+    SmartDashboard.putNumber("lazer", getLazer());
 
   }
 }

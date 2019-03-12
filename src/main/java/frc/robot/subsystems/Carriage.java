@@ -13,9 +13,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
@@ -37,10 +38,9 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
   public final TalonSRX rollerMotor;
   public final Solenoid pusher;
   public final Solenoid battleAxe;
-  private final I2C limit;
-  byte[] lazer = new byte[8];
-  double lazerDistance;
-  public SensorCollection sensors;//this is for the lazer limit switch
+  private Rev2mDistanceSensor distSens;
+ 
+ public SensorCollection sensors;//this is for the lazer limit switch
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -51,8 +51,10 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
     pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);
   //  armMotor = new TalonSRX(RobotMap.FRONT_ARM_MOTOR);
     battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.BATTLE_AXE_CHANNEL);
-    limit = new I2C(RobotMap.LAZER_LIMIT2, 0x52);
-    sensors = rollerMotor.getSensorCollection();
+    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE);
+    distSens.setRangeProfile(RangeProfile.kHighSpeed);
+    distSens.setAutomaticMode(true);
+    distSens.setEnabled(true);
   
   }
   
@@ -120,15 +122,14 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
     }
   }
 
-  //this method reads a byte value from the lazer encoder which holds the distance 
-  public double getLazer(){
-    limit.read(0x52, 1, lazer);
-    ByteBuffer buffer = ByteBuffer.wrap(lazer); //turns the byte value into a double
-    //lazerDistance =  buffer.getDouble();
-   
-    byte b = buffer.get(0);
-     SmartDashboard.putNumber("lazer distance", b);
-    return (double)b;
+ 
+  public double getLazerDistance(){
+     boolean isValid = distSens.isRangeValid();
+     //if (isValid){
+       return distSens.getRange();
+     //}else {
+      // return Double.NaN;
+    // }
   }
 
 /**
@@ -141,7 +142,7 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
  */
   public boolean stopRollerLazer(){
     boolean isStopped = false;
-     if(getLazer() <= 5){
+     if(getLazerDistance() <= 5){
        stopRoller();
        isStopped = true;
      }
@@ -164,6 +165,6 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void log() {
-
+    SmartDashboard.putNumber("carriage lazer", getLazerDistance());
   }
 }

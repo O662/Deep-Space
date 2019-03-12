@@ -20,8 +20,8 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANDigitalInput.LimitSwitch;
-
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -43,9 +43,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   private final VictorSPX armMotor2;
   public boolean switcher;
   private final Solenoid lock;
-  private final I2C limit;
-  byte[] lazer = new byte[8];
-  double lazerDistance;
+  private Rev2mDistanceSensor distSens;
 
   
   //roller
@@ -61,6 +59,11 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
 
     //update: kirby does not know 
 
+    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_REAR_INTAKE);
+    
+    distSens.setAutomaticMode(true);
+    distSens.setEnabled(true);
+    distSens.setRangeProfile(RangeProfile.kHighSpeed);
     //arm
     armMotor = new TalonSRX(RobotMap.ARM_MOTOR);
     armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
@@ -78,7 +81,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
     sensors = armMotor.getSensorCollection();
     armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
-    limit = new I2C(RobotMap.LAZER_LIMIT, 0x52);
+    
     //limit = new DigitalInput(RobotMap.LIMIT_SWITCH);
     //lock
     lock = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.LOCK_CHANNEL);
@@ -194,15 +197,16 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
     }
   }
 
-  //this method reads a byte value from the lazer encoder which holds the distance 
-  public double getLazer(){
-    limit.read(0x52, 1, lazer);
-    ByteBuffer buffer = ByteBuffer.wrap(lazer); //turns the byte value into a double
-   // lazerDistance =  buffer.getDouble();
-   byte b = buffer.get(0);
-    SmartDashboard.putNumber("lazer distance intake back", b);
-    return b;
-  }
+  
+  public double getLazerDistance(){
+    boolean isValid = distSens.isRangeValid();
+    //if (isValid){
+      return distSens.getRange();
+    //}else {
+    //  return Double.NaN;
+    //}
+ }
+
 
 /**
  * 
@@ -214,7 +218,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
  */
   public boolean stopRollerLazer(){
     boolean isStopped = false;
-     if(getLazer() <= 5){
+     if(getLazerDistance() <= 5){
        stopIntake();
        isStopped = true;
      }
@@ -232,7 +236,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
   public void log() {
     SmartDashboard.putBoolean("is arm up", isLimitSwitchClosed());
     SmartDashboard.putNumber("arm Encoder", getEncoderValue());
-    SmartDashboard.putNumber("lazer", getLazer());
+    SmartDashboard.putNumber("Lazer", getLazerDistance());
 
   }
 }

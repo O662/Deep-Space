@@ -7,8 +7,10 @@
 
 package frc.robot;
 
+import com.revrobotics.Rev2mDistanceSensor.Port;
+
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
+
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -48,8 +50,8 @@ public class RobotMap {
 	//public static final int HEIGHT_B = 3;
 
 	//LIMIT SWITCH
-	public static final Port LAZER_LIMIT = I2C.Port.kOnboard;
-	public static final Port LAZER_LIMIT2 = I2C.Port.kMXP;
+	public static final Port LAZER_LIMIT_REAR_INTAKE = Port.kMXP;
+	public static final Port LAZER_LIMIT_CARRIAGE = Port.kOnboard;
 	public static final int LIMIT_SWITCH = 0;
 
 	//PHNEMATICS OR HOWEVER ITS SPELLED

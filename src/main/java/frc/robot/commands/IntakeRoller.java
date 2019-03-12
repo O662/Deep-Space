@@ -42,9 +42,9 @@ public class IntakeRoller extends Command {
     if(speed == 0){
       return true;
     }
-    //if(Robot.rearIntake.stopRollerLazer()){
-     // return true;
-  //  }
+    if(Robot.rearIntake.stopRollerLazer()){
+      return true;
+    }
     return false;
   }
 

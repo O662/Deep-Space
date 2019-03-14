@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
+import frc.robot.commands.DriveElevator;
 import frc.util.LatchedBoolean;
 
 /**
@@ -160,6 +161,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void initDefaultCommand() {
+    setDefaultCommand(new DriveElevator());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

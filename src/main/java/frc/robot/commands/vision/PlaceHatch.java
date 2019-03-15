@@ -7,8 +7,10 @@
 
 package frc.robot.commands.vision;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
+import frc.robot.commands.BattleAxe;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.Pusher;
 
@@ -21,7 +23,10 @@ public class PlaceHatch extends CommandGroup {
    // addSequential(new TurnToTarget());
    // addSequential(new VisionDriveRobot());
     addSequential(new Pusher(true));
-    addSequential(new DriveForward(12));
+    Timer.delay(2);
+    addSequential(new BattleAxe());
+    Timer.delay(4);
+   // addSequential(new DriveForward(12));
     addSequential(new Pusher(false));
     
   }

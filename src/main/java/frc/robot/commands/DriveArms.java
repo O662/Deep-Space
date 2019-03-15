@@ -7,37 +7,48 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Pusher extends Command {
-  boolean dir;
-  public Pusher(boolean d) {
-    requires(Robot.carriage);
-    dir = d;
+public class DriveArms extends Command {
+  double axis;
+  double axisDown;
+  double axisRoller;
+  public DriveArms() {
+    requires(Robot.rearIntake);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-  } 
+  }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   // Robot.carriage.toggleSolenoidValue();
-   Robot.carriage.setPusherValue(dir);
-   // DriverStation.reportWarning("this works yippee ky a ", true);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
+    axis = Robot.oi.getJoystick().getRawAxis(3);
+    axisDown = Robot.oi.getJoystick().getRawAxis(2);
+    if(axisDown <.2){
+      Robot.rearIntake.moveArm(axis);
+    }
+    if(axis <.2){
+      Robot.rearIntake.moveArm(-axisDown);
+    }
+    axisRoller = Robot.oi.getJoystick2().getRawAxis(1);
+    Robot.rearIntake.moveIntakeRollerSpeed(axisRoller);
+   
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if(axis < .2 && axisDown <.2 && axisRoller < .2){
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true

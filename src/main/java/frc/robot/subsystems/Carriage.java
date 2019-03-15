@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import java.nio.ByteBuffer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -17,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
@@ -51,11 +54,14 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
     pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);
   //  armMotor = new TalonSRX(RobotMap.FRONT_ARM_MOTOR);
     battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.BATTLE_AXE_CHANNEL);
-    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE);
+    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kHighSpeed);
     distSens.setRangeProfile(RangeProfile.kHighSpeed);
     distSens.setAutomaticMode(true);
     distSens.setEnabled(true);
-  
+    rollerMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+    rollerMotor.configForwardSoftLimitEnable(false);
+    //armMotor.configForwardSoftLimitThreshold(((int) (RobotPreferences.kSRXEncoderCPR / RobotPreferences.kRearEncoderToOutputRatio * RobotPreferences.kRearMaxAngle / 360)));
+    rollerMotor.configReverseSoftLimitEnable(false);
   }
   
   //ROLLER
@@ -89,6 +95,9 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
     }
 	}
 
+  public void setPusherValue(boolean d){
+    pusher.set(d);
+  }
 	public boolean getSolenoidValue() {
 		return pusher.get();
 	}
@@ -125,11 +134,11 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
  
   public double getLazerDistance(){
      boolean isValid = distSens.isRangeValid();
-     //if (isValid){
+     if (isValid){
        return distSens.getRange();
-     //}else {
-      // return Double.NaN;
-    // }
+     }else {
+       return Double.NaN;
+    }
   }
 
 /**
@@ -159,6 +168,7 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
 */
   @Override
   public void initDefaultCommand() {
+    
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
@@ -166,5 +176,6 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("carriage lazer", getLazerDistance());
+    SmartDashboard.putBoolean("is valid", distSens.isRangeValid());
   }
 }

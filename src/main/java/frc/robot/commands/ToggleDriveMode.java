@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveState;
 import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
 public class ToggleDriveMode extends Command {
@@ -23,15 +24,24 @@ public class ToggleDriveMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+  
 
   DriveTrainMode dtm = Robot.driveTrain.getDriveTrain().next();
-  if(Robot.driveTrain.getDriveState2()){
+  if(Robot.driveTrain.getDriveState() == DriveState.SKIDSTEER){
       if(dtm == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
         dtm = dtm.next();
       }
       if(dtm == DriveTrainMode.FEILD_ORIANTED_MECANUM){
         dtm = dtm.next();
       }
+  }
+  if(Robot.driveTrain.getDriveState() == DriveState.MECANUM){
+    if(dtm == DriveTrainMode.FEILD_ORIANTED_MECANUM){
+      dtm = dtm.next();
+      if(dtm == DriveTrainMode.ARCADE){
+        dtm = dtm.next();
+      }
+    }
   }
   
     

@@ -34,6 +34,27 @@ import frc.robot.subsystems.vision.Limelight.Target;
 
 public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	
+
+	public enum Target{
+		HATCH,
+		CARGO;
+		
+		private static Target[] vals = values();
+		public Target next() {
+			return vals[(this.ordinal()+1) % vals.length];
+		}
+	}
+	public enum Height{
+		LOW,
+		MID,
+		CSHIP;
+		
+		private static Height[] vals = values();
+		public Height next() {
+			return vals[(this.ordinal()+1) % vals.length];
+		}
+	}
+	
 	public enum DriveTrainMode{
 		ARCADE,
 		TANK,
@@ -100,6 +121,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public boolean getDriveState2(){
 		return skidSteer;
 	}
+
+	
 
 
 	
@@ -415,8 +438,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
    
 	@Override
 	public void log(){
-		//SmartDashboard.putString("DriveMode", "" + getDriveTrain());
-		//SmartDashboard.getString("DriveState", "" + getDriveState());
+		SmartDashboard.putString("DriveMode", "" + getDriveTrain());
+		SmartDashboard.getString("DriveState", "" + getDriveState());
 		
 		//SmartDashboard.putNumber("front left motor", motorLeft1.get());
 		//SmartDashboard.putNumber("back left motor", motorLeft2.get());

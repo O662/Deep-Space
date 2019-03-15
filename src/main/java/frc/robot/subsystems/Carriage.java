@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
@@ -53,8 +54,8 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
     pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);
   //  armMotor = new TalonSRX(RobotMap.FRONT_ARM_MOTOR);
     battleAxe = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.BATTLE_AXE_CHANNEL);
-    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE);
-    distSens.setRangeProfile(RangeProfile.kDefault);
+    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kHighSpeed);
+    distSens.setRangeProfile(RangeProfile.kHighSpeed);
     distSens.setAutomaticMode(true);
     distSens.setEnabled(true);
     rollerMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
@@ -94,6 +95,9 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
     }
 	}
 
+  public void setPusherValue(boolean d){
+    pusher.set(d);
+  }
 	public boolean getSolenoidValue() {
 		return pusher.get();
 	}
@@ -164,6 +168,7 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
 */
   @Override
   public void initDefaultCommand() {
+    
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

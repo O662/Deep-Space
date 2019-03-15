@@ -24,6 +24,9 @@ public class RobotPreferences {
     public static final double kRearEncoderToOutputRatio = (1.00/7)*(1.99/5);
     public static final double kRearMaxAngle = 90;
     public static final double kRearMinAngle = 0;
+    public static final double kElevatorDrumDiametor =1.2;
+    public static final double kEGearRatio = -.3;
+    public static final int kElevatorTicksPerInch = (int)Math.round(RobotPreferences.kSRXEncoderCPR/ (RobotPreferences.kElevatorScalar * RobotPreferences.kElevatorDrumDiametor* Math.PI* RobotPreferences.kEGearRatio* RobotPreferences.kEGearRatio ));
 
     //speeds
     public static final double elevatorSpeed = .1;

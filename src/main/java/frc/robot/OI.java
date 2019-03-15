@@ -68,25 +68,25 @@ public OI(){
 	mJoystick2 = new Joystick(1);
 
 	//joystick 1
-	int bToggleDriveTrain = 9;//5;
-	int bToggleDriveState = 10;//6;
+	int bToggleDriveTrain = 6;//5;
+	int bToggleDriveState = 5;//6;
 	//int bToggleDriveTrain2 = 3;
-	int bMoveArmUp = 5;
-	int bMoveArmDown = 6;
-	int bRollerForward = 18;
-	int bRollerBack = 14;
-	int bIntakeRollerForward = 8;
-	int bIntakeRollerBackward = 4;
+	int bMoveArmUp = 15;
+	int bMoveArmDown = 16;
+	int bRollerForward = 4;
+	int bRollerBack = 18; 
+	int bIntakeRollerForward = 18;
+	int bIntakeRollerBackward = 114;
 	int bPush = 2;
-	int bDriveToTarget = 1;//3;
-	int bPlaceHatch = 12;//1;
+	int bDriveToTarget =1;//3;
+	int bPlaceHatch = 2;//1;
 	int bElevatorMoveUp = 3;
 	int bElevatorMoveDown = 7;
-
+	int bBattleAxe = 4;
 	
 
 	//Joystick 2
-	int bBattleAxe = 1;
+	
 	int bElevatorUp = 2;
 	int bElevatorDown = 4;
 	int bElevatorBottom = 5;
@@ -144,9 +144,9 @@ JoystickButton moveArmDown = addButton(getJoystick(), bMoveArmDown, "Move Arm Do
 		moveArmDown.whileHeld(new MoveArm(-armSpeed));
 		moveArmDown.whenReleased(new MoveArm(0));
 
-JoystickButton rollerForward = addButton(getJoystick(), bRollerForward, "Roller Forward");
+JoystickButton rollerForward = addButton(getJoystick2(), bRollerForward, "Roller Forward");
 		rollerForward.whileHeld(new MoveRoller(0, true));
-		//rollerForward.whenPressed(new MoveRoller(0, false));
+		rollerForward.whenReleased(new MoveRoller(0, false));
 
 
 JoystickButton rollerBack = addButton(getJoystick(), bRollerBack, "Roller Back");
@@ -161,9 +161,10 @@ JoystickButton intakeRollerBackwards = addButton(getJoystick(), bIntakeRollerBac
 		intakeRollerBackwards.whenReleased(new IntakeRoller(0));
 
 JoystickButton push = addButton(getJoystick(), bPush, "Push");
-		push.whenPressed(new Pusher());
+		push.whileHeld(new Pusher(true));
+		push.whenReleased(new Pusher(false));
 
-JoystickButton battleAxe = addButton(getJoystick2(), bBattleAxe, "Battle Axe");
+JoystickButton battleAxe = addButton(getJoystick(), bBattleAxe, "Battle Axe");
 		battleAxe.whenPressed(new BattleAxe());
 /*
 JoystickButton elevatorUp = addButton(getJoystick2(), bElevatorUp, "Elevator up");
@@ -198,7 +199,8 @@ JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive t
 		driveToTarget.whenPressed(new VisionDriveRobot());
  
 JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch");
-		placeHatch.whileHeld(new TurnToTarget());
+		placeHatch.whileHeld(new PlaceHatch());
+
 
 
 SmartDashboard.putData("ZERO ELEVATOR", new ZeroElevatorEncoders());

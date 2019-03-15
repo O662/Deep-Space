@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
+import frc.robot.commands.DriveArms;
 import frc.robot.commands.IntakeRoller;
 
 /**
@@ -228,6 +229,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void initDefaultCommand() {
+    setDefaultCommand(new DriveArms());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

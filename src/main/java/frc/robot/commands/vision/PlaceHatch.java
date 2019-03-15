@@ -18,11 +18,11 @@ public class PlaceHatch extends CommandGroup {
    */
   public PlaceHatch() {
     //have it like line up with the vison target
-    addSequential(new TurnToTarget());
-    addSequential(new VisionDriveRobot());
-    addSequential(new Pusher());
+   // addSequential(new TurnToTarget());
+   // addSequential(new VisionDriveRobot());
+    addSequential(new Pusher(true));
     addSequential(new DriveForward(12));
-    addSequential(new Pusher());
+    addSequential(new Pusher(false));
     
   }
 }

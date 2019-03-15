@@ -31,6 +31,8 @@ import frc.util.LatchedBoolean;
  * this Subsystem controls the elevator
  * it has two motors with one that follows the other
  * 
+ * 
+ * 
  */
 public class Elevator extends Subsystem implements LoggableSubsystem {
 
@@ -60,6 +62,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   public SensorCollection sensors;
   private ElevatorPosition elevatorHeight;
+  private double height;
+  private String datHeight = "ground";
 
   private LatchedBoolean tachCrossed = new LatchedBoolean();
 
@@ -100,10 +104,47 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     currentHeight = height;
   }
 
+  public void magicHeightSet(double height){
+    int targetSensorPosition = (int) Math.round(RobotPreferences.kElevatorScalar*(height - 19) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput);
+    elevatorMotor1.set(ControlMode.MotionMagic, targetSensorPosition);
+    currentHeight = height;
+  }
+
+
   
+  //public static final double LowestHatch = 19;//bottom
+ // public static final double LowestCargo = 27.5;
+  //public static final double cargoCargo = 40;
+ // public static final double MiddleHatch = 47;
+ // public static final double MiddleCargo = 55.5;
 
-  public void goUntilSwitched(){
+  public double getTranslateHeight(){
+    return ( getEncoder() / RobotPreferences.kElevatorTicksPerInch) + 19;
+  }
 
+  public boolean goodElevatorHight(){
+    height = (getEncoder() / RobotPreferences.kElevatorTicksPerInch) +19;
+    if(height > 18.5 && height < 19.5){
+      datHeight = "lowest hatch";
+      return true;
+    }
+    if(height > 27 && height < 28){
+      datHeight = "lowest cargo";
+      return true;
+    }
+    if(height > 39.5 && height < 40.5){
+      datHeight = "cargo ship";
+      return true;
+    }
+    if(height > 46.5 && height < 47.5){
+      datHeight = "middle Hatch";
+      return true;
+    }
+    if(height > 55 && height < 56){
+      datHeight = "middle cargo";
+      return true;
+    }
+    return false;
   }
 
   public void zeroEncoder() {
@@ -169,8 +210,13 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("elevator encoder", getEncoder());
-   
-
+    SmartDashboard.putString("elevator position", datHeight);
+    SmartDashboard.putBoolean("vator limit switch", getLaser());
+    SmartDashboard.putBoolean("good height",goodElevatorHight() );
+    SmartDashboard.putNumber("elevator real height", getTranslateHeight());
+    if(getLaser() == false ){
+      zeroEncoder();
+    }
 
   }
 

@@ -79,7 +79,7 @@ public OI(){
 	int bIntakeRollerBackward = 114;
 	int bPush = 2;
 	int bDriveToTarget =1;//3;
-	int bPlaceHatch = 2;//1;
+	int bPlaceHatch = 1;//1;
 	int bElevatorMoveUp = 3;
 	int bElevatorMoveDown = 7;
 	int bBattleAxe = 4;

@@ -70,6 +70,7 @@ public OI(){
 	//joystick 1
 	int bToggleDriveTrain = 6;//5;
 	int bToggleDriveState = 5;//6;
+	int bSwitchDrive = 16;
 	//int bToggleDriveTrain2 = 3;
 	int bMoveArmUp = 15;
 	int bMoveArmDown = 16;
@@ -78,12 +79,12 @@ public OI(){
 	int bIntakeRollerForward = 18;
 	int bIntakeRollerBackward = 114;
 	int bPush = 2;
-	int bDriveToTarget =1;//3;
+	int bDriveToTarget =7;//3;
 	int bPlaceHatch = 1;//1;
-	int bElevatorMoveUp = 3;
-	int bElevatorMoveDown = 7;
+	int bElevatorMoveUp = 113;
+	int bElevatorMoveDown = 17;
 	int bBattleAxe = 4;
-	
+	int bPickUpHatch =3;
 
 	//Joystick 2
 	
@@ -114,6 +115,8 @@ JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveState, "T
 	toggleDriveTrain.whenPressed(new ToggleDriveMode());
 
 
+JoystickButton switchDrive = addButton(getJoystick(), bSwitchDrive, "Toggle Drive Mode State");
+	switchDrive.whenPressed(new SwitchDrive());
 //mecanum and not 
 /*
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
@@ -200,6 +203,9 @@ JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive t
  
 JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch");
 		placeHatch.whileHeld(new PlaceHatch());
+
+JoystickButton pickUpHatch = addButton(getJoystick(), bPickUpHatch, "pick up hatch");
+		pickUpHatch.whenPressed(new pickUpHatch());
 
 
 

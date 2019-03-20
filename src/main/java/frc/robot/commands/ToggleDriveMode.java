@@ -31,18 +31,28 @@ public class ToggleDriveMode extends Command {
       if(dtm == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
         dtm = dtm.next();
       }
+      /*
       if(dtm == DriveTrainMode.FEILD_ORIANTED_MECANUM){
         dtm = dtm.next();
       }
+      if(dtm == DriveTrainMode.TANK){
+        dtm = dtm.next();
+      }
+      */
   }
   if(Robot.driveTrain.getDriveState() == DriveState.MECANUM){
-    if(dtm == DriveTrainMode.FEILD_ORIANTED_MECANUM){
-      dtm = dtm.next();
+   // if(dtm == DriveTrainMode.FEILD_ORIANTED_MECANUM){
+   //   dtm = dtm.next();
       if(dtm == DriveTrainMode.ARCADE){
         dtm = dtm.next();
       }
+      /*
+      if(dtm == DriveTrainMode.TANK){
+        dtm = dtm.next();
+      }
+      */
     }
-  }
+  
   
     
    Robot.driveTrain.setDriveTrain(dtm);

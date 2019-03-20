@@ -57,9 +57,9 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	
 	public enum DriveTrainMode{
 		ARCADE,
-		TANK,
-		ROBOT_ORIANTED_MECANUM,
-		FEILD_ORIANTED_MECANUM;
+		//TANK,
+		ROBOT_ORIANTED_MECANUM;
+		//FEILD_ORIANTED_MECANUM;
 		
 		private static DriveTrainMode[] vals = values();
 		public DriveTrainMode next() {
@@ -157,16 +157,16 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 			
 		}
 		else {
-			//Robot.driveTrain.switchState(true);
+		//	Robot.driveTrain.switchState(true);
 			if(mDriveTrain == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
 				solenoid1.set(false);
 				solenoid2.set(false);
 			}
-			else{
+			
 				skidSteer = true;
 				solenoid1.set(true);
 				solenoid2.set(true);
-			}
+			
 			
 		}
 		SmartDashboard.putBoolean("driveState", skidSteer);

@@ -43,7 +43,7 @@ public class RobotPreferences {
     //vision
     public static final double kCameraDistanceFromFront = 17.75; 
     public static final double kCameraHeight = 36+(5d/8); //TODO Correct
-    public static final double kCameraAngle = -15; 
+    public static final double kCameraAngle = -18; 
     public static final double kHatchTargetBottomToHatchCenter = 6.5;
     public static final double kFloorToLowHatchCenter = 19;
     public static final double kMecanumWheelWidth = 2.25;

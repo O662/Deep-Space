@@ -75,8 +75,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     elevatorMotor2.follow(elevatorMotor1);
     currentHeight = 19;
-    elevatorMotor1.setInverted(true);
-    elevatorMotor2.setInverted(true);
+    elevatorMotor1.setInverted(false);//true for mark 2
+    elevatorMotor2.setInverted(false);//true for mark 2s
     elevatorMotor1.setNeutralMode(NeutralMode.Brake);
     elevatorMotor2.setNeutralMode(NeutralMode.Brake);
     //TODO add PID settings into elevatorMotor1
@@ -85,6 +85,9 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorMotor1.configForwardSoftLimitEnable(false);
     elevatorMotor1.configReverseSoftLimitEnable(true);
     elevatorMotor1.configReverseSoftLimitThreshold(0);
+    elevatorMotor1.overrideLimitSwitchesEnable(false);
+    elevatorMotor1.overrideSoftLimitsEnable(true);
+    elevatorMotor1.setSensorPhase(true);
     elevatorHeight = ElevatorPosition.LOWEST_HATCH;
   }
 
@@ -190,13 +193,13 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   public void moveElevator(double speed){
     elevatorMotor1.set(ControlMode.PercentOutput,speed);
     //elevatorMotor2.set(ControlMode.PercentOutput,speed);
-    System.out.println("I done did it maybe @ "+speed);
+   // System.out.println("I done did it maybe @ "+speed);
   }
 
   public void endElevator(){
     elevatorMotor1.set(ControlMode.PercentOutput, 0);
     //elevatorMotor2.set(ControlMode.PercentOutput, 0);
-    System.out.println("I ended my life");
+    //System.out.println("I ended my life");
   }
   
 

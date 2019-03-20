@@ -8,69 +8,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-import frc.robot.subsystems.DriveTrain.DriveState;
-import frc.robot.subsystems.DriveTrain.DriveTrainMode;
-
-public class SwichDriveState extends Command {
-
-  private final boolean open;
-
-  public SwichDriveState(boolean open) {
-    requires(Robot.driveTrain);
-    this.open = open;
+public class ElevatorTimed extends Command {
+  long timeStart;
+  public ElevatorTimed() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
-  //false = mecanum
-  //true = skidSteer
   @Override
   protected void initialize() {
-  Robot.driveTrain.switchState(open);
-    if(open){
-      if(Robot.driveTrain.getDriveTrain() == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
-        Robot.driveTrain.switchState(false);
-       // SmartDashboard.putBoolean("mecanum", false);
-      }
-      /*
-      else if (Robot.driveTrain.getDriveTrain() == DriveTrainMode.FEILD_ORIANTED_MECANUM){
-        Robot.driveTrain.switchState(false);
-      }
-      */
-      /*
-      else if(Robot.driveTrain.getDriveState() == DriveModeState.FEILD_ORIANTED_MECANUM){
-        Robot.driveTrain.switchState(false);
-      }
-      */
-      
-      else{
-         Robot.driveTrain.switchState(true);
-        // SmartDashboard.putBoolean("skidSteer", true );
-      }
-  
-    }
-     else{
-      Robot.driveTrain.switchState(false);
-      //SmartDashboard.putBoolean("mecanum", false);
-    }
-     
-     
-     
-    }
-  
+    timeStart = System.currentTimeMillis();
+  }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.elevator.moveElevator(.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(System.currentTimeMillis()-timeStart > 1000){
+      return true;
+    }
     return false;
   }
 

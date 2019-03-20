@@ -60,12 +60,14 @@ public WhatDriveTrain(DriveTrainMode dms) {
        // DriverStation.reportWarning("arcadedrive", false);
         mode = "arcade";
         break;
+        /*
       case TANK:
         //addSequential(new TankDrive());
         tank.execute();
         //DriverStation.reportWarning("tankDrive", false);
         mode = "Tank";
         break;
+        */
      // case FEILD_ORIANTED_MECANUM:
       //  break;
       case ROBOT_ORIANTED_MECANUM:
@@ -75,10 +77,12 @@ public WhatDriveTrain(DriveTrainMode dms) {
        // DriverStation.reportWarning("mecanum", false);
         mode = "mecanum";
         break;
+        /*
       case FEILD_ORIANTED_MECANUM:
         feild.execute();
         mode = "feild";
         break;
+        */
         default:
          System.out.println("Unexpected drive mode state: " + state);
          break;
@@ -98,7 +102,7 @@ public WhatDriveTrain(DriveTrainMode dms) {
     SmartDashboard.putString("DriveMode", "" + mode);
    // SmartDashboard.putNumber("motor", Robot.driveTrain.motorLeft1.get());
     SmartDashboard.putString("motor",""+ 1.1);
-    DriverStation.reportWarning("we are here man" , true);
+    //DriverStation.reportWarning("we are here man" , true);
 //Robot.limelight.outputTelemetry();
   }
 

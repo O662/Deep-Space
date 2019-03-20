@@ -229,7 +229,7 @@ public class RearIntake extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new DriveArms());
+    //setDefaultCommand(new DriveArms());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

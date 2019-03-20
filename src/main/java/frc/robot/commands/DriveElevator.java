@@ -28,7 +28,7 @@ public class DriveElevator extends Command {
   @Override
   protected void execute() {
     axis = Robot.oi.getJoystick2().getRawAxis(5);
-    Robot.elevator.moveElevator(-axis);
+    Robot.elevator.moveElevator(axis);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,8 +37,9 @@ public class DriveElevator extends Command {
     if(axis == 0){
       return true;
     }
-    if(Robot.elevator.getTranslateHeight() == 55.5){
+    if(Robot.elevator.getTranslateHeight() >= 55.5){
       return true;
+      
     }
     return false;
   }

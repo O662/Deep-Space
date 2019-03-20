@@ -15,8 +15,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
@@ -38,7 +37,7 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
 
 
  
-  public final TalonSRX rollerMotor;
+  public final VictorSPX rollerMotor;
   public final Solenoid pusher;
   public final Solenoid battleAxe;
   private Rev2mDistanceSensor distSens;
@@ -48,7 +47,7 @@ public class Carriage extends Subsystem implements LoggableSubsystem {
   // here. Call these from Commands.
 
   public Carriage(){
-    rollerMotor = new TalonSRX(RobotMap.ROLLER_MOTOR);
+    rollerMotor = new VictorSPX(RobotMap.ROLLER_MOTOR);
     rollerMotor.setNeutralMode(NeutralMode.Brake);
     
     pusher = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1,RobotMap.PUSHER_CHANNEL);

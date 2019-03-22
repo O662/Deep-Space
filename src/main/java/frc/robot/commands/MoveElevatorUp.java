@@ -14,6 +14,7 @@ import frc.robot.RobotPreferences;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 
 public class MoveElevatorUp extends Command {
+ //44 inches
  
  
   double height0,height1,height2,height3,height4;

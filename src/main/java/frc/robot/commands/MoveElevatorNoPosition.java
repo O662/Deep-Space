@@ -13,9 +13,11 @@ import frc.robot.RobotPreferences;
 
 public class MoveElevatorNoPosition extends Command {
   double s;
+  boolean goodPlace;
   public MoveElevatorNoPosition(double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    goodPlace = false;
     s = speed;
     requires(Robot.elevator);
   }
@@ -28,14 +30,31 @@ public class MoveElevatorNoPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.moveElevator(s);
+    if(Robot.elevator.getTranslateHeight() >= 44 && Robot.hatchPlacer.getPusher() ==false){
+      goodPlace = false;
+      Robot.elevator.moveElevator(0);
+      Robot.hatchPlacer.togglePusher();
+    }
+
+    else if(Robot.elevator.getTranslateHeight() < 44){
+      goodPlace = false;
+       Robot.elevator.moveElevator(s);
+    }
+    else if(Robot.elevator.getTranslateHeight() >= 44 && Robot.hatchPlacer.getPusher() == true){
+      goodPlace = true;
+      Robot.elevator.moveElevator(s);
+    }
+    
     System.out.println("Moving @ "+s);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(s == 0){
+    if(s == 0 && Robot.elevator.getTranslateHeight() < 44){
+      return true;
+    }
+    if(s == 0 && goodPlace == true){
       return true;
     }
    // if(Robot.elevator.getLaser()){

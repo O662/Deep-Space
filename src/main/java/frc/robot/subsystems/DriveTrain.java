@@ -33,7 +33,7 @@ import frc.robot.subsystems.vision.Limelight.Target;
 
 
 public class DriveTrain extends Subsystem implements LoggableSubsystem {
-	
+	//TODO comment out like this entire class for testing
 
 	public enum Target{
 		HATCH,
@@ -158,10 +158,13 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		}
 		else {
 		//	Robot.driveTrain.switchState(true);
+
+		/* i done change this litter bit
 			if(mDriveTrain == DriveTrainMode.ROBOT_ORIANTED_MECANUM){
 				solenoid1.set(false);
 				solenoid2.set(false);
 			}
+			*/
 			
 				skidSteer = true;
 				solenoid1.set(true);

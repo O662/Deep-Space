@@ -7,20 +7,23 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class BattleAxe extends Command {
-  public BattleAxe() {
+public class setPusher extends Command {
+  Value pos;
+  public setPusher(Value state) {
+    pos = state;
+    requires(Robot.hatchPlacer);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.carriage);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.carriage.BattleAxeSwitcher();
+    Robot.hatchPlacer.setPusher(pos);
   }
 
   // Called repeatedly when this Command is scheduled to run

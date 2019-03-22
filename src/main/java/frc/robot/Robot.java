@@ -7,13 +7,13 @@
 
 package frc.robot;
 
-import frc.robot.commands.WhatDriveTrain;
-import frc.robot.subsystems.Carriage;
+
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.HatchPlacer;
 import frc.robot.subsystems.LoggableSubsystem;
 import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.RearIntake;
+
 import frc.robot.subsystems.vision.HatchTarget;
 import frc.robot.subsystems.vision.IVisionTarget;
 import frc.robot.subsystems.vision.Limelight;
@@ -50,8 +50,8 @@ public class Robot extends TimedRobot {
 
 	
 	public static DriveTrain driveTrain;
-	public static Carriage carriage;
-	public static RearIntake rearIntake;
+	
+	
 	public static PowerDistributionPanel pdp;
 	public static Elevator elevator;
 	public static NavX navX;
@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 	public static Limelight limelight;
 	public static IVisionTarget iVisionTarget;
 	public static HatchTarget hatchTarget;
+	public static HatchPlacer hatchPlacer;
 
 	
 	/**
@@ -80,14 +81,14 @@ public class Robot extends TimedRobot {
 		pdp = new PowerDistributionPanel();
 		driveTrain = new DriveTrain();
 		subsystemsList.add(driveTrain);
-		carriage = new Carriage();
-		subsystemsList.add(carriage);
-		rearIntake = new RearIntake();
-		subsystemsList.add(rearIntake);
+		
+	
 		elevator = new Elevator();
 		subsystemsList.add(elevator);
 		limelight = Limelight.getInstance();
 		navX = new NavX();
+		hatchPlacer = new HatchPlacer();
+		subsystemsList.add(hatchPlacer);
 		
 
 

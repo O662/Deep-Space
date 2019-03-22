@@ -13,7 +13,9 @@ import frc.robot.Robot;
 
 public class DriveElevator extends Command {
   double axis;
+  boolean goodPlace;
   public DriveElevator() {
+    goodPlace = false;
     requires(Robot.elevator);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -27,14 +29,37 @@ public class DriveElevator extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    axis = Robot.oi.getJoystick2().getRawAxis(5);
-    Robot.elevator.moveElevator(axis);
+    if(Robot.elevator.getTranslateHeight() >= 44 && Robot.hatchPlacer.getPusher() ==false && Robot.hatchPlacer.isSwitchClosed() == false){
+      goodPlace = false;
+      Robot.elevator.moveElevator(0);
+      Robot.hatchPlacer.togglePusher();
+      goodPlace = true;
+    }
+
+    else if(Robot.elevator.getTranslateHeight() < 44){
+      goodPlace = false;
+       axis = Robot.oi.getJoystick2().getRawAxis(5);
+       Robot.elevator.moveElevator(axis);
+       //Robot.elevator.moveElevator(s);
+    }
+    else if(Robot.elevator.getTranslateHeight() >= 44 && Robot.hatchPlacer.getPusher() == true && Robot.hatchPlacer.getPusher()){
+      goodPlace = true;
+      axis = Robot.oi.getJoystick2().getRawAxis(5);
+       Robot.elevator.moveElevator(axis);
+    }
+    
+    //System.out.println("Moving @ "+s);
   }
+   
+  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(axis == 0){
+    if(axis == 0 && Robot.elevator.getTranslateHeight() < 44){
+      return true;
+    }
+    if(axis == 0 && goodPlace == true){
       return true;
     }
     if(Robot.elevator.getTranslateHeight() >= 55.5){

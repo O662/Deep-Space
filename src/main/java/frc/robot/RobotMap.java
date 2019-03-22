@@ -52,7 +52,8 @@ public class RobotMap {
 	//LIMIT SWITCH
 	public static final Port LAZER_LIMIT_REAR_INTAKE = Port.kMXP;
 	public static final Port LAZER_LIMIT_CARRIAGE = Port.kOnboard;
-	public static final int LIMIT_SWITCH = 0;
+	//public static final int LIMIT_SWITCH = 0;
+	public static final int PUSHER_LIMIT = 0;
 
 	//PHNEMATICS OR HOWEVER ITS SPELLED
 	public static final int BUTTERFLY_PCM_MODULE1 = 1;
@@ -61,7 +62,12 @@ public class RobotMap {
 //	public static final int BUTTERFLY_PCM_MODULE4 = 3;
 	public static final int BUTTERFLY_FORWARD_CHANNEL1 = 0;
 	public static final int BUTTERFLY_FORWARD_CHANNEL2 = 1;
-	public static final int PUSHER_CHANNEL = 2;
+	public static final int PUSHER_1_CHANNEL_FORWARD = 2;
+	public static final int PUSHER_1_CHANNEL_REVERSE = 3;
+	public static final int PUSHER_2_CHANNEL_FORWARD = 2;
+	public static final int PUSHER_2_CHANNEL_REVERSE = 4;
+	public static final int FLAPPER_CHANNEL_FORWARD = 5;
+	public static final int FLAPPER_CHANNEL_REVERSE = 6;
 	public static final int BATTLE_AXE_CHANNEL = 3;
 	public static final int LOCK_CHANNEL = 4;
 

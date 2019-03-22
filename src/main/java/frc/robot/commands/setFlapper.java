@@ -7,15 +7,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DriveArms extends Command {
-  double axis;
-  double axisDown;
-  double axisRoller;
-  public DriveArms() {
-    requires(Robot.rearIntake);
+public class setFlapper extends Command {
+  Value pos;
+  public setFlapper(Value state) {
+    pos = state;
+    requires(Robot.hatchPlacer);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,31 +23,17 @@ public class DriveArms extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.hatchPlacer.setFlapper(pos);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    axis = Robot.oi.getJoystick().getRawAxis(3);
-    axisDown = Robot.oi.getJoystick().getRawAxis(2);
-    if(axisDown <.2){
-      Robot.rearIntake.moveArm(axis);
-    }
-    if(axis <.2){
-      Robot.rearIntake.moveArm(-axisDown);
-    }
-    axisRoller = Robot.oi.getJoystick2().getRawAxis(1);
-    Robot.rearIntake.moveIntakeRollerSpeed(axisRoller);
-   
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(axis < .2 && axisDown <.2 && axisRoller < .2){
-      return true;
-    }
     return true;
   }
 

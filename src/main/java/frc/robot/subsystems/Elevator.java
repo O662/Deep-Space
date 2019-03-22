@@ -64,14 +64,18 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   private ElevatorPosition elevatorHeight;
   private double height;
   private String datHeight = "ground";
+ 
 
   private LatchedBoolean tachCrossed = new LatchedBoolean();
+
+
+
 
   public Elevator(){
     elevatorMotor1 = new TalonSRX(RobotMap.ELEVATOR_MOTOR_1);
     elevatorMotor2 = new VictorSPX(RobotMap.ELEVATOR_MOTOR_2);
     sensors = elevatorMotor1.getSensorCollection();
-
+   
     elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     elevatorMotor2.follow(elevatorMotor1);
     currentHeight = 19;

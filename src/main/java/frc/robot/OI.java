@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
-import frc.robot.commands.vision.PlaceHatch;
+
 import frc.robot.commands.vision.TurnToTarget;
 import frc.robot.commands.vision.VisionDriveRobot;
 import frc.robot.subsystems.DriveTrain;
@@ -72,51 +72,49 @@ public OI(){
 	int bToggleDriveState = 5;//6;
 	int bSwitchDrive = 16;
 	//int bToggleDriveTrain2 = 3;
-	int bMoveArmUp = 15;
-	int bMoveArmDown = 16;
-	int bRollerForward = 4;
-	int bRollerBack = 18; 
-	int bIntakeRollerForward = 18;
-	int bIntakeRollerBackward = 114;
-	int bPush = 2;
+	 
+	
+
 	int bDriveToTarget =7;//3;
-	int bPlaceHatch = 1;//1;
+	
 	int bElevatorMoveUp = 113;
 	int bElevatorMoveDown = 17;
-	int bBattleAxe = 4;
-	int bPickUpHatch =3;
+	
+
 
 	//Joystick 2
 	
 	int bElevatorUp = 2;
 	int bElevatorDown = 4;
 	int bElevatorBottom = 5;
-	int bLock = 3;
+	int bPusher = 6;
+	int bFlapper = 7;
+	
 	
 
 	
 	
 
 	//pov controls
-	int dMoveArmUp = 4;
-	int dMoveArmDown = 0;
-
-	//speeds
-	double armSpeed = .5;
-	double rollerSpeed = 1;
-	double intakeRollerSpeed = 1;
+	
 	double elevatorSpeed = 1;
 
 
 
-
+//and i done change this here too
 // skid steer and not
-JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
-	toggleDriveTrain.whenPressed(new ToggleDriveMode());
+//JoystickButton toggleDriveTrain = addButton(getJoystick(), bToggleDriveState, "Toggle Drive Mode State");
+	//toggleDriveTrain.whenPressed(new ToggleDriveMode());
 
 
 JoystickButton switchDrive = addButton(getJoystick(), bSwitchDrive, "Toggle Drive Mode State");
 	switchDrive.whenPressed(new SwitchDrive());
+
+JoystickButton pusher = addButton(getJoystick(), bPusher, "Push hatch");
+	pusher.whenPressed(new TogglePusher());
+
+JoystickButton flapper = addButton(getJoystick(), bFlapper, "flapper control");
+	flapper.whenPressed(new ToggleFlapper());
 //mecanum and not 
 /*
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
@@ -138,37 +136,11 @@ Trigger moveDArmDown = new POVTrigger(getJoystick(), dMoveArmDown);
 		moveDArmDown.whileActive(new MoveArm(-armSpeed));
 */
 
-JoystickButton moveArmUp = addButton(getJoystick(), bMoveArmUp, "Move Arm Up");
-		moveArmUp.whileHeld(new MoveArm(armSpeed));
-		moveArmUp.whenReleased(new MoveArm(0));
 
 
-JoystickButton moveArmDown = addButton(getJoystick(), bMoveArmDown, "Move Arm Down");
-		moveArmDown.whileHeld(new MoveArm(-armSpeed));
-		moveArmDown.whenReleased(new MoveArm(0));
-
-JoystickButton rollerForward = addButton(getJoystick2(), bRollerForward, "Roller Forward");
-		rollerForward.whileHeld(new MoveRoller(0, true));
-		rollerForward.whenReleased(new MoveRoller(0, false));
 
 
-JoystickButton rollerBack = addButton(getJoystick(), bRollerBack, "Roller Back");
-        rollerBack.whenPressed(new MoveRoller(0, false));
 
-JoystickButton intakeRollerForward = addButton(getJoystick(), bIntakeRollerForward, "Move Intake Roller Forward");
-		intakeRollerForward.whileHeld(new IntakeRoller(intakeRollerSpeed));
-		intakeRollerForward.whenReleased(new IntakeRoller(0));
-
-JoystickButton intakeRollerBackwards = addButton(getJoystick(), bIntakeRollerBackward, "Move Intake Roller Backward");
-		intakeRollerBackwards.whileHeld(new IntakeRoller(-intakeRollerSpeed));
-		intakeRollerBackwards.whenReleased(new IntakeRoller(0));
-
-JoystickButton push = addButton(getJoystick(), bPush, "Push");
-		push.whileHeld(new Pusher(true));
-		push.whenReleased(new Pusher(false));
-
-JoystickButton battleAxe = addButton(getJoystick(), bBattleAxe, "Battle Axe");
-		battleAxe.whenPressed(new BattleAxe());
 /*
 JoystickButton elevatorUp = addButton(getJoystick2(), bElevatorUp, "Elevator up");
 		elevatorUp.whenPressed(new MoveElevatorUp()); 
@@ -195,17 +167,11 @@ JoystickButton elevatorMoveDown = addButton(getJoystick(), bElevatorMoveDown, "E
 		elevatorMoveDown.whileHeld(new MoveElevatorNoPosition(-.5)); 
 		elevatorMoveDown.whenReleased(new MoveElevatorNoPosition(0));
 
-JoystickButton lock = addButton(getJoystick2(), bLock, "Lock");
-		lock.whenPressed(new Lock()); 
+
 
 JoystickButton driveToTarget = addButton(getJoystick(), bDriveToTarget, "drive to target");
 		driveToTarget.whenPressed(new VisionDriveRobot());
  
-JoystickButton placeHatch = addButton(getJoystick(), bPlaceHatch, "place hatch");
-		placeHatch.whileHeld(new PlaceHatch());
-
-JoystickButton pickUpHatch = addButton(getJoystick(), bPickUpHatch, "pick up hatch");
-		pickUpHatch.whenPressed(new pickUpHatch());
 
 
 

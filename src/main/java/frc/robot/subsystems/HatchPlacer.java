@@ -72,7 +72,7 @@ public class HatchPlacer extends Subsystem implements LoggableSubsystem {
       distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kDefault);
       distSensInitialized = distSens.isInitialized();
       if (distSensInitialized) {
-        DriverStation.reportWarning(this.getClass().getName() + ": Successfully initialized Rev2mDistanceSensor!", null);
+        DriverStation.reportWarning(this.getClass().getName() + ": Successfully initialized Rev2mDistanceSensor!", false);
         break;
       }
       iretry++;
@@ -83,7 +83,7 @@ public class HatchPlacer extends Subsystem implements LoggableSubsystem {
       }
     }
     DriverStation.reportWarning(this.getClass().getName()
-        + ": Failed to initialize Rev2mDistanceSensor after " + nretry + " attempts!", null);
+        + ": Failed to initialize Rev2mDistanceSensor after " + nretry + " attempts!", false);
   }
 
   public boolean isSwitchClosed(){

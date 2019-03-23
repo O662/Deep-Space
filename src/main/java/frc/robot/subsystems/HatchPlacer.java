@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 
-import com.sun.jdi.event.Event;
+//import com.sun.jdi.event.Event;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -35,6 +36,7 @@ public class HatchPlacer extends Subsystem implements LoggableSubsystem {
   //DoubleSolenoid flapper;
   public DigitalInput limitSwitch;
   private Rev2mDistanceSensor distSens;
+  private boolean distSensInitialized = false;
   double distance;
   NetworkTableEntry lazer;
   double dist;
@@ -44,13 +46,13 @@ public class HatchPlacer extends Subsystem implements LoggableSubsystem {
 
   public HatchPlacer(){
     limitSwitch = new DigitalInput(RobotMap.PUSHER_LIMIT);
-    distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kDefault);
+    //distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kDefault);
+    initializeLazer();
   //  distSens.setRangeProfile(RangeProfile.kHighSpeed);
     distSens.setDistanceUnits(Unit.kInches);
     distSens.setAutomaticMode(true);
     distSens.setEnabled(true);
     distance = distSens.getRange();
-   
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable table = inst.getTable("the lazer");
@@ -63,14 +65,30 @@ public class HatchPlacer extends Subsystem implements LoggableSubsystem {
     */
   }
 
+  private void initializeLazer() {
+    int nretry = 10;
+    int iretry = 0;
+    while (iretry < nretry) {
+      distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kDefault);
+      distSensInitialized = distSens.isInitialized();
+      if (distSensInitialized) {
+        DriverStation.reportWarning(this.getClass().getName() + ": Successfully initialized Rev2mDistanceSensor!", null);
+        break;
+      }
+      iretry++;
+      try {
+        Thread.sleep(250);
+      } catch (InterruptedException e) {
+        // Ignore and carry on...
+      }
+    }
+    DriverStation.reportWarning(this.getClass().getName()
+        + ": Failed to initialize Rev2mDistanceSensor after " + nretry + " attempts!", null);
+  }
 
-public boolean isSwitchClosed(){
-  boolean closed = limitSwitch.get();
-
-  
+  public boolean isSwitchClosed(){
     return limitSwitch.get();
   }
- 
 
   public void cheakLazer(){
    cheak = false;
@@ -90,13 +108,11 @@ public boolean isSwitchClosed(){
 
   public double getLazerDistance(){
     double dist = distSens.getRange();
-    
-    
-    if(dist == distance){
-      distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kHighSpeed);
-    }
+
+    //if(dist == distance){
+    //  distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kHighSpeed);
+    //}
     boolean isValid = distSens.isRangeValid();
-    
     if (isValid){
       return distSens.getRange();
     }else {
@@ -104,11 +120,8 @@ public boolean isSwitchClosed(){
       
       //distSens = new Rev2mDistanceSensor(RobotMap.LAZER_LIMIT_CARRIAGE,Unit.kInches,RangeProfile.kHighSpeed);
       return Double.NaN;
-     
-   }
- }
-
- 
+    }
+  }
 
 /**
  * true solenoid forward

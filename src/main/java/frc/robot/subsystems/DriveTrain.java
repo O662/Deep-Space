@@ -92,7 +92,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public final TalonSRX  motorLeft2;
 	public final TalonSRX  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
-	public final MecanumDrive drive;
+	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
 	private DriveTrainMode mDriveTrain;
 	private final double voltageRampRateDefault = 150;
@@ -180,7 +180,6 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	
 	//initilizes the motors
 	public DriveTrain() {
-
         super();
         
 		motorLeft1 = new TalonSRX (RobotMap.MOTOR_DRIVE_LEFT1);

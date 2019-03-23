@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
+import frc.robot.commands.DriveElevator;
 //import frc.robot.commands.DriveElevator;
 import frc.util.LatchedBoolean;
 
@@ -75,10 +76,14 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   public Elevator(){
     elevatorMotor1 = new TalonSRX(RobotMap.ELEVATOR_MOTOR_1);
+    elevatorMotor1.configFactoryDefault(100);
     elevatorMotor2 = new VictorSPX(RobotMap.ELEVATOR_MOTOR_2);
+    elevatorMotor2.configFactoryDefault(100);
+    
     sensors = elevatorMotor1.getSensorCollection();
+    
     seeEncoder = true;
-    ErrorCode encoderPresent = elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    ErrorCode encoderPresent = elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
     if(encoderPresent != ErrorCode.OK) {
       DriverStation.reportError("Jesus im dying where is my encoder", false);
       seeEncoder = false;
@@ -86,6 +91,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorMotor2.follow(elevatorMotor1);
     ErrorCode limitPresent = elevatorMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
     currentHeight = 19;
+    
     elevatorMotor1.setNeutralMode(NeutralMode.Brake);
     elevatorMotor2.setNeutralMode(NeutralMode.Brake);
     //TODO add PID settings into elevatorMotor1
@@ -95,11 +101,11 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorMotor1.configReverseSoftLimitEnable(false);
     //elevatorMotor1.configReverseSoftLimitThreshold(0);
     isSafe = true; 
-    
+    zeroEncoder();
     //elevatorMotor1.overrideLimitSwitchesEnable(false);
     //elevatorMotor1.overrideSoftLimitsEnable(true);
     elevatorHeight = ElevatorPosition.LOWEST_HATCH;
-
+    
     //pid
     elevatorMotor1.config_kP(0, RobotPreferences.ele_kP);
     elevatorMotor1.config_kI(0, RobotPreferences.ele_kI);
@@ -175,22 +181,12 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
       datHeight = "lowest hatch";
       return true;
     }
-    if(height > 27 && height < 28){
-      datHeight = "lowest cargo";
-      return true;
-    }
-    if(height > 39.5 && height < 40.5){
-      datHeight = "cargo ship";
-      return true;
-    }
+    
     if(height > 46.5 && height < 47.5){
       datHeight = "middle Hatch";
       return true;
     }
-    if(height > 55 && height < 56){
-      datHeight = "middle cargo";
-      return true;
-    }
+    
     return false;
   }
 
@@ -201,7 +197,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   public int getEncoder(){
     //gets encoder value
-    return elevatorMotor1.getSelectedSensorPosition();
+    
+    return elevatorMotor1.getSelectedSensorPosition(1);//elevatorMotor1.getSelectedSensorPosition();
   }
   /**
    * 
@@ -235,10 +232,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
  * @param speed sets the speed of both motors for the elevator
  */
   public void moveElevator(double speed){
-    if(isSafe()){
-       elevatorMotor1.set(ControlMode.PercentOutput,speed);
-    }
-   
+    
+   elevatorMotor1.set(ControlMode.PercentOutput,speed);
     //elevatorMotor2.set(ControlMode.PercentOutput,speed);
    // System.out.println("I done did it maybe @ "+speed);
   }
@@ -252,7 +247,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void initDefaultCommand() {
-    //setDefaultCommand(new DriveElevator());
+    setDefaultCommand(new DriveElevator());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
@@ -260,10 +255,11 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   @Override
   public void log() {
     SmartDashboard.putNumber("elevator encoder", getEncoder());
-    SmartDashboard.putString("elevator position", datHeight);
+
+    //SmartDashboard.putString("elevator position", datHeight);
     SmartDashboard.putBoolean("vator limit switch", getLaser());
-    SmartDashboard.putBoolean("good height",goodElevatorHight() );
-    SmartDashboard.putNumber("elevator real height", getTranslateHeight());
+   // SmartDashboard.putBoolean("good height",goodElevatorHight() );
+    //SmartDashboard.putNumber("elevator real height", getTranslateHeight());
     if(getLaser() == false ){
       zeroEncoder();
     }

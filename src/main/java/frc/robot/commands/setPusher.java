@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class setPusher extends Command {
-  Value pos;
-  public setPusher(Value state) {
+  boolean pos;
+  public setPusher(boolean state) {
     pos = state;
     requires(Robot.hatchPlacer);
     // Use requires() here to declare subsystem dependencies
@@ -23,7 +23,7 @@ public class setPusher extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   // Robot.hatchPlacer.setPusher(pos);
+    Robot.hatchPlacer.setPusher(pos);
   }
 
   // Called repeatedly when this Command is scheduled to run

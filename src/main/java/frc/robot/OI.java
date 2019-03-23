@@ -79,7 +79,9 @@ public OI(){
 	
 	int bElevatorMoveUp = 113;
 	int bElevatorMoveDown = 17;
-	
+	int bPusher = 6;
+	int bFlapper = 7;
+	int bHatchPlace = 5;
 
 
 	//Joystick 2
@@ -87,8 +89,7 @@ public OI(){
 	int bElevatorUp = 2;
 	int bElevatorDown = 4;
 	int bElevatorBottom = 5;
-	int bPusher = 6;
-	int bFlapper = 7;
+	
 	
 	
 
@@ -115,6 +116,10 @@ JoystickButton pusher = addButton(getJoystick(), bPusher, "Push hatch");
 
 JoystickButton flapper = addButton(getJoystick(), bFlapper, "flapper control");
 	flapper.whenPressed(new ToggleFlapper());
+
+JoystickButton hatch = addButton(getJoystick(), bHatchPlace, "hatch");
+	hatch.whenPressed(new PlaceHatch());
+
 //mecanum and not 
 /*
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");

@@ -64,13 +64,9 @@ public class RobotMap {
 //	public static final int BUTTERFLY_PCM_MODULE4 = 3;
 	public static final int BUTTERFLY_FORWARD_CHANNEL1 = 0;
 	public static final int BUTTERFLY_FORWARD_CHANNEL2 = 1;
-	public static final int PUSHER_1_CHANNEL_FORWARD = 2;
-	public static final int PUSHER_1_CHANNEL_REVERSE = 3;
-	public static final int PUSHER_2_CHANNEL_FORWARD = 2;
-	public static final int PUSHER_2_CHANNEL_REVERSE = 4;
-	public static final int FLAPPER_CHANNEL_FORWARD = 5;
-	public static final int FLAPPER_CHANNEL_REVERSE = 6;
-	public static final int BATTLE_AXE_CHANNEL = 3;
-	public static final int LOCK_CHANNEL = 4;
+	public static final int PUSHER_CHANNEL = 2;
+	public static final int FLAPPER_CHANNEL = 3;
+	
+
 
 }

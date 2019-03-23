@@ -88,18 +88,18 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 
 	// todo find out about encoders for spark motor contorler
 	//creates motors
-//	public final TalonSRX  motorLeft1;
-//	public final TalonSRX  motorLeft2;
-//	public final TalonSRX  motorRight1, motorRight2;
+	public final TalonSRX  motorLeft1;
+	public final TalonSRX  motorLeft2;
+	public final TalonSRX  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
-	//public final MecanumDrive drive;
+	public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
 	private DriveTrainMode mDriveTrain;
 	private final double voltageRampRateDefault = 150;
 	boolean skidSteer = false;
 	
 	
-	//
+	
 
 	public DriveTrainMode getDriveTrain() {
 		return mDriveTrain;
@@ -182,19 +182,20 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public DriveTrain() {
 
         super();
-        /*
+        
 		motorLeft1 = new TalonSRX (RobotMap.MOTOR_DRIVE_LEFT1);
 		motorLeft2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_LEFT2);
 		motorRight1 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT1);
         motorRight2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
-        */
+        
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		double voltageRampRate = voltageRampRateDefault;//20;
 		setRampRate(voltageRampRate);
 		solenoid1.set(false);
         solenoid2.set(false);
-        /*
+        
+        
 		motorLeft1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motorLeft2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motorRight1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
@@ -227,14 +228,14 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		motorLeft2.configPeakOutputReverse(-output);
 		motorRight1.configPeakOutputReverse(-output);
 		motorRight2.configPeakOutputReverse(-output);
-*/
+
 		//mecanum
 		/*
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
 		SpeedControllerGroup left2 = new SpeedControllerGroup(motorLeft2);//left back
 		SpeedControllerGroup right1 = new SpeedControllerGroup(motorRight1);//right front
 		SpeedControllerGroup right2 = new SpeedControllerGroup(motorRight2);//right back
-
+		
 		//TankDrive and arcade drive
 		SpeedControllerGroup leftGroup = new SpeedControllerGroup(motorLeft1,motorLeft2);//left front
 		SpeedControllerGroup rightGroup = new SpeedControllerGroup(motorRight1,motorRight2);//left back
@@ -258,14 +259,14 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
         
 
         //uncomment this 
-        /*
+        
 		motorLeft1.configOpenloopRamp(secondsFromNeutralToFull, 0);
 		motorLeft2.configOpenloopRamp(secondsFromNeutralToFull, 0);
         
         
 		motorRight1.configOpenloopRamp(secondsFromNeutralToFull, 0);
         motorRight2.configOpenloopRamp(secondsFromNeutralToFull, 0);
-        */
+        
 	}
 
 	@Deprecated
@@ -293,20 +294,20 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
 
         //uncoment this
-        /*
+        
 		motorLeft1.setNeutralMode(mode);
 		motorLeft2.setNeutralMode(mode);
 		
 		motorRight1.setNeutralMode(mode);
         motorRight2.setNeutralMode(mode);
-        */
+        
 	}
 
 
 	// i know its messy but i didnt want to think of a way to compact it
     // i will fix it later but im lazy and dont want to right now
     
-    /*
+    
 
 	public double getMotorLeft1Postition(){
 		return motorLeft1.getSelectedSensorPosition();
@@ -325,7 +326,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		 
 		return motorRight2.getSelectedSensorPosition();
     }
-    */
+    
 
 	public void setDirection(int direction) {
 		this.direction = direction * RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -388,12 +389,12 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 			}
         }
         
-        /*
+        
 		motorLeft1.set(ControlMode.PercentOutput, lf);
 		motorLeft2.set(ControlMode.PercentOutput,lb);
 		motorRight1.set(ControlMode.PercentOutput,rf);
 		motorRight2.set(ControlMode.PercentOutput,rb);
-        */
+        
 
 	}
 
@@ -422,12 +423,12 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 			}
 		}
 		
-        /*
+        
 		motorLeft1.set(ControlMode.Position, motorLeft1.getSelectedSensorPosition() + ilf);
 		motorLeft2.set(ControlMode.Position, motorLeft2.getSelectedSensorPosition() + ilb);
 		motorRight1.set(ControlMode.Position, motorRight1.getSelectedSensorPosition() + irf);
 		motorRight2.set(ControlMode.Position, motorRight2.getSelectedSensorPosition() + irb);
-        */
+        
 
 	}
 
@@ -468,12 +469,12 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
         SmartDashboard.putNumber("joystick y", Robot.oi.getJoystick().getRawAxis(5));
         
         //uncoment this
-        /*
+        
 		SmartDashboard.putNumber("encoder FL", getMotorLeft1Postition());
 		SmartDashboard.putNumber("encoder FR", getMotorRight1Position());
 		SmartDashboard.putNumber("encoder BL", getMotorLeft2Position());
 		SmartDashboard.putNumber("encoder BR", getMotorRight2Position());
-        */
+        
 
 		
 	}

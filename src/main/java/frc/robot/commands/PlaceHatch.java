@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
@@ -19,12 +20,25 @@ public class PlaceHatch extends CommandGroup {
     requires(Robot.hatchPlacer);
     
 
-    //add thing for limit switch to tell what state it is in and then do it
+    if(Robot.hatchPlacer.isHatchPresent() == true){
+      addSequential(new setFlapper(false));//close
+      addSequential(new setPusher(true));//forward
+      Timer.delay(2);
+      addSequential(new setPusher(false));//back
+
+    }
+    else{
+      addSequential(new setPusher(true));
+      addSequential(new setFlapper(true));
+      addSequential(new setPusher(false));
+      if(Robot.hatchPlacer.isHatchPresent() == false){
+        addSequential(new setFlapper(false));
+      }
+    }
 
 
-    addSequential(new setFlapper(Value.kReverse));//open
-    addSequential(new setPusher(Value.kForward));//forward
-    addSequential(new setPusher(Value.kReverse));//back
+
+    
   
   }
 }

@@ -21,7 +21,7 @@ public class ZeroElevatorEncoders extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.zeroElevatorEncoder();
+    //Robot.elevator.zeroElevatorEncoder();
   }
 
   // Called repeatedly when this Command is scheduled to run

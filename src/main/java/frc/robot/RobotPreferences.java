@@ -40,6 +40,11 @@ public class RobotPreferences {
     public static final double kPeakOutput = 1;
     public static final double kTimeoutMS = 30;
 
+    //elevator pid
+    public static final double ele_kP = .1;
+    public static final double ele_kI = 0;
+    public static final double ele_kD = 0;
+
     //vision
     public static final double kCameraDistanceFromFront = 17.75; 
     public static final double kCameraHeight = 36+(5d/8); //TODO Correct

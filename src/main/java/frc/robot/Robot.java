@@ -19,7 +19,12 @@ import frc.robot.subsystems.vision.IVisionTarget;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.subsystems.vision.Limelight.LightMode;
 
+
 import java.util.ArrayList;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -60,6 +65,7 @@ public class Robot extends TimedRobot {
 	public static IVisionTarget iVisionTarget;
 	public static HatchTarget hatchTarget;
 	public static HatchPlacer hatchPlacer;
+	
 
 	
 	/**
@@ -76,7 +82,11 @@ public class Robot extends TimedRobot {
 		//SmartDashboard.putString("DriveMode rob", "" + Robot.driveTrain.getDriveState());
 		//SmartDashboard.putString("DriveStateRob", "" + Robot.driveTrain.getDriveTrain());
 		//SmartDashboard.putString("i am here", "here");
-		
+
+
+		//network table
+	
+
 		//subsystems
 		pdp = new PowerDistributionPanel();
 		driveTrain = new DriveTrain();
@@ -176,10 +186,13 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		navX.zeroYaw();
+
+		/*
 		driveTrain.motorLeft1.setSelectedSensorPosition(0);
 		driveTrain.motorLeft2.setSelectedSensorPosition(0);
 		driveTrain.motorRight1.setSelectedSensorPosition(0);
 		driveTrain.motorRight2.setSelectedSensorPosition(0);
+		*/
 		SmartDashboard.putData(Scheduler.getInstance());
 		
 	}
@@ -187,16 +200,20 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		timedLoop();
+		//timedLoop();
 		readInputs();
 		Scheduler.getInstance().run();
 		limelight.setLedMode(LightMode.ON);
 		log();
 		writeOutputs();
+		
 		limelight.writePeriodicOutputs();
 		limelight.readPeriodicInputs();
 		limelight.outputTelemetry();
 		
+	//	hatchPlacer.cheakLazer();
+		SmartDashboard.putBoolean("switch", hatchPlacer.isSwitchClosed());
+		SmartDashboard.putNumber("lazer", hatchPlacer.getLazerDistance());
 	}
 	/**
 	 * This function is called periodically during test mode.
@@ -204,7 +221,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		Scheduler.getInstance().run();
-
+		hatchPlacer.isSwitchClosed();
+		hatchPlacer.getLazerDistance();
+		//hatchPlacer.cheakLazer();
 		//SmartDashboard.putData("Auto mode", m_chooser);
 		//SmartDashboard.putString("DriveMode", "" + Robot.driveTrain.getDriveTrain());
 		//SmartDashboard.getString("DriveState", "" + Robot.driveTrain.getDriveState());

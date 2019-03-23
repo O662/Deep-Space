@@ -23,7 +23,7 @@ public class setFlapper extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchPlacer.setFlapper(pos);
+   // Robot.hatchPlacer.setFlapper(pos);
   }
 
   // Called repeatedly when this Command is scheduled to run

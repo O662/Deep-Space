@@ -20,7 +20,7 @@ public class TogglePusher extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchPlacer.togglePusher();
+   // Robot.hatchPlacer.togglePusher();
   }
 
   // Called repeatedly when this Command is scheduled to run

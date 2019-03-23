@@ -32,25 +32,14 @@ public class MoveElevatorDown extends Command {
   @Override
   protected void initialize() {
 
-    if(currentHeight == ElevatorPosition.MEDIUM_CARGO) {
+    if(currentHeight == ElevatorPosition.TALL_HATCH) {
       Robot.elevator.setElevatorHeight(RobotPreferences.MiddleHatch);
       Robot.elevator.setElevatorPosition(ElevatorPosition.MEDIUM_HATCH);
    }
 
    else if(currentHeight == ElevatorPosition.MEDIUM_HATCH){
       Robot.elevator.setElevatorHeight(RobotPreferences.cargoCargo);
-      Robot.elevator.setElevatorPosition(ElevatorPosition.CARGO_CARGO);
-   }
-  
-   else if(currentHeight == ElevatorPosition.CARGO_CARGO){
-     Robot.elevator.setElevatorHeight(RobotPreferences.LowestCargo);
-     Robot.elevator.setElevatorPosition(ElevatorPosition.LOWEST_CARGO);
-   }
-
-   else if(currentHeight == ElevatorPosition.LOWEST_CARGO){
-     Robot.elevator.setElevatorHeight(RobotPreferences.LowestHatch);
-     Robot.elevator.setElevatorPosition(ElevatorPosition.LOWEST_HATCH);
-     //Robot.elevator.isSwitchClosed();
+      Robot.elevator.setElevatorPosition(ElevatorPosition.LOWEST_HATCH);
    }
    else if(currentHeight == ElevatorPosition.LOWEST_HATCH){
      System.out.println("you are at the bottom");

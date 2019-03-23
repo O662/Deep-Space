@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FollowerType;
@@ -19,12 +20,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotPreferences;
-import frc.robot.commands.DriveElevator;
+//import frc.robot.commands.DriveElevator;
 import frc.util.LatchedBoolean;
 
 /**
@@ -38,10 +40,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   public enum ElevatorPosition{
 		LOWEST_HATCH,
-		LOWEST_CARGO,
-		CARGO_CARGO,
     MEDIUM_HATCH,
-    MEDIUM_CARGO;
+    TALL_HATCH;
 		
 		private static ElevatorPosition[] vals = values();
 		public ElevatorPosition next() {
@@ -64,6 +64,8 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
   private ElevatorPosition elevatorHeight;
   private double height;
   private String datHeight = "ground";
+  private boolean isSafe; //false is not safe
+  private boolean seeEncoder;
  
 
   private LatchedBoolean tachCrossed = new LatchedBoolean();
@@ -75,25 +77,54 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorMotor1 = new TalonSRX(RobotMap.ELEVATOR_MOTOR_1);
     elevatorMotor2 = new VictorSPX(RobotMap.ELEVATOR_MOTOR_2);
     sensors = elevatorMotor1.getSensorCollection();
-   
-    elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    seeEncoder = true;
+    ErrorCode encoderPresent = elevatorMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    if(encoderPresent != ErrorCode.OK) {
+      DriverStation.reportError("Jesus im dying where is my encoder", false);
+      seeEncoder = false;
+    }
     elevatorMotor2.follow(elevatorMotor1);
+    ErrorCode limitPresent = elevatorMotor1.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
     currentHeight = 19;
-    elevatorMotor1.setInverted(false);//true for mark 2
-    elevatorMotor2.setInverted(false);//true for mark 2s
     elevatorMotor1.setNeutralMode(NeutralMode.Brake);
     elevatorMotor2.setNeutralMode(NeutralMode.Brake);
     //TODO add PID settings into elevatorMotor1
     elevatorMotor1.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
     elevatorMotor1.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
     elevatorMotor1.configForwardSoftLimitEnable(false);
-    elevatorMotor1.configReverseSoftLimitEnable(true);
-    elevatorMotor1.configReverseSoftLimitThreshold(0);
-    elevatorMotor1.overrideLimitSwitchesEnable(false);
-    elevatorMotor1.overrideSoftLimitsEnable(true);
-    elevatorMotor1.setSensorPhase(true);
+    elevatorMotor1.configReverseSoftLimitEnable(false);
+    //elevatorMotor1.configReverseSoftLimitThreshold(0);
+    isSafe = true; 
+    
+    //elevatorMotor1.overrideLimitSwitchesEnable(false);
+    //elevatorMotor1.overrideSoftLimitsEnable(true);
     elevatorHeight = ElevatorPosition.LOWEST_HATCH;
+
+    //pid
+    elevatorMotor1.config_kP(0, RobotPreferences.ele_kP);
+    elevatorMotor1.config_kI(0, RobotPreferences.ele_kI);
+    elevatorMotor1.config_kD(0, RobotPreferences.ele_kD);
+    
   }
+
+
+  public void zeroElevatorEncoder(){
+   
+       while(getSensor() == false){
+      moveElevator(.5);
+    }
+    while(getSensor() == true){
+      moveElevator(.5);
+    }
+    zeroEncoder();
+    isSafe = true;
+   
+  }
+
+  public boolean isSafe(){
+    return isSafe;
+  }
+
 
   public ElevatorPosition getElevatorHeight(){
     return elevatorHeight;
@@ -103,18 +134,27 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
     elevatorHeight = EP;
   }
 
+  public boolean getSensor(){
+    return sensors.isFwdLimitSwitchClosed();
+  }
+
   //sets the elevator to the desired hight
   public void setElevatorHeight(double height) {
-    
-    int targetSensorPosition = (int) Math.round(RobotPreferences.kElevatorScalar*(height - 19) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput);
+    if(isSafe()){
+       int targetSensorPosition = (int) Math.round(RobotPreferences.kElevatorScalar*(height - 19) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput /.2);
     elevatorMotor1.set(ControlMode.Position, targetSensorPosition);
     currentHeight = height;
+    }
+   
   }
 
   public void magicHeightSet(double height){
-    int targetSensorPosition = (int) Math.round(RobotPreferences.kElevatorScalar*(height - 19) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput);
+    if(isSafe()){
+      int targetSensorPosition = (int) Math.round(RobotPreferences.kElevatorScalar*(height - 19) / RobotPreferences.kDistancePerRevolution * 4096 * RobotPreferences.kRatioToOutput/ .2);
     elevatorMotor1.set(ControlMode.MotionMagic, targetSensorPosition);
     currentHeight = height;
+    }
+    
   }
 
 
@@ -126,7 +166,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
  // public static final double MiddleCargo = 55.5;
 
   public double getTranslateHeight(){
-    return ( getEncoder() / RobotPreferences.kElevatorTicksPerInch) + 19;
+    return ( getEncoder() / RobotPreferences.kElevatorTicksPerInch * .2) + 19;
   }
 
   public boolean goodElevatorHight(){
@@ -195,7 +235,10 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
  * @param speed sets the speed of both motors for the elevator
  */
   public void moveElevator(double speed){
-    elevatorMotor1.set(ControlMode.PercentOutput,speed);
+    if(isSafe()){
+       elevatorMotor1.set(ControlMode.PercentOutput,speed);
+    }
+   
     //elevatorMotor2.set(ControlMode.PercentOutput,speed);
    // System.out.println("I done did it maybe @ "+speed);
   }
@@ -209,7 +252,7 @@ public class Elevator extends Subsystem implements LoggableSubsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new DriveElevator());
+    //setDefaultCommand(new DriveElevator());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

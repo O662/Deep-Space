@@ -20,8 +20,8 @@ import frc.robot.commands.*;
 
 import frc.robot.commands.vision.TurnToTarget;
 import frc.robot.commands.vision.VisionDriveRobot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainMode;
+//import frc.robot.subsystems.DriveTrain;
+//import frc.robot.subsystems.DriveTrain.DriveTrainMode;
 
 
 //this sucks
@@ -124,8 +124,8 @@ JoystickButton toggleDriveState2 = addButton(getJoystick(), bToggleDriveTrain2, 
 		toggleDriveState2.whenPressed(new SwichDriveState(false));
 		*/
 JoystickButton toggleDriveState = addButton(getJoystick(), bToggleDriveTrain, "Toggle Drive Train");
-		toggleDriveState.whenPressed(new ToggleDriveState());// (new ToggleDriveState());
-
+	//	toggleDriveState.whenPressed(new ToggleDriveState());// (new ToggleDriveState());
+//bring this back
 
 
 
@@ -159,6 +159,7 @@ JoystickButton elevatorDown = addButton(getJoystick2(), bElevatorDown, "Elevator
 JoystickButton elevatorBottom = addButton(getJoystick2(), bElevatorBottom, "Elevator Down");
 		elevatorBottom.whenPressed(new MoveElevatorBottom()); 
 
+		/*
 JoystickButton elevatorMoveUp = addButton(getJoystick(), bElevatorMoveUp, "Elevator Up");
 		elevatorMoveUp.whileHeld(new MoveElevatorNoPosition(.5)); 
 		elevatorMoveUp.whenReleased(new MoveElevatorNoPosition(0));
@@ -166,6 +167,7 @@ JoystickButton elevatorMoveUp = addButton(getJoystick(), bElevatorMoveUp, "Eleva
 JoystickButton elevatorMoveDown = addButton(getJoystick(), bElevatorMoveDown, "Elevator Down");
 		elevatorMoveDown.whileHeld(new MoveElevatorNoPosition(-.5)); 
 		elevatorMoveDown.whenReleased(new MoveElevatorNoPosition(0));
+		*/
 
 
 

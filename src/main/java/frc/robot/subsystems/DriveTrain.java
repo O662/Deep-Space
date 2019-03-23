@@ -88,9 +88,9 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 
 	// todo find out about encoders for spark motor contorler
 	//creates motors
-	public final TalonSRX  motorLeft1;
-	public final TalonSRX  motorLeft2;
-	public final TalonSRX  motorRight1, motorRight2;
+//	public final TalonSRX  motorLeft1;
+//	public final TalonSRX  motorLeft2;
+//	public final TalonSRX  motorRight1, motorRight2;
 	private final Solenoid solenoid1,solenoid2;
 	//public final MecanumDrive drive;
 	private int direction = RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -181,24 +181,27 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	//initilizes the motors
 	public DriveTrain() {
 
-		super();
+        super();
+        /*
 		motorLeft1 = new TalonSRX (RobotMap.MOTOR_DRIVE_LEFT1);
 		motorLeft2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_LEFT2);
 		motorRight1 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT1);
-		motorRight2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
+        motorRight2 = new TalonSRX  (RobotMap.MOTOR_DRIVE_RIGHT2);
+        */
 		solenoid1 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL1);
 		solenoid2 = new Solenoid(RobotMap.BUTTERFLY_PCM_MODULE1, RobotMap.BUTTERFLY_FORWARD_CHANNEL2);
 		double voltageRampRate = voltageRampRateDefault;//20;
 		setRampRate(voltageRampRate);
 		solenoid1.set(false);
-		solenoid2.set(false);
+        solenoid2.set(false);
+        /*
 		motorLeft1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motorLeft2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motorRight1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motorRight2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motorRight1.setInverted(true);
 		motorRight2.setInverted(true);
-
+        
 		//PID
 
 		motorLeft1.config_kD(0, RobotPreferences.kD);
@@ -224,7 +227,7 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		motorLeft2.configPeakOutputReverse(-output);
 		motorRight1.configPeakOutputReverse(-output);
 		motorRight2.configPeakOutputReverse(-output);
-
+*/
 		//mecanum
 		/*
 		SpeedControllerGroup left1 = new SpeedControllerGroup(motorLeft1);//left front
@@ -251,12 +254,18 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		// TODO also see section on limiting current rate, both peak and continuous
 		// TODO which will be useful for climbing motors
 		// (2, 0) ramps from neutral to full voltage in 2 sec, with no timeout
-		//motorLeft1.configOpenloopRamp(secondsFromNeutralToFull, 0);
+        
+        
+
+        //uncomment this 
+        /*
 		motorLeft1.configOpenloopRamp(secondsFromNeutralToFull, 0);
 		motorLeft2.configOpenloopRamp(secondsFromNeutralToFull, 0);
-		//motorRight1.configOpenloopRamp(secondsFromNeutralToFull, 0);
+        
+        
 		motorRight1.configOpenloopRamp(secondsFromNeutralToFull, 0);
-		motorRight2.configOpenloopRamp(secondsFromNeutralToFull, 0);
+        motorRight2.configOpenloopRamp(secondsFromNeutralToFull, 0);
+        */
 	}
 
 	@Deprecated
@@ -283,17 +292,21 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		// See https://github.com/CrossTheRoadElec/Phoenix-Documentation#installing-phoenix-framework-onto-your-frc-robot
 		NeutralMode mode = brake ? NeutralMode.Brake : NeutralMode.Coast;
 
-		//motorLeft1.setNeutralMode(mode);
+        //uncoment this
+        /*
 		motorLeft1.setNeutralMode(mode);
 		motorLeft2.setNeutralMode(mode);
-		//motorRight1.setNeutralMode(mode);
+		
 		motorRight1.setNeutralMode(mode);
-		motorRight2.setNeutralMode(mode);
+        motorRight2.setNeutralMode(mode);
+        */
 	}
 
 
 	// i know its messy but i didnt want to think of a way to compact it
-	// i will fix it later but im lazy and dont want to right now
+    // i will fix it later but im lazy and dont want to right now
+    
+    /*
 
 	public double getMotorLeft1Postition(){
 		return motorLeft1.getSelectedSensorPosition();
@@ -311,7 +324,8 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 	public double getMotorRight2Position(){
 		 
 		return motorRight2.getSelectedSensorPosition();
-	}
+    }
+    */
 
 	public void setDirection(int direction) {
 		this.direction = direction * RobotMap.DRIVE_TRAIN_FORWARD_DIRECTION;
@@ -372,12 +386,14 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 			if(!(Math.abs(rf-rb)<=.01)){
 				rb=rf;
 			}
-		}
+        }
+        
+        /*
 		motorLeft1.set(ControlMode.PercentOutput, lf);
 		motorLeft2.set(ControlMode.PercentOutput,lb);
 		motorRight1.set(ControlMode.PercentOutput,rf);
 		motorRight2.set(ControlMode.PercentOutput,rb);
-
+        */
 
 	}
 
@@ -406,12 +422,12 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 			}
 		}
 		
-
+        /*
 		motorLeft1.set(ControlMode.Position, motorLeft1.getSelectedSensorPosition() + ilf);
 		motorLeft2.set(ControlMode.Position, motorLeft2.getSelectedSensorPosition() + ilb);
 		motorRight1.set(ControlMode.Position, motorRight1.getSelectedSensorPosition() + irf);
 		motorRight2.set(ControlMode.Position, motorRight2.getSelectedSensorPosition() + irb);
-
+        */
 
 	}
 
@@ -449,12 +465,15 @@ public class DriveTrain extends Subsystem implements LoggableSubsystem {
 		//SmartDashboard.putNumber("Front Right motor", motorRight1.get());
 		//SmartDashboard.putNumber("back Right motor", motorRight2.get());
 		SmartDashboard.putNumber("joystick x", Robot.oi.getJoystick().getRawAxis(4));
-		SmartDashboard.putNumber("joystick y", Robot.oi.getJoystick().getRawAxis(5));
+        SmartDashboard.putNumber("joystick y", Robot.oi.getJoystick().getRawAxis(5));
+        
+        //uncoment this
+        /*
 		SmartDashboard.putNumber("encoder FL", getMotorLeft1Postition());
 		SmartDashboard.putNumber("encoder FR", getMotorRight1Position());
 		SmartDashboard.putNumber("encoder BL", getMotorLeft2Position());
 		SmartDashboard.putNumber("encoder BR", getMotorRight2Position());
-
+        */
 
 		
 	}
